@@ -1,9 +1,11 @@
-import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router'
+import { createRouter, createWebHashHistory, type RouteRecordRaw } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import { useAuthStore } from '@/stores/auth'
 import HomePage from '@/pages/HomePage.vue'
 import LoginPage from '@/pages/LoginPage.vue'
 import RegisterPage from '@/pages/RegisterPage.vue'
+import NotFound from '@/pages/NotFound.vue'
+import Forbidden from '@/pages/Forbidden.vue'
 
 // 布局组件
 import DashboardLayout from '@/layouts/DashboardLayout.vue'
@@ -29,6 +31,10 @@ import SystemSettings from '@/pages/admin/SystemSettings.vue'
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
+    redirect: '/dashboard/overview'
+  },
+  {
+    path: '/home',
     name: 'home',
     component: HomePage,
     meta: { requiresGuest: true }
@@ -45,6 +51,7 @@ const routes: RouteRecordRaw[] = [
     component: RegisterPage,
     meta: { requiresGuest: true }
   },
+  // Dashboard页面使用统一的布局结构
   {
     path: '/dashboard',
     component: DashboardLayout,
@@ -56,41 +63,60 @@ const routes: RouteRecordRaw[] = [
       },
       {
         path: 'overview',
-        name: 'dashboard-overview',
-        component: Overview,
-        meta: { requiresAuth: true }
+        name: 'overview',
+        component: Overview
       },
       {
         path: 'applications',
-        name: 'dashboard-applications',
-        component: Applications,
-        meta: { requiresAuth: true }
+        name: 'applications',
+        component: Applications
       },
       {
         path: 'profile',
-        name: 'dashboard-profile',
-        component: Profile,
-        meta: { requiresAuth: true }
+        name: 'profile',
+        component: Profile
       },
       {
         path: 'security',
-        name: 'dashboard-security',
-        component: Security,
-        meta: { requiresAuth: true }
+        name: 'security',
+        component: Security
       },
       {
         path: 'sessions',
-        name: 'dashboard-sessions',
-        component: Sessions,
-        meta: { requiresAuth: true }
+        name: 'sessions',
+        component: Sessions
       },
       {
         path: 'logs',
-        name: 'dashboard-logs',
-        component: UserLogs,
-        meta: { requiresAuth: true }
+        name: 'logs',
+        component: UserLogs
       }
     ]
+  },
+  // 为了保持简洁的URL，添加顶级路由重定向
+  {
+    path: '/overview',
+    redirect: '/dashboard/overview'
+  },
+  {
+    path: '/applications',
+    redirect: '/dashboard/applications'
+  },
+  {
+    path: '/profile',
+    redirect: '/dashboard/profile'
+  },
+  {
+    path: '/security',
+    redirect: '/dashboard/security'
+  },
+  {
+    path: '/sessions',
+    redirect: '/dashboard/sessions'
+  },
+  {
+    path: '/logs',
+    redirect: '/dashboard/logs'
   },
   {
     path: '/admin',
@@ -140,17 +166,27 @@ const routes: RouteRecordRaw[] = [
     ]
   },
   {
+    path: '/forbidden',
+    name: 'forbidden',
+    component: Forbidden
+  },
+  {
     path: '/about',
     name: 'about',
     component: {
       template: '<div class="text-center text-xl p-8">About Page - Coming Soon</div>',
     },
   },
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'not-found',
+    component: NotFound
+  },
 ]
 
 // 创建路由实例
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHashHistory(),
   routes,
 })
 
@@ -172,11 +208,11 @@ router.beforeEach(async (to, from, next) => {
     next('/login')
   } else if (requiresGuest && authStore.isAuthenticated) {
     // 需要游客状态但已登录，跳转到控制台
-    next('/dashboard')
+    next('/overview')
   } else if (requiresAdmin && !authStore.hasAnyUserPermission(['管理员', '超级管理员'])) {
     // 需要管理员权限但不是管理员
     ElMessage.error('您没有权限访问此页面')
-    next('/dashboard')
+    next('/forbidden')
   } else {
     next()
   }

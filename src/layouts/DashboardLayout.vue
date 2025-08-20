@@ -104,10 +104,10 @@ const router = useRouter();
 const handleCommand = async (command: string) => {
   switch (command) {
     case 'profile':
-      router.push({ name: 'dashboard-profile' });
+      router.push({ name: 'profile' });
       break;
     case 'settings':
-      router.push({ name: 'dashboard-security' });
+      router.push({ name: 'security' });
       break;
     case 'logout':
       try {
@@ -121,8 +121,6 @@ const handleCommand = async (command: string) => {
           }
         );
         await authStore.logout();
-        ElMessage.success('已退出登录');
-        router.push('/login');
       } catch {
         // 用户取消退出
       }
