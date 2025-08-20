@@ -1,0 +1,350 @@
+@use 'variables' as *;
+
+// 响应式媒体查询混入
+@mixin mobile {
+  @media (max-width: 768px) {
+    @content;
+  }
+}
+
+@mixin mobile-sm {
+  @media (max-width: 480px) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (max-width: 1024px) {
+    @content;
+  }
+}
+
+@mixin respond-to($breakpoint) {
+  @if $breakpoint == lg {
+    @media (max-width: 1024px) {
+      @content;
+    }
+  } @else if $breakpoint == md {
+    @media (max-width: 768px) {
+      @content;
+    }
+  } @else if $breakpoint == sm {
+    @media (max-width: 480px) {
+      @content;
+    }
+  }
+}
+
+// 卡片样式混入
+@mixin card-style {
+  @include card-base;
+  @include card-hover;
+  @include card-with-gradient-border;
+}
+
+@mixin card-base {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e2e8f0;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+@mixin card-hover {
+  transition: all 0.3s ease;
+  
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  }
+}
+
+@mixin card-with-gradient-border {
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    transform: scaleX(0);
+    transition: all 0.3s ease;
+  }
+  
+  &:hover::before {
+    transform: scaleX(1);
+  }
+}
+
+// 文字样式混入
+@mixin text-style($type) {
+  @if $type == hero {
+    @include text-hero;
+  }
+  @if $type == section-title {
+    @include text-section-title;
+  }
+  @if $type == gradient {
+    @include text-gradient;
+  }
+}
+
+@mixin text-gradient {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+// 别名混入
+@mixin gradient-text {
+  @include text-gradient;
+}
+
+@mixin text-hero {
+  font-size: 64px;
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: #1a202c;
+  margin: 0;
+  
+  @include respond-to(md) {
+    font-size: 48px;
+  }
+  
+  @include respond-to(sm) {
+    font-size: 36px;
+  }
+}
+
+@mixin text-section-title {
+  font-size: 64px;
+  font-weight: 800;
+  color: #1a202c;
+  letter-spacing: -1px;
+  line-height: 1.2;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  
+  @include respond-to(md) {
+    font-size: 48px;
+  }
+  
+  @include respond-to(sm) {
+    font-size: 36px;
+  }
+}
+
+// 布局混入
+@mixin container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 48px;
+  
+  @include respond-to(lg) {
+    padding: 0 32px;
+  }
+  
+  @include respond-to(md) {
+    padding: 0 24px;
+  }
+}
+
+@mixin section-padding {
+  padding: 80px 0;
+  
+  @include respond-to(lg) {
+    padding: 64px 0;
+  }
+  
+  @include respond-to(md) {
+    padding: 48px 0;
+  }
+}
+
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+@mixin flex-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@mixin grid-responsive($min-width: 300px) {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax($min-width, 1fr));
+  gap: 32px;
+  
+  @include respond-to(md) {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}
+
+// 动画混入
+@mixin transition($property: all, $duration: 0.3s, $timing: ease) {
+  transition: $property $duration $timing;
+}
+
+@mixin fade-in-up {
+  animation: fadeInUp 0.6s ease;
+}
+
+@mixin float-animation {
+  animation: float 6s ease-in-out infinite;
+}
+
+// 渐变背景混入
+@mixin gradient-bg($gradient) {
+  @if $gradient == primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  } @else if $gradient == secondary {
+    background: linear-gradient(135deg, #a855f7 0%, #3b82f6 100%);
+  } @else if $gradient == footer {
+    background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+  }
+}
+
+@mixin clip-path-section {
+  &::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: 0;
+    right: 0;
+    height: 100px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    clip-path: polygon(0 0, 100% 0, 100% 80%, 0 100%);
+  }
+}
+
+// 按钮样式混入
+@mixin button-style {
+  @include button-primary;
+}
+
+@mixin button-base {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 24px;
+  border-radius: 6px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+  outline: none;
+  gap: 8px;
+  position: relative;
+  overflow: hidden;
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  &:focus {
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+  }
+
+  .icon {
+    width: 16px;
+    height: 16px;
+  }
+
+  .loading-spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid transparent;
+    border-top: 2px solid currentColor;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+}
+
+@mixin button-primary {
+  @include button-base;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  border: 2px solid white;
+
+  &:hover {
+    background: white;
+    color: #1a202c;
+  }
+}
+
+@mixin button-secondary {
+  @include button-base;
+  background: transparent;
+  color: white;
+  border: 2px solid white;
+
+  &:hover {
+    background: white;
+    color: #1a202c;
+  }
+}
+
+// Footer样式混入
+@mixin footer-style {
+  @include footer-base;
+  @include footer-clip-path;
+}
+
+@mixin footer-base {
+  @include gradient-bg(footer);
+  color: #ffffff;
+  position: relative;
+  z-index: 10;
+}
+
+@mixin footer-clip-path {
+  &::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: 0;
+    right: 0;
+    height: 100px;
+    background: #f8fafc;
+    clip-path: polygon(0 0, 100% 0, 100% 80%, 0 100%);
+    z-index: 10;
+  }
+}
+
+// 链接样式混入
+@mixin link-style {
+  @include link-base;
+}
+
+@mixin link-base {
+  color: #667eea;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    color: #ffffff;
+  }
+}
