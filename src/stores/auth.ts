@@ -20,7 +20,7 @@ export const useAuthStore = defineStore('auth', () => {
 
   // 计算属性
   const isAuthenticated = computed(() => {
-    return true
+    return false
     //return !!accessToken.value && !!user.value;
   });
 
