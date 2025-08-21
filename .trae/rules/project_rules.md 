@@ -1,0 +1,22 @@
+# project rules
+
+## vue
+
+* My system is Mac.
+* Use pnpm instead of npm.
+* Use Scss instead of Css.
+* Use Vue 3 instead of Vue 2.
+* Use Vue Router 4 instead of Vue Router 3.
+* Use TypeScript instead of JavaScript.
+* Use Pinia instead of Vuex.
+* Use Vite instead of Webpack.
+* Use Element Plus instead of Element UI.
+* Use Vue 3 Composition API instead of Vue 2 Options API.
+* Use Vue 3 Teleport instead of Vue 2 Portal.
+* Use Vue 3 Suspense instead of Vue 2 Async Component.
+* Use Vue 3 Fragment instead of Vue 2 Multi-root Component.
+* Use Vite Plugin import instead of manual import.
+* Use the unplugin-auto-import and unplugin-vue-components plugins
+* Configure the auto-import plugin Settings in vite.config.ts
+* Configure the automatic import of Element Plus components and apis
+* Configure the automatic import of the Vue Composition API

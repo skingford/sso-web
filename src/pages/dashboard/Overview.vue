@@ -7,7 +7,7 @@
 
     <!-- 统计卡片 -->
     <el-row :gutter="32" class="stats-row">
-      <el-col :span="6">
+      <el-col :xs="24" :sm="12" :md="6" :lg="6" :xl="6">
         <el-card class="stats-card">
           <div class="stats-content">
             <div class="stats-icon apps">
@@ -20,7 +20,7 @@
           </div>
         </el-card>
       </el-col>
-      <el-col :span="6">
+      <el-col :xs="24" :sm="12" :md="6" :lg="6" :xl="6">
         <el-card class="stats-card">
           <div class="stats-content">
             <div class="stats-icon sessions">
@@ -33,7 +33,7 @@
           </div>
         </el-card>
       </el-col>
-      <el-col :span="6">
+      <el-col :xs="24" :sm="12" :md="6" :lg="6" :xl="6">
         <el-card class="stats-card">
           <div class="stats-content">
             <div class="stats-icon logins">
@@ -46,7 +46,7 @@
           </div>
         </el-card>
       </el-col>
-      <el-col :span="6">
+      <el-col :xs="24" :sm="12" :md="6" :lg="6" :xl="6">
         <el-card class="stats-card">
           <div class="stats-content">
             <div class="stats-icon security">
@@ -69,7 +69,7 @@
         </div>
       </template>
       <el-row :gutter="24">
-        <el-col :span="8" v-for="app in userApplications.slice(0, 3)" :key="app.id">
+        <el-col :xs="24" :sm="24" :md="8" :lg="8" :xl="8" v-for="app in userApplications.slice(0, 3)" :key="app.id">
           <div class="app-item" @click="accessApplication(app)">
             <div class="app-info">
               <div class="app-name">{{ app.name }}</div>
@@ -88,7 +88,7 @@
         <p>快速访问系统管理功能</p>
       </div>
       <el-row :gutter="32">
-        <el-col :span="8">
+        <el-col :xs="24" :sm="24" :md="8" :lg="8" :xl="8">
           <div class="admin-card" @click="goToAdmin('users')">
             <div class="admin-icon">
               <el-icon><User /></el-icon>
@@ -97,7 +97,7 @@
             <div class="admin-desc">管理系统用户，分配角色和权限</div>
           </div>
         </el-col>
-        <el-col :span="8">
+        <el-col :xs="24" :sm="24" :md="8" :lg="8" :xl="8">
           <div class="admin-card" @click="goToAdmin('applications')">
             <div class="admin-icon">
               <el-icon><Grid /></el-icon>
@@ -106,7 +106,7 @@
             <div class="admin-desc">管理接入的应用系统和配置</div>
           </div>
         </el-col>
-        <el-col :span="8">
+        <el-col :xs="24" :sm="24" :md="8" :lg="8" :xl="8">
           <div class="admin-card" @click="goToAdmin('permissions')">
             <div class="admin-icon">
               <el-icon><Key /></el-icon>
@@ -117,6 +117,7 @@
         </el-col>
       </el-row>
     </div>
+
   </div>
 </template>
 
@@ -474,6 +475,96 @@ onMounted(async () => {
     color: #6b7280;
     font-size: 14px;
     line-height: 1.6;
+  }
+}
+
+// 响应式样式
+@media (max-width: 768px) {
+  .content-section {
+    padding: 16px;
+  }
+  
+  .stats-row {
+    margin-bottom: 32px;
+    
+    .el-col {
+      margin-bottom: 16px;
+    }
+  }
+  
+  .stats-content {
+    padding: 32px 16px 16px;
+    gap: 16px;
+  }
+  
+  .stats-icon {
+    width: 48px;
+    height: 48px;
+    font-size: 18px;
+  }
+  
+  .stats-info .stats-number {
+    font-size: 24px;
+  }
+  
+  .quick-access-card {
+    :deep(.el-card__header) {
+      padding: 24px 24px 0;
+    }
+    
+    :deep(.el-card__body) {
+      padding: 16px 24px 24px;
+    }
+  }
+  
+  .app-item {
+    margin-bottom: 16px;
+    padding: 16px;
+  }
+  
+  .admin-card {
+    padding: 32px 16px;
+    margin-bottom: 16px;
+    
+    .admin-icon {
+      font-size: 36px;
+      margin-bottom: 16px;
+    }
+    
+    .admin-title {
+      font-size: 18px;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .content-section {
+    padding: 12px;
+  }
+  
+  .section-header {
+    margin-bottom: 24px;
+    
+    h2 {
+      font-size: 20px;
+    }
+  }
+  
+  .stats-content {
+    flex-direction: column;
+    text-align: center;
+    gap: 12px;
+  }
+  
+  .stats-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+    margin: 0 auto;
+  }
+  
+  .stats-info .stats-number {
+    font-size: 20px;
   }
 }
 

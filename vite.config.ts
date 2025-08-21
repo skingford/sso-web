@@ -3,6 +3,9 @@ import vue from '@vitejs/plugin-vue'
 import path from 'path'
 import Inspector from 'unplugin-vue-dev-locator/vite'
 import traeBadgePlugin from 'vite-plugin-trae-solo-badge'
+import AutoImport from 'unplugin-auto-import/vite'
+import Components from 'unplugin-vue-components/vite'
+import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -20,6 +23,37 @@ export default defineConfig({
       clickUrl: 'https://www.trae.ai/solo?showJoin=1',
       autoTheme: true,
       autoThemeTarget: '#app',
+    }),
+    AutoImport({
+      imports: [
+        'vue',
+        'vue-router',
+        {
+          'pinia': [
+            'defineStore',
+            'storeToRefs',
+            'acceptHMRUpdate'
+          ],
+          '@/stores/auth': [
+            'useAuthStore'
+          ],
+          'element-plus': [
+            'ElMessage',
+            'ElMessageBox',
+            'ElNotification',
+            'ElLoading'
+          ]
+        }
+      ],
+      resolvers: [ElementPlusResolver()],
+      dts: true,
+      eslintrc: {
+        enabled: true
+      }
+    }),
+    Components({
+      resolvers: [ElementPlusResolver()],
+      dts: true
     }),
   ],
   resolve: {

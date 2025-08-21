@@ -200,11 +200,15 @@ const goToAdmin = () => {
 .main-container {
   flex: 1;
   height: calc(100vh - 64px);
+  overflow: hidden;
+  min-width: 0; /* 允许flex子元素收缩 */
 }
 
 .sidebar {
   background: #fff;
   border-right: 1px solid #e4e7ed;
+  overflow-y: auto;
+  flex-shrink: 0; /* 防止侧边栏被压缩 */
 }
 
 .sidebar-menu {
@@ -216,5 +220,9 @@ const goToAdmin = () => {
   background: #f5f7fa;
   padding: 24px;
   overflow-y: auto;
+  overflow-x: auto; /* 添加水平滚动 */
+  height: 100%;
+  min-width: 800px; /* 设置最小宽度确保内容不被截断 */
+  width: 100%;
 }
 </style>

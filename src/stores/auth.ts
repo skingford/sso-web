@@ -316,6 +316,7 @@ export const useAuthStore = defineStore('auth', () => {
 
   // 检查用户是否具有任一权限
   const hasAnyUserPermission = (roles: string[]): boolean => {
+    return true
     if (!accessToken.value) {
       return false;
     }

@@ -1,69 +1,199 @@
-// 颜色变量
+// 引入Sass内置模块
+@use 'sass:map';
+
+// 颜色变量 - 现代化调色板
 $colors: (
-  // 主色调
+  // 主色调 - 蓝紫渐变系列
   primary: #667eea,
+  primary-50: #f0f4ff,
+  primary-100: #e0e7ff,
+  primary-200: #c7d2fe,
+  primary-300: #a5b4fc,
+  primary-400: #818cf8,
+  primary-500: #667eea,
+  primary-600: #5b21b6,
+  primary-700: #4c1d95,
+  primary-800: #3730a3,
+  primary-900: #312e81,
   primary-dark: #764ba2,
+  
+  // 次要色调
   secondary: #764ba2,
-  danger: #dc2626,
+  secondary-50: #faf5ff,
+  secondary-100: #f3e8ff,
+  secondary-200: #e9d5ff,
+  secondary-300: #d8b4fe,
+  secondary-400: #c084fc,
+  secondary-500: #a855f7,
+  secondary-600: #9333ea,
+  secondary-700: #7c3aed,
+  secondary-800: #6b21a8,
+  secondary-900: #581c87,
+  
+  // 语义化颜色
+  success: #10b981,
+  success-50: #ecfdf5,
+  success-100: #d1fae5,
+  success-200: #a7f3d0,
+  success-300: #6ee7b7,
+  success-400: #34d399,
+  success-500: #10b981,
+  success-600: #059669,
+  success-700: #047857,
+  success-800: #065f46,
+  success-900: #064e3b,
+  
+  warning: #f59e0b,
+  warning-50: #fffbeb,
+  warning-100: #fef3c7,
+  warning-200: #fde68a,
+  warning-300: #fcd34d,
+  warning-400: #fbbf24,
+  warning-500: #f59e0b,
+  warning-600: #d97706,
+  warning-700: #b45309,
+  warning-800: #92400e,
+  warning-900: #78350f,
+  
+  danger: #ef4444,
+  danger-50: #fef2f2,
+  danger-100: #fee2e2,
+  danger-200: #fecaca,
+  danger-300: #fca5a5,
+  danger-400: #f87171,
+  danger-500: #ef4444,
+  danger-600: #dc2626,
+  danger-700: #b91c1c,
+  danger-800: #991b1b,
+  danger-900: #7f1d1d,
+  
+  info: #3b82f6,
+  info-50: #eff6ff,
+  info-100: #dbeafe,
+  info-200: #bfdbfe,
+  info-300: #93c5fd,
+  info-400: #60a5fa,
+  info-500: #3b82f6,
+  info-600: #2563eb,
+  info-700: #1d4ed8,
+  info-800: #1e40af,
+  info-900: #1e3a8a,
+  
+  // 灰度色阶
+  gray-50: #f9fafb,
+  gray-100: #f3f4f6,
+  gray-200: #e5e7eb,
+  gray-300: #d1d5db,
+  gray-400: #9ca3af,
+  gray-500: #6b7280,
+  gray-600: #4b5563,
+  gray-700: #374151,
+  gray-800: #1f2937,
+  gray-900: #111827,
   
   // 文字颜色
-  text-primary: #1e293b,
-  text-secondary: #64748b,
+  text-primary: #111827,
+  text-secondary: #6b7280,
+  text-tertiary: #9ca3af,
   text-light: #ffffff,
-  text-dark: #1e293b,
-  text-muted: #64748b,
+  text-dark: #111827,
+  text-muted: #6b7280,
   text-semi-transparent: rgba(255, 255, 255, 0.9),
-  text-link: rgba(255, 255, 255, 0.85),
+  text-link: #3b82f6,
+  text-link-hover: #2563eb,
   
   // 背景颜色
   bg-white: #ffffff,
-  bg-light: #f8fafc,
-  bg-gray: #f8fafc,
-  bg-dark: #1e293b,
-  bg-dark-secondary: #334155,
-  background-secondary: #f8fafc,
-  background-light: #f8fafc,
+  bg-light: #f9fafb,
+  bg-gray: #f3f4f6,
+  bg-dark: #111827,
+  bg-dark-secondary: #1f2937,
+  bg-card: #ffffff,
+  bg-card-hover: #f9fafb,
+  background-secondary: #f9fafb,
+  background-light: #f9fafb,
   
   // 边框颜色
-  border: #e2e8f0,
-  border-light: #e2e8f0,
+  border: #e5e7eb,
+  border-light: #f3f4f6,
+  border-medium: #d1d5db,
+  border-dark: #374151,
   border-footer: rgba(255, 255, 255, 0.2),
   
   // 阴影颜色
-  shadow-light: rgba(0, 0, 0, 0.08),
-  shadow-medium: rgba(0, 0, 0, 0.12)
+  shadow-light: rgba(0, 0, 0, 0.05),
+  shadow-medium: rgba(0, 0, 0, 0.1),
+  shadow-dark: rgba(0, 0, 0, 0.15),
+  shadow-colored: rgba(102, 126, 234, 0.15)
 );
 
-// 渐变
+// 渐变 - 现代化渐变效果
 $gradients: (
+  // 主要渐变
   primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%),
+  primary-soft: linear-gradient(135deg, #818cf8 0%, #a855f7 100%),
+  primary-light: linear-gradient(135deg, #e0e7ff 0%, #f3e8ff 100%),
+  
+  // 语义化渐变
+  success: linear-gradient(135deg, #10b981 0%, #059669 100%),
+  success-soft: linear-gradient(135deg, #34d399 0%, #10b981 100%),
+  warning: linear-gradient(135deg, #f59e0b 0%, #d97706 100%),
+  warning-soft: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%),
+  danger: linear-gradient(135deg, #ef4444 0%, #dc2626 100%),
+  danger-soft: linear-gradient(135deg, #f87171 0%, #ef4444 100%),
+  info: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%),
+  info-soft: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%),
+  
+  // 特殊效果渐变
   hero-text: linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%),
-  footer: linear-gradient(135deg, #1e293b 0%, #334155 100%),
-  danger: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%)
+  glass: linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.1) 100%),
+  card-hover: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(168, 85, 247, 0.05) 100%),
+  footer: linear-gradient(135deg, #111827 0%, #1f2937 100%),
+  
+  // 暗色主题渐变
+  dark-primary: linear-gradient(135deg, #4c1d95 0%, #581c87 100%),
+  dark-card: linear-gradient(135deg, #1f2937 0%, #374151 100%),
+  dark-glass: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)
 );
 
-// 字体
+// 字体系统 - 现代化字体配置
 $fonts: (
   family: (
-    primary: (-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji')
+    primary: (-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji'),
+    mono: ('SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace),
+    display: (-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif)
   ),
   size: (
-    xs: 14px,
-    sm: 16px,
-    base: 16px,
-    lg: 1.2rem,
-    xl: 1.375rem,
-    '2xl': 1.5rem,
-    '3xl': 2rem,
-    '4xl': 2.25rem,
-    '5xl': 2.5rem,
-    '6xl': 2.75rem,
-    '7xl': 3.5rem,
-    hero: 3.5rem,
-    hero-mobile: 2.5rem,
-    hero-small: 2rem
+    // 基础字体大小
+    xs: 0.75rem,    // 12px
+    sm: 0.875rem,   // 14px
+    base: 1rem,     // 16px
+    lg: 1.125rem,   // 18px
+    xl: 1.25rem,    // 20px
+    
+    // 标题字体大小
+    '2xl': 1.5rem,    // 24px
+    '3xl': 1.875rem,  // 30px
+    '4xl': 2.25rem,   // 36px
+    '5xl': 3rem,      // 48px
+    '6xl': 3.75rem,   // 60px
+    '7xl': 4.5rem,    // 72px
+    '8xl': 6rem,      // 96px
+    '9xl': 8rem,      // 128px
+    
+    // 特殊用途
+    hero: 3.5rem,         // 56px
+    hero-mobile: 2.5rem,  // 40px
+    hero-small: 2rem,     // 32px
+    caption: 0.875rem,    // 14px
+    overline: 0.75rem,    // 12px
+    button: 0.875rem,     // 14px
+    input: 1rem           // 16px
   ),
   weight: (
+    thin: 100,
+    extralight: 200,
+    light: 300,
     normal: 400,
     medium: 500,
     semibold: 600,
@@ -72,27 +202,81 @@ $fonts: (
     black: 900
   ),
   line-height: (
-    tight: 1.1,
-    normal: 1.3,
-    relaxed: 1.6,
-    loose: 1.7
+    none: 1,
+    tight: 1.25,
+    snug: 1.375,
+    normal: 1.5,
+    relaxed: 1.625,
+    loose: 2,
+    
+    // 特定用途的行高
+    heading: 1.2,
+    body: 1.6,
+    caption: 1.4,
+    button: 1.5
+  ),
+  letter-spacing: (
+    tighter: -0.05em,
+    tight: -0.025em,
+    normal: 0,
+    wide: 0.025em,
+    wider: 0.05em,
+    widest: 0.1em
   )
 );
 
-// 间距
+// 间距系统 - 8px基准的一致性间距
 $spacing: (
-  xs: 8px,
-  sm: 12px,
-  base: 16px,
-  md: 20px,
-  lg: 24px,
-  xl: 32px,
-  '2xl': 40px,
-  '3xl': 48px,
-  '4xl': 60px,
-  '5xl': 80px,
-  '6xl': 100px,
-  '7xl': 120px
+  // 基础间距 (8px基准)
+  0: 0,
+  px: 1px,
+  0.5: 0.125rem,  // 2px
+  1: 0.25rem,     // 4px
+  1.5: 0.375rem,  // 6px
+  2: 0.5rem,      // 8px
+  2.5: 0.625rem,  // 10px
+  3: 0.75rem,     // 12px
+  3.5: 0.875rem,  // 14px
+  4: 1rem,        // 16px
+  5: 1.25rem,     // 20px
+  6: 1.5rem,      // 24px
+  7: 1.75rem,     // 28px
+  8: 2rem,        // 32px
+  9: 2.25rem,     // 36px
+  10: 2.5rem,     // 40px
+  11: 2.75rem,    // 44px
+  12: 3rem,       // 48px
+  14: 3.5rem,     // 56px
+  16: 4rem,       // 64px
+  20: 5rem,       // 80px
+  24: 6rem,       // 96px
+  28: 7rem,       // 112px
+  32: 8rem,       // 128px
+  36: 9rem,       // 144px
+  40: 10rem,      // 160px
+  44: 11rem,      // 176px
+  48: 12rem,      // 192px
+  52: 13rem,      // 208px
+  56: 14rem,      // 224px
+  60: 15rem,      // 240px
+  64: 16rem,      // 256px
+  72: 18rem,      // 288px
+  80: 20rem,      // 320px
+  96: 24rem,      // 384px
+  
+  // 语义化间距
+  xs: 0.5rem,     // 8px
+  sm: 0.75rem,    // 12px
+  base: 1rem,     // 16px
+  md: 1.25rem,    // 20px
+  lg: 1.5rem,     // 24px
+  xl: 2rem,       // 32px
+  '2xl': 2.5rem,  // 40px
+  '3xl': 3rem,    // 48px
+  '4xl': 3.5rem,  // 56px
+  '5xl': 5rem,    // 80px
+  '6xl': 6rem,    // 96px
+  '7xl': 7.5rem   // 120px
 );
 
 // 圆角
@@ -104,28 +288,110 @@ $border-radius: (
   full: 9999px
 );
 
-// 阴影
+// 阴影系统 - 现代化阴影效果
 $shadows: (
-  sm: 0 8px 32px rgba(0, 0, 0, 0.08),
-  md: 0 16px 40px rgba(0, 0, 0, 0.12),
-  lg: 0 20px 48px rgba(0, 0, 0, 0.12),
-  xl: 0 25px 50px rgba(0, 0, 0, 0.15),
-  '2xl': 0 30px 60px rgba(0, 0, 0, 0.2)
+  // 基础阴影
+  none: none,
+  xs: 0 1px 2px 0 rgba(0, 0, 0, 0.05),
+  sm: (0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1)),
+  base: (0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1)),
+  md: (0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1)),
+  lg: (0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)),
+  xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25),
+  '2xl': 0 50px 100px -20px rgba(0, 0, 0, 0.25),
+  
+  // 内阴影
+  inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.05),
+  inner-sm: inset 0 1px 2px 0 rgba(0, 0, 0, 0.05),
+  inner-md: inset 0 4px 8px 0 rgba(0, 0, 0, 0.1),
+  
+  // 彩色阴影
+  primary: (0 10px 15px -3px rgba(102, 126, 234, 0.1), 0 4px 6px -4px rgba(102, 126, 234, 0.1)),
+  success: (0 10px 15px -3px rgba(16, 185, 129, 0.1), 0 4px 6px -4px rgba(16, 185, 129, 0.1)),
+  warning: (0 10px 15px -3px rgba(245, 158, 11, 0.1), 0 4px 6px -4px rgba(245, 158, 11, 0.1)),
+  danger: (0 10px 15px -3px rgba(239, 68, 68, 0.1), 0 4px 6px -4px rgba(239, 68, 68, 0.1)),
+  info: (0 10px 15px -3px rgba(59, 130, 246, 0.1), 0 4px 6px -4px rgba(59, 130, 246, 0.1)),
+  
+  // 特殊效果阴影
+  glow: 0 0 20px rgba(102, 126, 234, 0.3),
+  glow-sm: 0 0 10px rgba(102, 126, 234, 0.2),
+  glow-lg: 0 0 40px rgba(102, 126, 234, 0.4),
+  
+  // 卡片阴影
+  card: (0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1)),
+  card-hover: (0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)),
+  
+  // 模态框阴影
+  modal: 0 25px 50px -12px rgba(0, 0, 0, 0.25),
+  dropdown: (0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1))
 );
 
-// 过渡动画
+// 过渡动画系统 - 流畅的动画效果
 $transitions: (
-  fast: 0.3s ease,
-  normal: 0.4s ease,
-  slow: 0.6s ease-out
+  // 基础过渡
+  none: none,
+  all: all 150ms ease-in-out,
+  
+  // 速度变体
+  fast: 150ms ease-in-out,
+  normal: 200ms ease-in-out,
+  slow: 300ms ease-in-out,
+  slower: 500ms ease-in-out,
+  
+  // 缓动函数变体
+  ease-in: 200ms ease-in,
+  ease-out: 200ms ease-out,
+  ease-in-out: 200ms ease-in-out,
+  
+  // 特定属性过渡
+  colors: (color 150ms ease-in-out, background-color 150ms ease-in-out, border-color 150ms ease-in-out),
+  opacity: opacity 150ms ease-in-out,
+  shadow: box-shadow 150ms ease-in-out,
+  transform: transform 150ms ease-in-out,
+  
+  // 组件特定过渡
+  button: all 150ms ease-in-out,
+  card: all 200ms ease-in-out,
+  modal: all 200ms ease-in-out,
+  dropdown: all 150ms ease-in-out,
+  
+  // 微交互过渡
+  hover: all 150ms ease-in-out,
+  focus: all 150ms ease-in-out,
+  active: all 100ms ease-in-out,
+  
+  // 自定义缓动
+  bounce: 300ms cubic-bezier(0.68, -0.55, 0.265, 1.55),
+  spring: 200ms cubic-bezier(0.175, 0.885, 0.32, 1.275)
 );
 
-// 响应式断点
+// 响应式断点系统 - 现代设备适配
 $breakpoints: (
-  sm: 480px,
-  md: 768px,
-  lg: 1024px,
-  xl: 1400px
+  // 移动设备
+  xs: 475px,      // 小屏手机
+  sm: 640px,      // 大屏手机
+  
+  // 平板设备
+  md: 768px,      // 平板竖屏
+  lg: 1024px,     // 平板横屏/小笔记本
+  
+  // 桌面设备
+  xl: 1280px,     // 桌面
+  '2xl': 1536px,  // 大屏桌面
+  
+  // 特殊断点
+  mobile: 640px,
+  tablet: 768px,
+  desktop: 1024px,
+  wide: 1280px,
+  ultrawide: 1536px,
+  
+  // 容器最大宽度
+  container-sm: 640px,
+  container-md: 768px,
+  container-lg: 1024px,
+  container-xl: 1280px,
+  container-2xl: 1536px
 );
 
 // Z-index层级
@@ -138,8 +404,237 @@ $z-index: (
   header: 100
 );
 
-// 引入Sass内置模块
-@use 'sass:map';
+// 响应式断点
+:root {
+  // 基础断点
+  --breakpoint-xs: 475px;
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1536px;
+  
+  // 特殊断点
+  --breakpoint-mobile: 640px;
+  --breakpoint-tablet: 768px;
+  --breakpoint-desktop: 1024px;
+  --breakpoint-ultrawide: 1920px;
+  
+  // 容器最大宽度
+  --container-max-width-sm: 640px;
+  --container-max-width-md: 768px;
+  --container-max-width-lg: 1024px;
+  --container-max-width-xl: 1280px;
+  --container-max-width-2xl: 1536px;
+}
+
+// 暗色主题变量
+[data-theme="dark"] {
+  // 主色调 - 暗色主题
+  --color-primary-50: #1e1b4b;
+  --color-primary-100: #312e81;
+  --color-primary-200: #3730a3;
+  --color-primary-300: #4338ca;
+  --color-primary-400: #5b21b6;
+  --color-primary-500: #7c3aed;
+  --color-primary-600: #8b5cf6;
+  --color-primary-700: #a78bfa;
+  --color-primary-800: #c4b5fd;
+  --color-primary-900: #ddd6fe;
+  --color-primary-950: #ede9fe;
+  
+  // 次要色调 - 暗色主题
+  --color-secondary-50: #0f172a;
+  --color-secondary-100: #1e293b;
+  --color-secondary-200: #334155;
+  --color-secondary-300: #475569;
+  --color-secondary-400: #64748b;
+  --color-secondary-500: #94a3b8;
+  --color-secondary-600: #cbd5e1;
+  --color-secondary-700: #e2e8f0;
+  --color-secondary-800: #f1f5f9;
+  --color-secondary-900: #f8fafc;
+  --color-secondary-950: #ffffff;
+  
+  // 语义化颜色 - 暗色主题
+  --color-success-50: #064e3b;
+  --color-success-100: #065f46;
+  --color-success-200: #047857;
+  --color-success-300: #059669;
+  --color-success-400: #10b981;
+  --color-success-500: #34d399;
+  --color-success-600: #6ee7b7;
+  --color-success-700: #9df3c4;
+  --color-success-800: #c6f6d5;
+  --color-success-900: #d1fae5;
+  --color-success-950: #ecfdf5;
+  
+  --color-warning-50: #451a03;
+  --color-warning-100: #78350f;
+  --color-warning-200: #92400e;
+  --color-warning-300: #b45309;
+  --color-warning-400: #d97706;
+  --color-warning-500: #f59e0b;
+  --color-warning-600: #fbbf24;
+  --color-warning-700: #fcd34d;
+  --color-warning-800: #fde68a;
+  --color-warning-900: #fef3c7;
+  --color-warning-950: #fffbeb;
+  
+  --color-danger-50: #7f1d1d;
+  --color-danger-100: #991b1b;
+  --color-danger-200: #b91c1c;
+  --color-danger-300: #dc2626;
+  --color-danger-400: #ef4444;
+  --color-danger-500: #f87171;
+  --color-danger-600: #fca5a5;
+  --color-danger-700: #fecaca;
+  --color-danger-800: #fee2e2;
+  --color-danger-900: #fef2f2;
+  --color-danger-950: #fffafa;
+  
+  --color-info-50: #0c4a6e;
+  --color-info-100: #075985;
+  --color-info-200: #0369a1;
+  --color-info-300: #0284c7;
+  --color-info-400: #0ea5e9;
+  --color-info-500: #38bdf8;
+  --color-info-600: #7dd3fc;
+  --color-info-700: #bae6fd;
+  --color-info-800: #e0f2fe;
+  --color-info-900: #f0f9ff;
+  --color-info-950: #f8fafc;
+  
+  // 灰度色阶 - 暗色主题
+  --color-gray-50: #030712;
+  --color-gray-100: #111827;
+  --color-gray-200: #1f2937;
+  --color-gray-300: #374151;
+  --color-gray-400: #4b5563;
+  --color-gray-500: #6b7280;
+  --color-gray-600: #9ca3af;
+  --color-gray-700: #d1d5db;
+  --color-gray-800: #e5e7eb;
+  --color-gray-900: #f3f4f6;
+  --color-gray-950: #f9fafb;
+  
+  // 文字颜色 - 暗色主题
+  --color-text-primary: #f9fafb;
+  --color-text-secondary: #d1d5db;
+  --color-text-muted: #9ca3af;
+  --color-text-disabled: #6b7280;
+  --color-text-inverse: #111827;
+  --color-text-link: #60a5fa;
+  --color-text-link-hover: #93c5fd;
+  
+  // 背景颜色 - 暗色主题
+  --color-bg-primary: #030712;
+  --color-bg-secondary: #111827;
+  --color-bg-tertiary: #1f2937;
+  --color-bg-surface: #374151;
+  --color-bg-overlay: rgba(17, 24, 39, 0.8);
+  --color-bg-backdrop: rgba(3, 7, 18, 0.5);
+  --color-bg-hover: #4b5563;
+  --color-bg-active: #6b7280;
+  --color-bg-disabled: #374151;
+  
+  // 边框颜色 - 暗色主题
+  --color-border-primary: #374151;
+  --color-border-secondary: #4b5563;
+  --color-border-muted: #6b7280;
+  --color-border-focus: #60a5fa;
+  --color-border-error: #ef4444;
+  --color-border-success: #10b981;
+  --color-border-warning: #f59e0b;
+  
+  // 阴影颜色 - 暗色主题
+  --color-shadow-primary: rgba(0, 0, 0, 0.5);
+  --color-shadow-secondary: rgba(0, 0, 0, 0.3);
+  --color-shadow-light: rgba(0, 0, 0, 0.1);
+  --color-shadow-colored: rgba(124, 58, 237, 0.3);
+  
+  // 渐变 - 暗色主题
+  --gradient-primary: linear-gradient(135deg, #7c3aed 0%, #5b21b6 100%);
+  --gradient-secondary: linear-gradient(135deg, #1f2937 0%, #374151 100%);
+  --gradient-success: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  --gradient-warning: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  --gradient-danger: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  --gradient-info: linear-gradient(135deg, #38bdf8 0%, #0ea5e9 100%);
+  --gradient-glass: linear-gradient(135deg, rgba(31, 41, 55, 0.8) 0%, rgba(55, 65, 81, 0.4) 100%);
+  --gradient-card-hover: linear-gradient(135deg, rgba(75, 85, 99, 0.1) 0%, rgba(107, 114, 128, 0.05) 100%);
+  --gradient-hero: linear-gradient(135deg, #030712 0%, #1f2937 50%, #374151 100%);
+  --gradient-footer: linear-gradient(180deg, #111827 0%, #030712 100%);
+  --gradient-sidebar: linear-gradient(180deg, #1f2937 0%, #111827 100%);
+}
+
+// 主题切换动画
+* {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+// 主题切换按钮样式
+.theme-toggle {
+  position: relative;
+  width: 60px;
+  height: 30px;
+  background: var(--color-bg-secondary);
+  border: 2px solid var(--color-border-primary);
+  border-radius: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 22px;
+    height: 22px;
+    background: var(--color-primary-500);
+    border-radius: 50%;
+    transition: transform 0.3s ease;
+    box-shadow: var(--shadow-sm);
+  }
+  
+  &.dark {
+    background: var(--color-primary-900);
+    border-color: var(--color-primary-500);
+    
+    &::before {
+      transform: translateX(30px);
+      background: var(--color-warning-500);
+    }
+  }
+  
+  &:hover {
+    box-shadow: var(--shadow-md);
+  }
+}
+
+// 系统偏好检测
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    // 自动应用暗色主题变量
+    --color-text-primary: #f9fafb;
+    --color-text-secondary: #d1d5db;
+    --color-bg-primary: #030712;
+    --color-bg-secondary: #111827;
+    --color-border-primary: #374151;
+  }
+}
+
+// 主题切换工具类
+.theme-light {
+  color-scheme: light;
+}
+
+.theme-dark {
+  color-scheme: dark;
+}
+
+.theme-auto {
+  color-scheme: light dark;
+}
 
 // 辅助函数
 @function color($name) {

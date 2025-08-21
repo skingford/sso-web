@@ -179,12 +179,16 @@ const handleUserCommand = async (command: string) => {
   flex: 1;
   display: flex;
   height: calc(100vh - 64px);
+  overflow: hidden;
+  min-width: 0; /* 允许flex子元素收缩 */
 }
 
 .admin-sidebar {
   width: 240px;
   background: #fff;
   border-right: 1px solid #e4e7ed;
+  overflow-y: auto;
+  flex-shrink: 0; /* 防止侧边栏被压缩 */
 }
 
 .sidebar-menu {
@@ -196,6 +200,10 @@ const handleUserCommand = async (command: string) => {
   flex: 1;
   padding: 24px;
   overflow-y: auto;
+  overflow-x: auto; /* 添加水平滚动 */
   background: #f5f7fa;
+  height: 100%;
+  min-width: 800px; /* 设置最小宽度确保内容不被截断 */
+  width: 100%;
 }
 </style>
