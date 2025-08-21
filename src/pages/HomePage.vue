@@ -4,10 +4,10 @@
     <LoadingAnimation @finished="onLoadingFinished" />
     <!-- 粒子背景 -->
     <div class="particles-container" ref="particlesRef"></div>
-    
+
     <!-- 滚动进度指示器 -->
     <div class="scroll-progress" :style="{ width: scrollProgress + '%' }"></div>
-     
+
     <!-- 顶部导航 -->
     <header class="home-header" :class="{ 'scrolled': isScrolled }">
       <div class="header-content">
@@ -35,7 +35,7 @@
             <div class="shape shape-3"></div>
           </div>
         </div>
-        
+
         <div class="hero-content">
           <h1 class="hero-title">
             <span class="typewriter-text">统一身份认证平台</span>
@@ -56,7 +56,7 @@
             </el-button>
           </div>
         </div>
-        
+
         <div class="hero-visual">
           <div class="hero-graphic" ref="heroGraphicRef">
             <div class="graphic-inner">
@@ -71,9 +71,9 @@
             </div>
           </div>
         </div>
-          </section>
+      </section>
 
-           <section id="features" class="features-section" ref="featuresRef">
+      <section id="features" class="features-section" ref="featuresRef">
         <div class="section-header">
           <h2 class="section-title">核心特性</h2>
           <p class="section-subtitle">为企业提供安全可靠的身份认证服务</p>
@@ -303,10 +303,10 @@
             <div class="card-hover-effect"></div>
           </div>
         </div>
-          </section>
+      </section>
 
-        <!-- 应用场景 -->
-         <section id="scenarios" class="scenarios-section" ref="scenariosRef">
+      <!-- 应用场景 -->
+      <section id="scenarios" class="scenarios-section" ref="scenariosRef">
         <div class="section-header">
           <h2 class="section-title">应用场景</h2>
           <p class="section-subtitle">适用于各种企业级应用集成场景，已服务超过1000+企业客户</p>
@@ -437,7 +437,7 @@
             <div class="card-hover-effect"></div>
           </div>
         </div>
-        
+
         <!-- 技术优势展示区域 -->
         <div class="tech-advantages">
           <div class="advantages-header">
@@ -543,10 +543,10 @@
             </div>
           </div>
         </div>
-          </section>
-      
-        <!-- CTA区域 -->
-       <section id="cta" class="cta-section">
+      </section>
+
+      <!-- CTA区域 -->
+      <section id="cta" class="cta-section">
         <div class="cta-content">
           <h2>准备开始了吗？</h2>
           <p>立即体验 EPOCH SSO，让身份认证变得简单而安全</p>
@@ -555,22 +555,22 @@
               <span class="button-ripple"></span>
               立即开始
             </button>
-            <button class="cta-button secondary" @click="handleButtonClick($event, () => {})">
+            <button class="cta-button secondary" @click="handleButtonClick($event, () => { })">
               <span class="button-ripple"></span>
               了解更多
             </button>
           </div>
         </div>
-          </section>
-      
-        <!-- 客户案例区域 -->
-         <section id="testimonials" class="testimonials-section">
+      </section>
+
+      <!-- 客户案例区域 -->
+      <section id="testimonials" class="testimonials-section">
         <div class="section-header">
           <h2 class="section-title">客户案例</h2>
           <p class="section-subtitle">已为全球1000+企业提供可靠的身份认证服务</p>
           <div class="title-decoration"></div>
         </div>
-        
+
         <div class="testimonials-grid">
           <div class="testimonial-card">
             <div class="testimonial-header">
@@ -605,8 +605,8 @@
               </div>
             </div>
           </div>
-          
-          <div class="testimonial-card" >
+
+          <div class="testimonial-card">
             <div class="testimonial-header">
               <div class="company-logo">
                 <div class="logo-placeholder">T</div>
@@ -639,7 +639,7 @@
               </div>
             </div>
           </div>
-          
+
           <div class="testimonial-card">
             <div class="testimonial-header">
               <div class="company-logo">
@@ -674,7 +674,7 @@
             </div>
           </div>
         </div>
-        
+
         <!-- 客户统计 -->
         <div class="customer-stats">
           <div class="stats-grid">
@@ -700,7 +700,7 @@
             </div>
           </div>
         </div>
-          </section>
+      </section>
     </main>
 
     <!-- 底部 -->
@@ -777,13 +777,13 @@ const showCursor = ref(true)
 const handleScroll = () => {
   const scrollTop = window.pageYOffset || document.documentElement.scrollTop
   const scrollHeight = document.documentElement.scrollHeight - window.innerHeight
-  
+
   // 更新滚动进度
   scrollProgress.value = (scrollTop / scrollHeight) * 100
-  
+
   // 更新导航栏状态
   isScrolled.value = scrollTop > 100
-  
+
   // 视差效果
   if (heroGraphicRef.value) {
     const parallaxSpeed = 0.5
@@ -794,17 +794,17 @@ const handleScroll = () => {
 // 鼠标跟随效果
 const handleMouseMove = (e: MouseEvent) => {
   if (!heroRef.value) return
-  
+
   const rect = heroRef.value.getBoundingClientRect()
   const x = (e.clientX - rect.left) / rect.width
   const y = (e.clientY - rect.top) / rect.height
-  
+
   const shapes = heroRef.value.querySelectorAll('.shape')
   shapes.forEach((shape, index) => {
     const speed = (index + 1) * 0.02
     const moveX = (x - 0.5) * speed * 100
     const moveY = (y - 0.5) * speed * 100
-    ;(shape as HTMLElement).style.transform = `translate(${moveX}px, ${moveY}px)`
+      ; (shape as HTMLElement).style.transform = `translate(${moveX}px, ${moveY}px)`
   })
 }
 
@@ -827,32 +827,32 @@ const goToLogin = () => {
 const handleButtonClick = (event: MouseEvent, callback: () => void) => {
   const button = event.currentTarget as HTMLElement
   const ripple = button.querySelector('.button-ripple') as HTMLElement
-  
+
   if (ripple) {
     // 重置涟漪
     ripple.style.transform = 'translate(-50%, -50%) scale(0)'
     ripple.style.opacity = '1'
-    
+
     // 获取按钮尺寸和点击位置
     const rect = button.getBoundingClientRect()
     const size = Math.max(rect.width, rect.height)
     const x = event.clientX - rect.left
     const y = event.clientY - rect.top
-    
+
     // 设置涟漪位置和大小
     ripple.style.width = size + 'px'
     ripple.style.height = size + 'px'
     ripple.style.left = x + 'px'
     ripple.style.top = y + 'px'
     ripple.style.transform = 'translate(-50%, -50%) scale(0)'
-    
+
     // 触发涟漪动画
     requestAnimationFrame(() => {
       ripple.style.transform = 'translate(-50%, -50%) scale(1)'
       ripple.style.opacity = '0'
     })
   }
-  
+
   // 延迟执行回调，让涟漪效果完成
   setTimeout(() => {
     callback()
@@ -865,6 +865,12 @@ const scrollToFeatures = () => {
   if (element) {
     element.scrollIntoView({ behavior: 'smooth' })
   }
+}
+
+// 加载完成回调
+const onLoadingFinished = () => {
+  // 加载动画完成后的处理逻辑
+  console.log('Loading finished')
 }
 
 </script>
@@ -934,7 +940,7 @@ const scrollToFeatures = () => {
   height: 100%;
   pointer-events: none;
   z-index: 1;
-  
+
   .particle {
     position: absolute;
     width: 4px;
@@ -942,7 +948,7 @@ const scrollToFeatures = () => {
     background: rgba(255, 255, 255, 0.6);
     border-radius: 50%;
     animation: float-particle linear infinite;
-    
+
     &::before {
       content: '';
       position: absolute;
@@ -961,12 +967,15 @@ const scrollToFeatures = () => {
     transform: translateY(100vh) rotate(0deg);
     opacity: 0;
   }
+
   10% {
     opacity: 1;
   }
+
   90% {
     opacity: 1;
   }
+
   100% {
     transform: translateY(-100px) rotate(360deg);
     opacity: 0;
@@ -997,28 +1006,28 @@ const scrollToFeatures = () => {
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   will-change: transform, background-color;
-  
+
   &.scrolled {
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(20px);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-    
+
     .nav-menu {
       .nav-item {
         color: #333;
-        
+
         &:hover {
           color: #409EFF;
         }
       }
     }
-    
+
     .nav-actions {
       .login-btn {
         color: #409EFF;
         border-color: #409EFF;
-        
+
         &:hover {
           background: #409EFF;
           color: white;
@@ -1028,7 +1037,7 @@ const scrollToFeatures = () => {
       }
     }
   }
-  
+
   .header-content {
     display: flex;
     align-items: center;
@@ -1036,40 +1045,40 @@ const scrollToFeatures = () => {
     padding: 32px 64px;
     max-width: 1200px;
     margin: 0 auto;
-    
+
     @media (max-width: 1024px) {
       padding: 24px 48px;
     }
-    
+
     @media (max-width: 768px) {
       padding: 16px 32px;
       flex-direction: column;
       gap: 24px;
     }
   }
-  
+
   .logo {
     display: flex;
     align-items: center;
     gap: 16px;
-    
+
     .logo-text {
       font-size: 28px;
       font-weight: 800;
       color: #ffffff;
       letter-spacing: -0.5px;
-      
+
       @media (max-width: 768px) {
         font-size: 24px;
       }
     }
   }
-  
+
   .nav-menu {
     display: flex;
     align-items: center;
     gap: 32px;
-    
+
     .nav-item {
       color: white;
       text-decoration: none;
@@ -1077,7 +1086,7 @@ const scrollToFeatures = () => {
       position: relative;
       padding: 0.5rem 0;
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      
+
       &::after {
         content: '';
         position: absolute;
@@ -1089,17 +1098,17 @@ const scrollToFeatures = () => {
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         transform: translateX(-50%);
       }
-      
+
       &:hover {
         color: #409EFF;
         transform: translateY(-2px);
-        
+
         &::after {
           width: 100%;
         }
       }
     }
-    
+
     .login-btn {
       padding: 0.75rem 2rem;
       background: transparent;
@@ -1111,7 +1120,7 @@ const scrollToFeatures = () => {
       position: relative;
       overflow: hidden;
       transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      
+
       &::before {
         content: '';
         position: absolute;
@@ -1122,18 +1131,18 @@ const scrollToFeatures = () => {
         background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
         transition: left 0.6s ease;
       }
-      
+
       &:hover {
         background: rgba(255, 255, 255, 0.15);
         border-color: rgba(255, 255, 255, 0.8);
         transform: translateY(-3px);
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-        
+
         &::before {
           left: 100%;
         }
       }
-      
+
       &:active {
         transform: translateY(-1px);
       }
@@ -1159,7 +1168,7 @@ const scrollToFeatures = () => {
   padding: 128px 64px 96px;
   position: relative;
   overflow: hidden;
-  
+
   .hero-background {
     position: absolute;
     top: 0;
@@ -1168,19 +1177,19 @@ const scrollToFeatures = () => {
     height: 100%;
     pointer-events: none;
     z-index: 1;
-    
+
     .floating-shapes {
       position: relative;
       width: 100%;
       height: 100%;
-      
+
       .shape {
         position: absolute;
         border-radius: 50%;
         background: rgba(255, 255, 255, 0.1);
         backdrop-filter: blur(10px);
         transition: transform 0.3s ease;
-        
+
         &.shape-1 {
           width: 200px;
           height: 200px;
@@ -1188,7 +1197,7 @@ const scrollToFeatures = () => {
           left: 10%;
           animation: float 6s ease-in-out infinite;
         }
-        
+
         &.shape-2 {
           width: 150px;
           height: 150px;
@@ -1196,7 +1205,7 @@ const scrollToFeatures = () => {
           right: 15%;
           animation: float 8s ease-in-out infinite reverse;
         }
-        
+
         &.shape-3 {
           width: 100px;
           height: 100px;
@@ -1207,15 +1216,15 @@ const scrollToFeatures = () => {
       }
     }
   }
-  
+
   @media (max-width: 1024px) {
     padding: 112px 48px 80px;
   }
-  
+
   @media (max-width: 768px) {
     padding: 96px 32px 64px;
   }
-  
+
   .hero-content {
     flex: 1;
     max-width: 600px;
@@ -1225,12 +1234,12 @@ const scrollToFeatures = () => {
     justify-content: center;
     position: relative;
     z-index: 100;
-    
+
     @media (max-width: 1024px) {
       max-width: none;
       min-height: auto;
     }
-    
+
     .hero-title {
       font-size: 4.5rem;
       font-weight: 800;
@@ -1248,7 +1257,7 @@ const scrollToFeatures = () => {
       -moz-osx-font-smoothing: grayscale;
       text-rendering: optimizeLegibility;
       font-feature-settings: "liga" 1, "kern" 1;
-      
+
       .typewriter-text {
         display: inline-block;
         position: relative;
@@ -1268,7 +1277,7 @@ const scrollToFeatures = () => {
         image-rendering: -webkit-optimize-contrast;
         // 添加备用颜色方案，防止渐变失效时文字不可见
         color: #ffffff;
-        
+
         // 为不支持background-clip的浏览器提供备用方案
         @supports not (-webkit-background-clip: text) {
           -webkit-text-fill-color: initial;
@@ -1276,13 +1285,13 @@ const scrollToFeatures = () => {
           color: #ffffff;
           text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
         }
-        
+
         &.typing-complete {
           // 打字完成后进一步优化渲染
           will-change: auto;
         }
       }
-      
+
       .cursor {
         display: inline-block;
         width: 3px;
@@ -1290,21 +1299,21 @@ const scrollToFeatures = () => {
         background: #409EFF;
         margin-left: 2px;
         animation: blink 1s infinite;
-        
+
         &.blink {
           animation: blink 1s infinite;
         }
       }
-      
+
       @media (max-width: 1024px) {
         font-size: 3.5rem;
       }
-      
+
       @media (max-width: 768px) {
         font-size: 2.5rem;
       }
     }
-    
+
     .hero-subtitle {
       font-size: 24px;
       margin-bottom: 48px;
@@ -1316,23 +1325,23 @@ const scrollToFeatures = () => {
       // 优化字体渲染
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
-      
+
       @media (max-width: 768px) {
         font-size: 20px;
         margin-bottom: 40px;
       }
     }
-    
+
     .hero-actions {
       display: flex;
       gap: 32px;
       flex-wrap: wrap;
       justify-content: center;
-      
+
       @media (max-width: 1024px) {
         justify-content: center;
       }
-      
+
       @media (max-width: 768px) {
         flex-direction: column;
         align-items: center;
@@ -1340,7 +1349,7 @@ const scrollToFeatures = () => {
       }
     }
   }
-  
+
   .hero-visual {
     flex: 1;
     display: flex;
@@ -1348,10 +1357,10 @@ const scrollToFeatures = () => {
     justify-content: center;
     position: relative;
     z-index: 10;
-    
+
     .hero-graphic {
       position: relative;
-      
+
       .graphic-inner {
         width: 300px;
         height: 300px;
@@ -1364,24 +1373,24 @@ const scrollToFeatures = () => {
         border: 2px solid rgba(255, 255, 255, 0.2);
         box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
         animation: float 6s ease-in-out infinite;
-        
+
         @media (max-width: 1024px) {
           width: 250px;
           height: 250px;
         }
-        
+
         @media (max-width: 768px) {
           width: 200px;
           height: 200px;
         }
       }
-      
+
       .pulse-rings {
         position: absolute;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        
+
         .pulse-ring {
           position: absolute;
           top: 50%;
@@ -1393,11 +1402,11 @@ const scrollToFeatures = () => {
           transform: translate(-50%, -50%);
           animation: pulse-ring 4s ease-out infinite;
           z-index: 1;
-          
+
           &:nth-child(2) {
             animation-delay: 1.3s;
           }
-          
+
           &:nth-child(3) {
             animation-delay: 2.6s;
           }
@@ -1408,17 +1417,28 @@ const scrollToFeatures = () => {
 }
 
 @keyframes float {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0px) rotate(0deg);
   }
+
   50% {
     transform: translateY(-20px) rotate(180deg);
   }
 }
 
 @keyframes blink {
-  0%, 50% { opacity: 1; }
-  51%, 100% { opacity: 0; }
+
+  0%,
+  50% {
+    opacity: 1;
+  }
+
+  51%,
+  100% {
+    opacity: 0;
+  }
 }
 
 @keyframes pulse-ring {
@@ -1426,6 +1446,7 @@ const scrollToFeatures = () => {
     transform: translate(-50%, -50%) scale(0.8);
     opacity: 1;
   }
+
   100% {
     transform: translate(-50%, -50%) scale(2);
     opacity: 0;
@@ -1440,20 +1461,20 @@ const scrollToFeatures = () => {
   position: relative;
   overflow: hidden;
   transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-  
+
   // 分屏动画效果
   &.section-entering {
     transform: scale(1.02);
     background: rgba(255, 255, 255, 0.08);
   }
-  
+
   &.in-viewport {
     .feature-card {
       transform: translateY(0);
       opacity: 1;
     }
   }
-  
+
   &::before {
     content: '';
     position: absolute;
@@ -1462,16 +1483,16 @@ const scrollToFeatures = () => {
     width: 100%;
     height: 100%;
     background: radial-gradient(circle at 30% 20%, rgba(64, 158, 255, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 70% 80%, rgba(103, 194, 58, 0.1) 0%, transparent 50%);
+      radial-gradient(circle at 70% 80%, rgba(103, 194, 58, 0.1) 0%, transparent 50%);
     pointer-events: none;
   }
-  
+
   .section-header {
     text-align: center;
     margin-bottom: 5rem;
     position: relative;
     z-index: 10;
-    
+
     .section-title {
       font-size: 3.5rem;
       font-weight: 800;
@@ -1479,7 +1500,7 @@ const scrollToFeatures = () => {
       margin-bottom: 1rem;
       position: relative;
       display: inline-block;
-      
+
       &::after {
         content: '';
         position: absolute;
@@ -1491,12 +1512,12 @@ const scrollToFeatures = () => {
         background: linear-gradient(90deg, #409EFF, #67C23A);
         border-radius: 2px;
       }
-      
+
       @media (max-width: 768px) {
         font-size: 2.8rem;
       }
     }
-    
+
     .section-subtitle {
       font-size: 1.3rem;
       // 提高文字对比度，增强可见性
@@ -1509,7 +1530,7 @@ const scrollToFeatures = () => {
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
-    
+
     .title-decoration {
       position: absolute;
       top: -20px;
@@ -1522,7 +1543,7 @@ const scrollToFeatures = () => {
       animation: float 4s ease-in-out infinite;
     }
   }
-  
+
   .features-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
@@ -1531,109 +1552,109 @@ const scrollToFeatures = () => {
     margin: 0 auto;
     position: relative;
     z-index: 10;
-    
+
     .feature-card {
-        background: rgba(255, 255, 255, 0.08);
-        backdrop-filter: blur(20px);
-        border-radius: 24px;
-        padding: 3rem 2rem;
-        text-align: center;
-        border: 1px solid rgba(255, 255, 255, 0.15);
-        position: relative;
-        overflow: hidden;
-        transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        transform-style: preserve-3d;
-        perspective: 1000px;
-        // 初始状态：向下偏移并透明
-        transform: translateY(50px);
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(20px);
+      border-radius: 24px;
+      padding: 3rem 2rem;
+      text-align: center;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      position: relative;
+      overflow: hidden;
+      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      transform-style: preserve-3d;
+      perspective: 1000px;
+      // 初始状态：向下偏移并透明
+      transform: translateY(50px);
+      opacity: 0;
+
+      // 动画进入状态
+      &.animate-in {
+        transform: translateY(0);
+        opacity: 1;
+      }
+
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+        transition: left 0.8s ease;
+      }
+
+      &::after {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(64, 158, 255, 0.1) 0%, transparent 70%);
         opacity: 0;
-        
-        // 动画进入状态
-        &.animate-in {
-          transform: translateY(0);
+        transition: opacity 0.4s ease;
+        pointer-events: none;
+      }
+
+      &:hover {
+        transform: translateY(-15px) rotateX(5deg) rotateY(5deg) scale(1.02);
+        background: rgba(255, 255, 255, 0.12);
+        box-shadow:
+          0 35px 70px rgba(0, 0, 0, 0.25),
+          0 0 0 1px rgba(255, 255, 255, 0.1),
+          inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        border-color: rgba(255, 255, 255, 0.3);
+
+        &::before {
+          left: 100%;
+        }
+
+        &::after {
           opacity: 1;
         }
-        
-        &::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: -100%;
-          width: 100%;
-          height: 100%;
-          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-          transition: left 0.8s ease;
-        }
-        
-        &::after {
-          content: '';
-          position: absolute;
-          top: -50%;
-          left: -50%;
-          width: 200%;
-          height: 200%;
-          background: radial-gradient(circle, rgba(64, 158, 255, 0.1) 0%, transparent 70%);
-          opacity: 0;
-          transition: opacity 0.4s ease;
-          pointer-events: none;
-        }
-        
-        &:hover {
-          transform: translateY(-15px) rotateX(5deg) rotateY(5deg) scale(1.02);
-          background: rgba(255, 255, 255, 0.12);
-          box-shadow: 
-            0 35px 70px rgba(0, 0, 0, 0.25),
-            0 0 0 1px rgba(255, 255, 255, 0.1),
-            inset 0 1px 0 rgba(255, 255, 255, 0.2);
-          border-color: rgba(255, 255, 255, 0.3);
-          
-          &::before {
-            left: 100%;
+
+        .feature-icon {
+          transform: scale(1.2) rotate(5deg) translateZ(20px);
+
+          .icon-background {
+            box-shadow: 0 0 40px rgba(64, 158, 255, 0.6);
           }
-          
-          &::after {
+
+          .icon-glow {
             opacity: 1;
-          }
-          
-          .feature-icon {
-            transform: scale(1.2) rotate(5deg) translateZ(20px);
-            
-            .icon-background {
-              box-shadow: 0 0 40px rgba(64, 158, 255, 0.6);
-            }
-            
-            .icon-glow {
-              opacity: 1;
-              transform: scale(1.6) translateZ(10px);
-            }
-          }
-          
-          h3 {
-            color: #409EFF;
-            // 移除可能导致文字模糊的translateZ
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-          }
-          
-          p {
-            // 移除可能导致文字模糊的translateZ
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-          }
-          
-          .card-hover-effect {
-            opacity: 1;
-            transform: scale(1);
+            transform: scale(1.6) translateZ(10px);
           }
         }
-      
+
+        h3 {
+          color: #409EFF;
+          // 移除可能导致文字模糊的translateZ
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
+        }
+
+        p {
+          // 移除可能导致文字模糊的translateZ
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
+        }
+
+        .card-hover-effect {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+
       .feature-icon {
         position: relative;
         width: 100px;
         height: 100px;
         margin: 0 auto 2rem;
         transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        
+
         .icon-background {
           width: 100%;
           height: 100%;
@@ -1647,7 +1668,7 @@ const scrollToFeatures = () => {
           position: relative;
           z-index: 2;
         }
-        
+
         .icon-glow {
           position: absolute;
           top: 50%;
@@ -1661,7 +1682,7 @@ const scrollToFeatures = () => {
           transition: all 0.4s ease;
         }
       }
-      
+
       h3 {
         font-size: 1.8rem;
         font-weight: 700;
@@ -1669,16 +1690,16 @@ const scrollToFeatures = () => {
         margin-bottom: 1.5rem;
         position: relative;
       }
-      
+
       p {
         color: rgba(255, 255, 255, 0.85);
         line-height: 1.7;
         font-size: 1.1rem;
       }
-      
+
       .feature-details {
         margin: 2rem 0;
-        
+
         .detail-item {
           display: flex;
           align-items: center;
@@ -1688,13 +1709,13 @@ const scrollToFeatures = () => {
           border-radius: 12px;
           border: 1px solid rgba(255, 255, 255, 0.1);
           transition: all 0.3s ease;
-          
+
           &:hover {
             background: rgba(255, 255, 255, 0.08);
             border-color: rgba(64, 158, 255, 0.3);
             transform: translateX(5px);
           }
-          
+
           .detail-icon {
             width: 20px;
             height: 20px;
@@ -1702,7 +1723,7 @@ const scrollToFeatures = () => {
             color: #409EFF;
             flex-shrink: 0;
           }
-          
+
           .detail-text {
             color: rgba(255, 255, 255, 0.9);
             font-size: 0.95rem;
@@ -1710,17 +1731,17 @@ const scrollToFeatures = () => {
           }
         }
       }
-      
+
       .feature-metrics {
         margin-top: 2rem;
         padding-top: 2rem;
         border-top: 1px solid rgba(255, 255, 255, 0.1);
-        
+
         .metrics-grid {
           display: grid;
           grid-template-columns: 1fr 1fr;
           gap: 1rem;
-          
+
           .metric-item {
             text-align: center;
             padding: 1rem;
@@ -1728,13 +1749,13 @@ const scrollToFeatures = () => {
             border-radius: 12px;
             border: 1px solid rgba(64, 158, 255, 0.2);
             transition: all 0.3s ease;
-            
+
             &:hover {
               background: rgba(64, 158, 255, 0.15);
               border-color: rgba(64, 158, 255, 0.4);
               transform: scale(1.05);
             }
-            
+
             .metric-value {
               font-size: 1.4rem;
               font-weight: 700;
@@ -1742,7 +1763,7 @@ const scrollToFeatures = () => {
               margin-bottom: 0.3rem;
               display: block;
             }
-            
+
             .metric-label {
               font-size: 0.85rem;
               color: rgba(255, 255, 255, 0.8);
@@ -1751,7 +1772,7 @@ const scrollToFeatures = () => {
           }
         }
       }
-      
+
       .card-hover-effect {
         position: absolute;
         bottom: -50px;
@@ -1776,20 +1797,20 @@ const scrollToFeatures = () => {
   position: relative;
   overflow: hidden;
   transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-  
+
   // 分屏动画效果
   &.section-entering {
     transform: scale(1.02);
     background: rgba(0, 0, 0, 0.15);
   }
-  
+
   &.in-viewport {
     .scenario-card {
       transform: translateX(0);
       opacity: 1;
     }
   }
-  
+
   &::before {
     content: '';
     position: absolute;
@@ -1798,16 +1819,16 @@ const scrollToFeatures = () => {
     width: 100%;
     height: 100%;
     background: radial-gradient(circle at 70% 30%, rgba(103, 194, 58, 0.08) 0%, transparent 50%),
-                radial-gradient(circle at 20% 70%, rgba(64, 158, 255, 0.08) 0%, transparent 50%);
+      radial-gradient(circle at 20% 70%, rgba(64, 158, 255, 0.08) 0%, transparent 50%);
     pointer-events: none;
   }
-  
+
   .section-header {
     text-align: center;
     margin-bottom: 5rem;
     position: relative;
     z-index: 10;
-    
+
     .section-title {
       font-size: 3.5rem;
       font-weight: 800;
@@ -1815,7 +1836,7 @@ const scrollToFeatures = () => {
       margin-bottom: 1rem;
       position: relative;
       display: inline-block;
-      
+
       &::after {
         content: '';
         position: absolute;
@@ -1827,12 +1848,12 @@ const scrollToFeatures = () => {
         background: linear-gradient(90deg, #67C23A, #409EFF);
         border-radius: 2px;
       }
-      
+
       @media (max-width: 768px) {
         font-size: 2.8rem;
       }
     }
-    
+
     .section-subtitle {
       font-size: 1.3rem;
       color: rgba(255, 255, 255, 0.8);
@@ -1841,7 +1862,7 @@ const scrollToFeatures = () => {
       line-height: 1.6;
     }
   }
-  
+
   .scenarios-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
@@ -1850,7 +1871,7 @@ const scrollToFeatures = () => {
     margin: 0 auto;
     position: relative;
     z-index: 10;
-    
+
     .scenario-card {
       background: rgba(255, 255, 255, 0.08);
       backdrop-filter: blur(20px);
@@ -1865,13 +1886,13 @@ const scrollToFeatures = () => {
       // 初始状态：向右偏移并透明
       transform: translateX(50px);
       opacity: 0;
-      
+
       // 动画进入状态
       &.animate-in {
         transform: translateX(0);
         opacity: 1;
       }
-      
+
       &::before {
         content: '';
         position: absolute;
@@ -1882,7 +1903,7 @@ const scrollToFeatures = () => {
         background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
         transition: left 0.8s ease;
       }
-      
+
       &::after {
         content: '';
         position: absolute;
@@ -1895,55 +1916,55 @@ const scrollToFeatures = () => {
         transition: opacity 0.4s ease;
         pointer-events: none;
       }
-      
+
       &:hover {
         transform: translateY(-12px) rotateX(3deg) rotateY(-3deg) scale(1.02);
         background: rgba(255, 255, 255, 0.12);
-        box-shadow: 
+        box-shadow:
           0 30px 60px rgba(0, 0, 0, 0.25),
           0 0 0 1px rgba(255, 255, 255, 0.1),
           inset 0 1px 0 rgba(255, 255, 255, 0.2);
         border-color: rgba(255, 255, 255, 0.3);
-        
+
         &::before {
           left: 100%;
         }
-        
+
         &::after {
           opacity: 1;
         }
-        
+
         .scenario-number {
           transform: scale(1.2) rotate(10deg) translateZ(20px);
           background: linear-gradient(135deg, #67C23A, #409EFF);
           box-shadow: 0 0 30px rgba(64, 158, 255, 0.6);
         }
-        
+
         h3 {
           color: #67C23A;
           // 移除可能导致文字模糊的translateZ
           -webkit-font-smoothing: antialiased;
           -moz-osx-font-smoothing: grayscale;
         }
-        
+
         p {
           // 移除可能导致文字模糊的translateZ
           -webkit-font-smoothing: antialiased;
           -moz-osx-font-smoothing: grayscale;
         }
-        
+
         .card-hover-effect {
           opacity: 1;
           transform: scale(1) translateZ(15px);
         }
       }
-      
+
       .scenario-header {
         display: flex;
         align-items: center;
         justify-content: space-between;
         margin-bottom: 1.5rem;
-        
+
         .scenario-icon {
           width: 60px;
           height: 60px;
@@ -1954,14 +1975,14 @@ const scrollToFeatures = () => {
           justify-content: center;
           color: #67C23A;
           transition: all 0.3s ease;
-          
+
           &:hover {
             transform: scale(1.1) rotate(5deg);
             background: linear-gradient(135deg, rgba(64, 158, 255, 0.3), rgba(103, 194, 58, 0.3));
           }
         }
       }
-      
+
       .scenario-number {
         width: 50px;
         height: 50px;
@@ -1976,7 +1997,7 @@ const scrollToFeatures = () => {
         transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         box-shadow: 0 8px 25px rgba(64, 158, 255, 0.3);
       }
-      
+
       h3 {
         font-size: 1.8rem;
         font-weight: 700;
@@ -1984,20 +2005,20 @@ const scrollToFeatures = () => {
         margin-bottom: 1rem;
         position: relative;
       }
-      
+
       .scenario-description {
         color: rgba(255, 255, 255, 0.85);
         line-height: 1.7;
         font-size: 1.1rem;
         margin-bottom: 1.5rem;
       }
-      
+
       .scenario-features {
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 0.8rem;
         margin-bottom: 1.5rem;
-        
+
         .feature-item {
           display: flex;
           align-items: center;
@@ -2006,32 +2027,32 @@ const scrollToFeatures = () => {
           background: rgba(255, 255, 255, 0.05);
           border-radius: 8px;
           transition: all 0.3s ease;
-          
+
           .feature-icon {
             font-size: 1.2rem;
           }
-          
+
           span:last-child {
             color: rgba(255, 255, 255, 0.9);
             font-size: 0.9rem;
           }
-          
+
           &:hover {
             background: rgba(255, 255, 255, 0.1);
             transform: translateX(5px);
           }
         }
       }
-      
+
       .scenario-stats {
         display: flex;
         justify-content: space-between;
         padding-top: 1rem;
         border-top: 1px solid rgba(255, 255, 255, 0.1);
-        
+
         .stat-item {
           text-align: center;
-          
+
           .stat-number {
             display: block;
             font-size: 1.5rem;
@@ -2039,14 +2060,14 @@ const scrollToFeatures = () => {
             color: #67C23A;
             margin-bottom: 0.2rem;
           }
-          
+
           .stat-label {
             font-size: 0.8rem;
             color: rgba(255, 255, 255, 0.7);
           }
         }
       }
-      
+
       .card-hover-effect {
         position: absolute;
         bottom: -50px;
@@ -2071,15 +2092,15 @@ const scrollToFeatures = () => {
   padding: 128px 64px 40px;
   position: relative;
   z-index: 10;
-  
+
   @media (max-width: 1024px) {
     padding: 96px 48px 32px;
   }
-  
+
   @media (max-width: 768px) {
     padding: 112px 32px 32px;
   }
-  
+
   &::before {
     content: '';
     position: absolute;
@@ -2091,7 +2112,7 @@ const scrollToFeatures = () => {
     clip-path: polygon(0 0, 100% 0, 100% 80%, 0 100%);
     z-index: 10;
   }
-  
+
   .footer-content {
     max-width: 1200px;
     margin: 0 auto;
@@ -2102,23 +2123,23 @@ const scrollToFeatures = () => {
     z-index: 20;
     margin-bottom: 48px;
     align-items: start;
-    
+
     @media (max-width: 1024px) {
       grid-template-columns: 1fr;
       gap: 80px;
       text-align: center;
     }
-    
+
     @media (max-width: 768px) {
       gap: 64px;
     }
   }
-  
+
   .footer-info {
     display: flex;
     flex-direction: column;
     gap: 32px;
-    
+
     .footer-logo {
       display: flex;
       align-items: center;
@@ -2127,12 +2148,12 @@ const scrollToFeatures = () => {
       font-size: 20px;
       font-weight: 700;
       color: #ffffff;
-      
+
       @media (max-width: 1024px) {
         justify-content: center;
       }
     }
-    
+
     p {
       color: rgba(255, 255, 255, 0.9);
       font-size: 16px;
@@ -2140,23 +2161,23 @@ const scrollToFeatures = () => {
       font-weight: 400;
     }
   }
-  
+
   .footer-links {
     display: flex;
     gap: 96px;
     justify-content: flex-start;
-    
+
     @media (max-width: 1024px) {
       justify-content: center;
       gap: 80px;
     }
-    
+
     @media (max-width: 768px) {
       flex-direction: column;
       gap: 48px;
       align-items: center;
     }
-    
+
     .link-group {
       h4 {
         font-size: 20px;
@@ -2164,22 +2185,22 @@ const scrollToFeatures = () => {
         margin-bottom: 32px;
         color: #ffffff;
       }
-      
+
       ul {
         list-style: none;
         padding: 0;
         margin: 0;
-        
+
         li {
           margin-bottom: 12px;
-          
+
           a {
             text-decoration: none;
             transition: color 0.3s ease;
             color: rgba(255, 255, 255, 0.85);
             font-size: 16px;
             font-weight: 400;
-            
+
             &:hover {
               color: #ffffff;
             }
@@ -2188,14 +2209,14 @@ const scrollToFeatures = () => {
       }
     }
   }
-  
+
   .footer-bottom {
     border-top: 1px solid rgba(255, 255, 255, 0.2);
     padding-top: 32px;
     text-align: center;
     position: relative;
     z-index: 20;
-    
+
     p {
       color: rgba(255, 255, 255, 0.8);
       font-size: 14px;
@@ -2211,6 +2232,7 @@ const scrollToFeatures = () => {
     opacity: 0;
     transform: translateY(40px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -2220,15 +2242,15 @@ const scrollToFeatures = () => {
 .feature-card,
 .scenario-card {
   animation: fadeInUp 0.6s ease-out;
-  
+
   &:nth-child(2) {
     animation-delay: 0.1s;
   }
-  
+
   &:nth-child(3) {
     animation-delay: 0.2s;
   }
-  
+
   &:nth-child(4) {
     animation-delay: 0.3s;
   }
@@ -2241,26 +2263,26 @@ const scrollToFeatures = () => {
   position: relative;
   overflow: hidden;
   transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-  
+
   // 分屏动画效果
   &.section-entering {
     transform: scale(1.02);
     background: linear-gradient(135deg, rgba(103, 194, 58, 0.15) 0%, rgba(64, 158, 255, 0.15) 100%);
   }
-  
+
   .testimonials-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
     gap: 2rem;
     margin-top: 3rem;
     margin-bottom: 4rem;
-    
+
     @media (max-width: 768px) {
       grid-template-columns: 1fr;
       gap: 1.5rem;
     }
   }
-  
+
   .testimonial-card {
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.1);
@@ -2269,7 +2291,7 @@ const scrollToFeatures = () => {
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
-    
+
     &::before {
       content: '';
       position: absolute;
@@ -2281,29 +2303,29 @@ const scrollToFeatures = () => {
       opacity: 0;
       transition: opacity 0.3s ease;
     }
-    
+
     &:hover {
       transform: translateY(-8px);
       border-color: rgba(255, 255, 255, 0.2);
       box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-      
+
       &::before {
         opacity: 1;
       }
     }
-    
+
     .testimonial-header {
       display: flex;
       align-items: center;
       margin-bottom: 1.5rem;
       position: relative;
       z-index: 1;
-      
+
       .company-logo {
         width: 60px;
         height: 60px;
         margin-right: 1rem;
-        
+
         .logo-placeholder {
           width: 100%;
           height: 100%;
@@ -2317,7 +2339,7 @@ const scrollToFeatures = () => {
           color: white;
         }
       }
-      
+
       .company-info {
         h4 {
           font-size: 1.2rem;
@@ -2325,7 +2347,7 @@ const scrollToFeatures = () => {
           color: white;
           margin-bottom: 0.3rem;
         }
-        
+
         .company-type {
           font-size: 0.9rem;
           color: rgba(255, 255, 255, 0.6);
@@ -2333,11 +2355,11 @@ const scrollToFeatures = () => {
         }
       }
     }
-    
+
     .testimonial-content {
       position: relative;
       z-index: 1;
-      
+
       .quote-icon {
         font-size: 3rem;
         color: rgba(64, 158, 255, 0.3);
@@ -2345,7 +2367,7 @@ const scrollToFeatures = () => {
         margin-bottom: 1rem;
         font-family: serif;
       }
-      
+
       .testimonial-text {
         font-size: 1rem;
         line-height: 1.6;
@@ -2353,18 +2375,18 @@ const scrollToFeatures = () => {
         margin-bottom: 1.5rem;
         font-style: italic;
       }
-      
+
       .testimonial-author {
         display: flex;
         justify-content: space-between;
         align-items: flex-end;
-        
+
         @media (max-width: 480px) {
           flex-direction: column;
           align-items: flex-start;
           gap: 1rem;
         }
-        
+
         .author-info {
           .author-name {
             display: block;
@@ -2373,20 +2395,20 @@ const scrollToFeatures = () => {
             color: white;
             margin-bottom: 0.2rem;
           }
-          
+
           .author-title {
             font-size: 0.85rem;
             color: rgba(255, 255, 255, 0.6);
           }
         }
-        
+
         .testimonial-stats {
           display: flex;
           gap: 1rem;
-          
+
           .stat-item {
             text-align: center;
-            
+
             .stat-number {
               display: block;
               font-size: 1rem;
@@ -2394,7 +2416,7 @@ const scrollToFeatures = () => {
               color: #67C23A;
               margin-bottom: 0.2rem;
             }
-            
+
             .stat-label {
               font-size: 0.7rem;
               color: rgba(255, 255, 255, 0.5);
@@ -2406,18 +2428,18 @@ const scrollToFeatures = () => {
       }
     }
   }
-  
+
   .customer-stats {
     .stats-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
       gap: 2rem;
-      
+
       @media (max-width: 768px) {
         grid-template-columns: repeat(2, 1fr);
         gap: 1rem;
       }
-      
+
       .stat-card {
         text-align: center;
         padding: 2rem 1rem;
@@ -2425,20 +2447,20 @@ const scrollToFeatures = () => {
         border: 1px solid rgba(255, 255, 255, 0.1);
         border-radius: 16px;
         transition: all 0.3s ease;
-        
+
         &:hover {
           transform: translateY(-5px);
           background: rgba(255, 255, 255, 0.08);
           border-color: rgba(255, 255, 255, 0.2);
           box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
         }
-        
+
         .stat-icon {
           font-size: 2.5rem;
           margin-bottom: 1rem;
           display: block;
         }
-        
+
         .stat-number {
           font-size: 2rem;
           font-weight: 700;
@@ -2446,7 +2468,7 @@ const scrollToFeatures = () => {
           margin-bottom: 0.5rem;
           display: block;
         }
-        
+
         .stat-label {
           font-size: 0.9rem;
           color: rgba(255, 255, 255, 0.7);
@@ -2465,20 +2487,20 @@ const scrollToFeatures = () => {
   position: relative;
   overflow: hidden;
   transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-  
+
   // 分屏动画效果
   &.section-entering {
     transform: scale(1.02);
     background: radial-gradient(ellipse at center, rgba(64, 158, 255, 0.25) 0%, transparent 70%);
   }
-  
+
   &.in-viewport {
     .cta-content {
       transform: translateY(0);
       opacity: 1;
     }
   }
-  
+
   &::before {
     content: '';
     position: absolute;
@@ -2489,7 +2511,7 @@ const scrollToFeatures = () => {
     background: conic-gradient(from 0deg, transparent, rgba(64, 158, 255, 0.1), transparent);
     animation: rotate 20s linear infinite;
   }
-  
+
   .cta-content {
     max-width: 800px;
     margin: 0 auto;
@@ -2500,7 +2522,7 @@ const scrollToFeatures = () => {
     transform: translateY(50px);
     opacity: 0;
     transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-    
+
     h2 {
       font-size: 3.5rem;
       font-weight: 800;
@@ -2510,12 +2532,12 @@ const scrollToFeatures = () => {
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      
+
       @media (max-width: 768px) {
         font-size: 2.8rem;
       }
     }
-    
+
     p {
       font-size: 1.3rem;
       color: rgba(255, 255, 255, 0.9);
@@ -2536,12 +2558,12 @@ const scrollToFeatures = () => {
   cursor: pointer;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   transform-style: preserve-3d;
-  
+
   &.primary {
     background: linear-gradient(135deg, #409EFF, #67C23A);
     color: white;
     padding: 1rem 2.5rem;
-    
+
     &::before {
       content: '';
       position: absolute;
@@ -2553,49 +2575,49 @@ const scrollToFeatures = () => {
       opacity: 0;
       transition: opacity 0.3s ease;
     }
-    
+
     &:hover {
       transform: translateY(-3px) scale(1.05) rotateX(5deg);
-      box-shadow: 
+      box-shadow:
         0 15px 35px rgba(64, 158, 255, 0.4),
         0 5px 15px rgba(0, 0, 0, 0.1);
-      
+
       &::before {
         opacity: 1;
       }
-      
+
       .button-ripple {
         transform: scale(1);
         opacity: 0;
       }
     }
-    
+
     &:active {
       transform: translateY(-1px) scale(0.98);
       transition: all 0.1s ease;
     }
   }
-  
+
   &.secondary {
     background: transparent;
     color: white;
     border: 2px solid rgba(255, 255, 255, 0.3);
     padding: 0.875rem 2.5rem;
     backdrop-filter: blur(10px);
-    
+
     &:hover {
       border-color: rgba(255, 255, 255, 0.6);
       background: rgba(255, 255, 255, 0.1);
       transform: translateY(-2px);
       box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-      
+
       .button-ripple {
         transform: scale(1);
         opacity: 0;
       }
     }
   }
-  
+
   .button-ripple {
     position: absolute;
     top: 50%;
@@ -2621,7 +2643,7 @@ const scrollToFeatures = () => {
   flex-direction: column;
   gap: 1rem;
   pointer-events: auto; // 确保可以接收点击事件
-  
+
   .nav-dot {
     width: 16px; // 增大点击区域
     height: 16px;
@@ -2637,7 +2659,7 @@ const scrollToFeatures = () => {
     // 确保可点击
     pointer-events: auto;
     user-select: none;
-    
+
     &::before {
       content: '';
       position: absolute;
@@ -2650,23 +2672,23 @@ const scrollToFeatures = () => {
       transform: translate(-50%, -50%);
       transition: all 0.3s ease;
     }
-    
+
     &:hover {
       background: rgba(255, 255, 255, 0.6);
       border-color: rgba(255, 255, 255, 0.8);
       transform: scale(1.2);
-      
+
       &::before {
         width: 24px;
         height: 24px;
       }
     }
-    
+
     &.active {
       background: #409EFF;
       border-color: #409EFF;
       box-shadow: 0 0 20px rgba(64, 158, 255, 0.5);
-      
+
       &::before {
         width: 20px;
         height: 20px;
@@ -2674,10 +2696,10 @@ const scrollToFeatures = () => {
       }
     }
   }
-  
+
   @media (max-width: 768px) {
     right: 1rem;
-    
+
     .nav-dot {
       width: 10px;
       height: 10px;
@@ -2690,10 +2712,10 @@ const scrollToFeatures = () => {
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
 }
 
-// 响应式设计已通过mixins处理，无需额外的媒体查询
-</style>
+// 响应式设计已通过mixins处理，无需额外的媒体查询</style>

@@ -215,7 +215,6 @@
 
 <script setup lang="ts">
 import type { FormInstance, FormRules } from 'element-plus'
-import { ElMessage } from 'element-plus'
 import { Lock, User, Phone, Message } from '@element-plus/icons-vue'
 import { useAuthStore } from '@/stores/auth'
 

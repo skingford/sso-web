@@ -26,24 +26,14 @@ export default defineConfig({
     }),
     AutoImport({
       imports: [
-        'vue',
-        'vue-router',
-        {
-          'pinia': [
-            'defineStore',
-            'storeToRefs',
-            'acceptHMRUpdate'
-          ],
-          '@/stores/auth': [
-            'useAuthStore'
-          ],
-          'element-plus': [
-            'ElMessage',
-            'ElMessageBox',
-            'ElNotification',
-            'ElLoading'
-          ]
-        }
+        "vue",
+        "vue-router",
+        "pinia",
+        // {
+        //   '@/stores/auth': [
+        //     'useAuthStore'
+        //   ],
+        // }
       ],
       resolvers: [ElementPlusResolver()],
       dts: true,

@@ -152,9 +152,7 @@
 </template>
 
 <script setup lang="ts">
-import type { FormInstance, FormRules } from 'element-plus';
-import { ElMessage } from 'element-plus';
-import { Lock, User, Phone, Message } from '@element-plus/icons-vue';
+import type { FormInstance, FormRules } from 'element-plus';import { Lock, User, Phone, Message } from '@element-plus/icons-vue';
 import { useAuthStore } from '@/stores/auth';
 import type { LoginRequest } from '@/utils/api';
 
@@ -228,7 +226,8 @@ const handleLogin = async () => {
   try {
     const valid = await loginFormRef.value.validate();
     if (valid) {
-      await authStore.login(loginForm);
+       ElMessage.success('登录成功');
+      //await authStore.login(loginForm);
     }
   } catch (error) {
     console.error('Login validation error:', error);
