@@ -32,7 +32,6 @@
     "passport-local": "^1.0.0",
     "pinia": "^3.0.3",
     "redis": "^5.8.1",
-    "swiper": "^11.2.10",
     "tailwind-merge": "^3.3.0",
     "vue": "^3.4.15",
     "vue-router": "^4.2.5"

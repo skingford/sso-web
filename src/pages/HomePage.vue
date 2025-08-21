@@ -7,29 +7,17 @@
     
     <!-- 滚动进度指示器 -->
     <div class="scroll-progress" :style="{ width: scrollProgress + '%' }"></div>
-    
-    <!-- 全屏滚动导航指示器 -->
-    <div class="fullscreen-nav">
-      <div 
-        v-for="(section, index) in sections" 
-        :key="section"
-        class="nav-dot"
-        :class="{ active: currentSection === index }"
-        @click="scrollToSection(index)"
-        :title="getSectionTitle(section)"
-      ></div>
-    </div>
-    
+     
     <!-- 顶部导航 -->
     <header class="home-header" :class="{ 'scrolled': isScrolled }">
       <div class="header-content">
-        <div class="logo" data-aos="fade-right">
+        <div class="logo">
           <el-icon :size="32" color="#409EFF">
             <Lock />
           </el-icon>
           <span class="logo-text">SSO 单点登录系统</span>
         </div>
-        <nav class="nav-menu" data-aos="fade-left">
+        <nav class="nav-menu">
           <el-button type="primary" @click="goToLogin" class="login-btn">
             登录
           </el-button>
@@ -39,24 +27,7 @@
 
     <!-- 主要内容区域 -->
     <main class="home-main">
-      <Swiper
-        ref="swiperRef"
-        :modules="swiperModules"
-        :direction="swiperDirection"
-        :slides-per-view="1"
-        :space-between="0"
-        :speed="1000"
-        :touch-ratio="1"
-        :touch-angle="45"
-        :grab-cursor="true"
-        :allow-touch-move="true"
-        class="fullscreen-swiper"
-        @swiper="onSwiper"
-        @slideChange="onSlideChange"
-      >
-        <!-- Hero区域 -->
-        <SwiperSlide>
-          <section id="hero" class="hero-section" ref="heroRef">
+      <section id="hero" class="hero-section" ref="heroRef">
         <div class="hero-background">
           <div class="floating-shapes">
             <div class="shape shape-1"></div>
@@ -66,15 +37,15 @@
         </div>
         
         <div class="hero-content">
-          <h1 class="hero-title" ref="titleRef">
-            <span class="typewriter-text" :class="{ 'typing-complete': !showCursor }">{{ displayedTitle }}</span>
+          <h1 class="hero-title">
+            <span class="typewriter-text">统一身份认证平台</span>
             <span class="cursor" :class="{ 'blink': showCursor }">|</span>
           </h1>
-          <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="2000">
+          <p class="hero-subtitle">
             安全、便捷的企业级单点登录解决方案<br>
             一次登录，畅享所有应用
           </p>
-          <div class="hero-actions" data-aos="fade-up" data-aos-delay="2500">
+          <div class="hero-actions">
             <el-button type="primary" size="large" @click="goToLogin" class="cta-button primary">
               <span>立即登录</span>
               <div class="button-ripple"></div>
@@ -86,7 +57,7 @@
           </div>
         </div>
         
-        <div class="hero-visual" data-aos="zoom-in" data-aos-delay="1500">
+        <div class="hero-visual">
           <div class="hero-graphic" ref="heroGraphicRef">
             <div class="graphic-inner">
               <el-icon :size="120" color="#409EFF">
@@ -101,18 +72,15 @@
           </div>
         </div>
           </section>
-        </SwiperSlide>
 
-        <!-- 特性介绍 -->
-        <SwiperSlide>
-          <section id="features" class="features-section" ref="featuresRef">
-        <div class="section-header" data-aos="fade-up">
+           <section id="features" class="features-section" ref="featuresRef">
+        <div class="section-header">
           <h2 class="section-title">核心特性</h2>
           <p class="section-subtitle">为企业提供安全可靠的身份认证服务</p>
           <div class="title-decoration"></div>
         </div>
         <div class="features-grid">
-          <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
+          <div class="feature-card">
             <div class="feature-icon">
               <div class="icon-background">
                 <el-icon :size="48" color="#67C23A">
@@ -149,7 +117,7 @@
             </div>
             <div class="card-hover-effect"></div>
           </div>
-          <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
+          <div class="feature-card">
             <div class="feature-icon">
               <div class="icon-background">
                 <el-icon :size="48" color="#E6A23C">
@@ -186,7 +154,7 @@
             </div>
             <div class="card-hover-effect"></div>
           </div>
-          <div class="feature-card" data-aos="fade-up" data-aos-delay="300">
+          <div class="feature-card">
             <div class="feature-icon">
               <div class="icon-background">
                 <el-icon :size="48" color="#F56C6C">
@@ -223,7 +191,7 @@
             </div>
             <div class="card-hover-effect"></div>
           </div>
-          <div class="feature-card" data-aos="fade-up" data-aos-delay="400">
+          <div class="feature-card">
             <div class="feature-icon">
               <div class="icon-background">
                 <el-icon :size="48" color="#909399">
@@ -260,7 +228,7 @@
             </div>
             <div class="card-hover-effect"></div>
           </div>
-          <div class="feature-card" data-aos="fade-up" data-aos-delay="500">
+          <div class="feature-card">
             <div class="feature-icon">
               <div class="icon-background">
                 <el-icon :size="48" color="#409EFF">
@@ -297,7 +265,7 @@
             </div>
             <div class="card-hover-effect"></div>
           </div>
-          <div class="feature-card" data-aos="fade-up" data-aos-delay="600">
+          <div class="feature-card">
             <div class="feature-icon">
               <div class="icon-background">
                 <el-icon :size="48" color="#67C23A">
@@ -336,18 +304,16 @@
           </div>
         </div>
           </section>
-        </SwiperSlide>
 
         <!-- 应用场景 -->
-        <SwiperSlide>
-          <section id="scenarios" class="scenarios-section" ref="scenariosRef">
-        <div class="section-header" data-aos="fade-up">
+         <section id="scenarios" class="scenarios-section" ref="scenariosRef">
+        <div class="section-header">
           <h2 class="section-title">应用场景</h2>
           <p class="section-subtitle">适用于各种企业级应用集成场景，已服务超过1000+企业客户</p>
           <div class="title-decoration"></div>
         </div>
         <div class="scenarios-grid">
-          <div class="scenario-card" data-aos="fade-up" data-aos-delay="100">
+          <div class="scenario-card">
             <div class="scenario-header">
               <div class="scenario-icon">
                 <el-icon :size="32">
@@ -388,7 +354,7 @@
             </div>
             <div class="card-hover-effect"></div>
           </div>
-          <div class="scenario-card" data-aos="fade-up" data-aos-delay="200">
+          <div class="scenario-card">
             <div class="scenario-header">
               <div class="scenario-icon">
                 <el-icon :size="32">
@@ -429,7 +395,7 @@
             </div>
             <div class="card-hover-effect"></div>
           </div>
-          <div class="scenario-card" data-aos="fade-up" data-aos-delay="300">
+          <div class="scenario-card">
             <div class="scenario-header">
               <div class="scenario-icon">
                 <el-icon :size="32">
@@ -473,13 +439,13 @@
         </div>
         
         <!-- 技术优势展示区域 -->
-        <div class="tech-advantages" data-aos="fade-up" data-aos-delay="400">
+        <div class="tech-advantages">
           <div class="advantages-header">
             <h3>技术优势</h3>
             <p>基于现代化架构设计，提供企业级安全保障</p>
           </div>
           <div class="advantages-grid">
-            <div class="advantage-item" data-aos="zoom-in" data-aos-delay="500">
+            <div class="advantage-item">
               <div class="advantage-icon">🔒</div>
               <h4>安全可靠</h4>
               <p>采用OAuth 2.0、SAML 2.0等国际标准协议，支持多因子认证</p>
@@ -495,7 +461,7 @@
                 </div>
               </div>
             </div>
-            <div class="advantage-item" data-aos="zoom-in" data-aos-delay="600">
+            <div class="advantage-item">
               <div class="advantage-icon">⚡</div>
               <h4>高性能</h4>
               <p>分布式架构设计，支持高并发访问，响应时间小于100ms</p>
@@ -511,7 +477,7 @@
                 </div>
               </div>
             </div>
-            <div class="advantage-item" data-aos="zoom-in" data-aos-delay="700">
+            <div class="advantage-item">
               <div class="advantage-icon">🔧</div>
               <h4>易集成</h4>
               <p>提供完整的SDK和API文档，支持多种编程语言和框架</p>
@@ -527,7 +493,7 @@
                 </div>
               </div>
             </div>
-            <div class="advantage-item" data-aos="zoom-in" data-aos-delay="800">
+            <div class="advantage-item">
               <div class="advantage-icon">📊</div>
               <h4>可视化</h4>
               <p>实时监控面板，详细的访问日志和统计分析功能</p>
@@ -543,7 +509,7 @@
                 </div>
               </div>
             </div>
-            <div class="advantage-item" data-aos="zoom-in" data-aos-delay="900">
+            <div class="advantage-item">
               <div class="advantage-icon">🌐</div>
               <h4>多协议支持</h4>
               <p>支持OIDC、SAML、CAS等多种认证协议，兼容性强</p>
@@ -559,7 +525,7 @@
                 </div>
               </div>
             </div>
-            <div class="advantage-item" data-aos="zoom-in" data-aos-delay="1000">
+            <div class="advantage-item">
               <div class="advantage-icon">☁️</div>
               <h4>云原生</h4>
               <p>基于Kubernetes部署，支持弹性扩缩容和多云环境</p>
@@ -578,11 +544,9 @@
           </div>
         </div>
           </section>
-        </SwiperSlide>
       
         <!-- CTA区域 -->
-        <SwiperSlide>
-          <section id="cta" class="cta-section" data-aos="fade-up">
+       <section id="cta" class="cta-section">
         <div class="cta-content">
           <h2>准备开始了吗？</h2>
           <p>立即体验 EPOCH SSO，让身份认证变得简单而安全</p>
@@ -598,19 +562,17 @@
           </div>
         </div>
           </section>
-        </SwiperSlide>
       
         <!-- 客户案例区域 -->
-        <SwiperSlide>
-          <section id="testimonials" class="testimonials-section" data-aos="fade-up">
-        <div class="section-header" data-aos="fade-up">
+         <section id="testimonials" class="testimonials-section">
+        <div class="section-header">
           <h2 class="section-title">客户案例</h2>
           <p class="section-subtitle">已为全球1000+企业提供可靠的身份认证服务</p>
           <div class="title-decoration"></div>
         </div>
         
         <div class="testimonials-grid">
-          <div class="testimonial-card" data-aos="fade-up" data-aos-delay="100">
+          <div class="testimonial-card">
             <div class="testimonial-header">
               <div class="company-logo">
                 <div class="logo-placeholder">A</div>
@@ -644,7 +606,7 @@
             </div>
           </div>
           
-          <div class="testimonial-card" data-aos="fade-up" data-aos-delay="200">
+          <div class="testimonial-card" >
             <div class="testimonial-header">
               <div class="company-logo">
                 <div class="logo-placeholder">T</div>
@@ -678,7 +640,7 @@
             </div>
           </div>
           
-          <div class="testimonial-card" data-aos="fade-up" data-aos-delay="300">
+          <div class="testimonial-card">
             <div class="testimonial-header">
               <div class="company-logo">
                 <div class="logo-placeholder">B</div>
@@ -714,7 +676,7 @@
         </div>
         
         <!-- 客户统计 -->
-        <div class="customer-stats" data-aos="fade-up" data-aos-delay="400">
+        <div class="customer-stats">
           <div class="stats-grid">
             <div class="stat-card">
               <div class="stat-icon">🏢</div>
@@ -739,12 +701,10 @@
           </div>
         </div>
           </section>
-        </SwiperSlide>
-      </Swiper>
     </main>
 
     <!-- 底部 -->
-    <footer class="home-footer" data-aos="fade-up">
+    <footer class="home-footer">
       <div class="footer-content">
         <div class="footer-info">
           <div class="footer-logo">
@@ -784,31 +744,9 @@
 
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, nextTick } from 'vue'
-import { useRouter } from 'vue-router'
-import { Lock, Grid, Monitor, Setting, TrendCharts, Connection } from '@element-plus/icons-vue'
-import { Swiper, SwiperSlide } from 'swiper/vue'
-import { Navigation, Pagination, Mousewheel, Keyboard, EffectFade } from 'swiper/modules'
-import 'swiper/css'
-import 'swiper/css/navigation'
-import 'swiper/css/pagination'
-import 'swiper/css/effect-fade'
-import AOS from 'aos'
-import 'aos/dist/aos.css'
 import LoadingAnimation from '@/components/LoadingAnimation.vue'
+import { Lock, Grid, Monitor, Setting, TrendCharts, Connection } from '@element-plus/icons-vue'
 
-// 防抖和节流工具函数
-const debounce = (func: Function, wait: number) => {
-  let timeout: NodeJS.Timeout
-  return function executedFunction(...args: any[]) {
-    const later = () => {
-      clearTimeout(timeout)
-      func(...args)
-    }
-    clearTimeout(timeout)
-    timeout = setTimeout(later, wait)
-  }
-}
 
 const throttle = (func: Function, limit: number) => {
   let inThrottle: boolean
@@ -828,55 +766,12 @@ const containerRef = ref<HTMLElement>()
 const particlesRef = ref<HTMLElement>()
 const heroRef = ref<HTMLElement>()
 const heroGraphicRef = ref<HTMLElement>()
-const titleRef = ref<HTMLElement>()
 const featuresRef = ref<HTMLElement>()
 const scenariosRef = ref<HTMLElement>()
 
 const scrollProgress = ref(0)
 const isScrolled = ref(false)
-const displayedTitle = ref('')
 const showCursor = ref(true)
-const isPageReady = ref(false)
-
-// 打字机效果
-const fullTitle = '统一身份认证平台'
-let typewriterTimeout: NodeJS.Timeout
-
-const startTypewriter = async () => {
-  await nextTick()
-  let i = 0
-  const typeNextChar = () => {
-    if (i < fullTitle.length) {
-      displayedTitle.value += fullTitle.charAt(i)
-      i++
-      typewriterTimeout = setTimeout(typeNextChar, 150)
-    } else {
-      // 打字完成后停止光标闪烁
-      setTimeout(() => {
-        showCursor.value = false
-      }, 1000)
-    }
-  }
-  typeNextChar()
-}
-
-// 粒子动画
-const createParticles = () => {
-  if (!particlesRef.value) return
-  
-  const particleCount = 50
-  particlesRef.value.innerHTML = ''
-  
-  for (let i = 0; i < particleCount; i++) {
-    const particle = document.createElement('div')
-    particle.className = 'particle'
-    particle.style.left = Math.random() * 100 + '%'
-    particle.style.top = Math.random() * 100 + '%'
-    particle.style.animationDelay = Math.random() * 20 + 's'
-    particle.style.animationDuration = (Math.random() * 10 + 10) + 's'
-    particlesRef.value.appendChild(particle)
-  }
-}
 
 // 滚动监听
 const handleScroll = () => {
@@ -913,14 +808,6 @@ const handleMouseMove = (e: MouseEvent) => {
   })
 }
 
-// Swiper配置
-const swiperRef = ref()
-const currentSection = ref(0)
-const sections = ref<string[]>(['hero', 'features', 'scenarios', 'cta', 'testimonials'])
-
-// Swiper模块配置
-const swiperModules = [Navigation, Pagination, Mousewheel, Keyboard, EffectFade]
-
 // 响应式配置
 const isMobile = ref(false)
 const swiperDirection = ref<'vertical' | 'horizontal'>('vertical')
@@ -929,90 +816,6 @@ const swiperDirection = ref<'vertical' | 'horizontal'>('vertical')
 const checkDevice = () => {
   isMobile.value = window.innerWidth <= 768
   swiperDirection.value = isMobile.value ? 'horizontal' : 'vertical'
-}
-
-// Swiper事件处理
-const onSwiper = (swiper: any) => {
-  swiperRef.value = swiper
-  // 手动启用mousewheel和keyboard
-  if (swiper.mousewheel) {
-    swiper.mousewheel.enable()
-  }
-  if (swiper.keyboard) {
-    swiper.keyboard.enable()
-  }
-}
-
-const onSlideChange = (swiper: any) => {
-  currentSection.value = swiper.activeIndex
-  triggerSectionAnimation(sections.value[swiper.activeIndex])
-}
-
-// 滚动到指定区域
-const scrollToSection = (index: number) => {
-  if (swiperRef.value && index >= 0 && index < sections.value.length) {
-    swiperRef.value.slideTo(index)
-  }
-}
-
-// 移除鼠标滚轮事件处理，避免与正常滚动冲突
-// const handleWheel = (e: WheelEvent) => {
-//   // 已禁用全屏滚动，使用正常滚动避免双滚动条
-//   return
-// }
-
-// 获取区域标题
-const getSectionTitle = (sectionId: string) => {
-  const titles: Record<string, string> = {
-    hero: '首页',
-    features: '核心特性',
-    scenarios: '应用场景',
-    testimonials: '客户案例',
-    cta: '开始使用'
-  }
-  return titles[sectionId] || sectionId
-}
-
-
-
-// 触发区域进入动画
-const triggerSectionAnimation = (sectionId: string) => {
-  const element = document.getElementById(sectionId)
-  if (!element) return
-  
-  // 添加进入动画类
-  element.classList.add('section-entering')
-  
-  // 为区域内的元素添加延迟动画
-  const animatedElements = element.querySelectorAll('.feature-card, .scenario-card, .cta-content')
-  animatedElements.forEach((el, index) => {
-    setTimeout(() => {
-      el.classList.add('animate-in')
-    }, index * 100)
-  })
-  
-  // 移除动画类，准备下次触发
-  setTimeout(() => {
-    element.classList.remove('section-entering')
-  }, 1000)
-}
-
-// 加载完成处理
-const onLoadingFinished = () => {
-  isPageReady.value = true
-  // 延迟初始化动画，确保页面已渲染
-  setTimeout(() => {
-    AOS.init({
-      duration: 800,
-      easing: 'ease-out-cubic',
-      once: true,
-      offset: 100
-    })
-    
-    // 启动其他动画
-    createParticles()
-    startTypewriter()
-  }, 100)
 }
 
 // 跳转到登录页面
@@ -1064,37 +867,6 @@ const scrollToFeatures = () => {
   }
 }
 
-// 生命周期
-// 创建节流版本的事件处理函数
-const throttledHandleScroll = throttle(handleScroll, 16) // 约60fps
-const throttledHandleMouseMove = throttle(handleMouseMove, 16) // 约60fps
-
-onMounted(() => {
-  // 只添加必要的事件监听器
-  window.addEventListener('scroll', throttledHandleScroll, { passive: true })
-  if (heroRef.value) {
-    heroRef.value.addEventListener('mousemove', throttledHandleMouseMove, { passive: true })
-  }
-  
-  // 设备检测和响应式配置
-  checkDevice()
-  window.addEventListener('resize', checkDevice, { passive: true })
-  
-  // 初始化滚动状态
-  handleScroll()
-})
-
-onUnmounted(() => {
-  // 清理定时器和事件监听
-  if (typewriterTimeout) {
-    clearTimeout(typewriterTimeout)
-  }
-  window.removeEventListener('scroll', throttledHandleScroll)
-  window.removeEventListener('resize', checkDevice)
-  if (heroRef.value) {
-    heroRef.value.removeEventListener('mousemove', throttledHandleMouseMove)
-  }
-})
 </script>
 
 <style lang="scss" scoped>
@@ -1107,52 +879,7 @@ onUnmounted(() => {
   will-change: transform;
 }
 
-// Swiper全屏滚动样式
-.fullscreen-swiper {
-  width: 100%;
-  height: 100vh;
-  
-  .swiper-slide {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: stretch;
-    
-    section {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      padding: 80px 0;
-      min-height: 100vh;
-      
-      @media (max-width: 768px) {
-        padding: 60px 20px;
-        min-height: 100vh;
-      }
-    }
-  }
-  
-  // 移动端水平滑动优化
-  @media (max-width: 768px) {
-    .swiper-slide {
-      section {
-        justify-content: flex-start;
-        padding-top: 100px; // 为顶部导航留出空间
-      }
-    }
-  }
-  
-  // 触摸反馈优化
-  .swiper-slide {
-    touch-action: pan-y pan-x;
-    
-    @media (max-width: 768px) {
-      touch-action: pan-x;
-    }
-  }
-}
+
 
 // 全屏滚动样式优化 - 移除可能导致双滚动条的设置
 // html 和 body 的滚动行为由全局样式控制
