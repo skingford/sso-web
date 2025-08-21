@@ -385,6 +385,7 @@ import {
   Lock, User, ArrowDown, Setting, SwitchButton, Odometer, Grid,
   Monitor, Document, Tools, Calendar, UserFilled
 } from '@element-plus/icons-vue';
+import type { FormInstance, FormRules } from 'element-plus';
 import { useAuthStore } from '@/stores/auth';
 import { authAPI, usersAPI, applicationsAPI } from '@/utils/api';
 import type { User as UserType, Application } from '@/utils/api';

@@ -74,629 +74,229 @@
       </section>
 
       <section id="features" class="features-section" ref="featuresRef">
-        <div class="section-header">
-          <h2 class="section-title">核心特性</h2>
-          <p class="section-subtitle">为企业提供安全可靠的身份认证服务</p>
-          <div class="title-decoration"></div>
-        </div>
-        <div class="features-grid">
-          <div class="feature-card">
-            <div class="feature-icon">
-              <div class="icon-background">
-                <el-icon :size="48" color="#67C23A">
+        <div class="container">
+          <div class="section-header">
+            <h2 class="section-title">核心特性</h2>
+            <p class="section-subtitle">为企业提供安全可靠的身份认证服务</p>
+          </div>
+          <div class="features-grid">
+            <div class="feature-card">
+              <div class="feature-icon">
+                <el-icon :size="32" color="#67C23A">
                   <Lock />
                 </el-icon>
               </div>
-              <div class="icon-glow"></div>
-            </div>
-            <h3>安全可靠</h3>
-            <p>采用业界标准的OAuth 2.0和OpenID Connect协议，确保身份认证的安全性</p>
-            <div class="feature-details">
-              <div class="detail-item">
-                <span class="detail-icon">🔐</span>
-                <span class="detail-text">多因子认证(MFA)</span>
-              </div>
-              <div class="detail-item">
-                <span class="detail-icon">🛡️</span>
-                <span class="detail-text">零信任安全架构</span>
-              </div>
-              <div class="detail-item">
-                <span class="detail-icon">🔒</span>
-                <span class="detail-text">端到端加密传输</span>
+              <h3>安全可靠</h3>
+              <p>采用业界标准的OAuth 2.0和OpenID Connect协议，确保身份认证的安全性</p>
+              <div class="feature-highlight">
+                <span class="highlight-text">99.99% 安全等级</span>
               </div>
             </div>
-            <div class="feature-metrics">
-              <div class="metric-item">
-                <span class="metric-number">99.99%</span>
-                <span class="metric-label">安全等级</span>
-              </div>
-              <div class="metric-item">
-                <span class="metric-number">256位</span>
-                <span class="metric-label">AES加密</span>
-              </div>
-            </div>
-            <div class="card-hover-effect"></div>
-          </div>
-          <div class="feature-card">
-            <div class="feature-icon">
-              <div class="icon-background">
-                <el-icon :size="48" color="#E6A23C">
+            <div class="feature-card">
+              <div class="feature-icon">
+                <el-icon :size="32" color="#E6A23C">
                   <Grid />
                 </el-icon>
               </div>
-              <div class="icon-glow"></div>
-            </div>
-            <h3>统一管理</h3>
-            <p>集中管理所有应用的用户身份，简化用户账户管理和权限控制</p>
-            <div class="feature-details">
-              <div class="detail-item">
-                <span class="detail-icon">👥</span>
-                <span class="detail-text">用户生命周期管理</span>
-              </div>
-              <div class="detail-item">
-                <span class="detail-icon">🎯</span>
-                <span class="detail-text">细粒度权限控制</span>
-              </div>
-              <div class="detail-item">
-                <span class="detail-icon">📊</span>
-                <span class="detail-text">实时监控审计</span>
+              <h3>统一管理</h3>
+              <p>集中管理所有应用的用户身份，简化用户账户管理和权限控制</p>
+              <div class="feature-highlight">
+                <span class="highlight-text">50万+ 用户管理</span>
               </div>
             </div>
-            <div class="feature-metrics">
-              <div class="metric-item">
-                <span class="metric-number">1000+</span>
-                <span class="metric-label">应用集成</span>
-              </div>
-              <div class="metric-item">
-                <span class="metric-number">50万+</span>
-                <span class="metric-label">用户管理</span>
-              </div>
-            </div>
-            <div class="card-hover-effect"></div>
-          </div>
-          <div class="feature-card">
-            <div class="feature-icon">
-              <div class="icon-background">
-                <el-icon :size="48" color="#F56C6C">
+            <div class="feature-card">
+              <div class="feature-icon">
+                <el-icon :size="32" color="#F56C6C">
                   <Monitor />
                 </el-icon>
               </div>
-              <div class="icon-glow"></div>
-            </div>
-            <h3>便捷体验</h3>
-            <p>一次登录即可访问所有授权应用，提升用户使用体验</p>
-            <div class="feature-details">
-              <div class="detail-item">
-                <span class="detail-icon">⚡</span>
-                <span class="detail-text">单点登录(SSO)</span>
-              </div>
-              <div class="detail-item">
-                <span class="detail-icon">🔄</span>
-                <span class="detail-text">自动令牌刷新</span>
-              </div>
-              <div class="detail-item">
-                <span class="detail-icon">📱</span>
-                <span class="detail-text">跨平台支持</span>
+              <h3>便捷体验</h3>
+              <p>一次登录即可访问所有授权应用，提升用户使用体验</p>
+              <div class="feature-highlight">
+                <span class="highlight-text">&lt;2s 登录速度</span>
               </div>
             </div>
-            <div class="feature-metrics">
-              <div class="metric-item">
-                <span class="metric-number">&lt;2s</span>
-                <span class="metric-label">登录速度</span>
-              </div>
-              <div class="metric-item">
-                <span class="metric-number">95%</span>
-                <span class="metric-label">用户满意度</span>
-              </div>
-            </div>
-            <div class="card-hover-effect"></div>
-          </div>
-          <div class="feature-card">
-            <div class="feature-icon">
-              <div class="icon-background">
-                <el-icon :size="48" color="#909399">
+            <div class="feature-card">
+              <div class="feature-icon">
+                <el-icon :size="32" color="#909399">
                   <Setting />
                 </el-icon>
               </div>
-              <div class="icon-glow"></div>
-            </div>
-            <h3>灵活配置</h3>
-            <p>支持多种身份提供商集成，满足不同企业的个性化需求</p>
-            <div class="feature-details">
-              <div class="detail-item">
-                <span class="detail-icon">🔧</span>
-                <span class="detail-text">可视化配置界面</span>
-              </div>
-              <div class="detail-item">
-                <span class="detail-icon">🌐</span>
-                <span class="detail-text">多协议支持</span>
-              </div>
-              <div class="detail-item">
-                <span class="detail-icon">🎨</span>
-                <span class="detail-text">自定义主题样式</span>
+              <h3>灵活配置</h3>
+              <p>支持多种身份提供商集成，满足不同企业的个性化需求</p>
+              <div class="feature-highlight">
+                <span class="highlight-text">15+ 身份提供商</span>
               </div>
             </div>
-            <div class="feature-metrics">
-              <div class="metric-item">
-                <span class="metric-number">15+</span>
-                <span class="metric-label">身份提供商</span>
-              </div>
-              <div class="metric-item">
-                <span class="metric-number">5分钟</span>
-                <span class="metric-label">快速部署</span>
-              </div>
-            </div>
-            <div class="card-hover-effect"></div>
-          </div>
-          <div class="feature-card">
-            <div class="feature-icon">
-              <div class="icon-background">
-                <el-icon :size="48" color="#409EFF">
+            <div class="feature-card">
+              <div class="feature-icon">
+                <el-icon :size="32" color="#409EFF">
                   <DataAnalysis />
                 </el-icon>
               </div>
-              <div class="icon-glow"></div>
-            </div>
-            <h3>智能分析</h3>
-            <p>提供全面的用户行为分析和安全风险评估，助力企业决策</p>
-            <div class="feature-details">
-              <div class="detail-item">
-                <span class="detail-icon">📈</span>
-                <span class="detail-text">用户行为分析</span>
-              </div>
-              <div class="detail-item">
-                <span class="detail-icon">⚠️</span>
-                <span class="detail-text">异常登录检测</span>
-              </div>
-              <div class="detail-item">
-                <span class="detail-icon">📋</span>
-                <span class="detail-text">合规性报告</span>
+              <h3>智能分析</h3>
+              <p>提供全面的用户行为分析和安全风险评估，助力企业决策</p>
+              <div class="feature-highlight">
+                <span class="highlight-text">99.9% 威胁检测率</span>
               </div>
             </div>
-            <div class="feature-metrics">
-              <div class="metric-item">
-                <span class="metric-number">24/7</span>
-                <span class="metric-label">实时监控</span>
-              </div>
-              <div class="metric-item">
-                <span class="metric-number">99.9%</span>
-                <span class="metric-label">威胁检测率</span>
-              </div>
-            </div>
-            <div class="card-hover-effect"></div>
-          </div>
-          <div class="feature-card">
-            <div class="feature-icon">
-              <div class="icon-background">
-                <el-icon :size="48" color="#67C23A">
+            <div class="feature-card">
+              <div class="feature-icon">
+                <el-icon :size="32" color="#67C23A">
                   <Connection />
                 </el-icon>
               </div>
-              <div class="icon-glow"></div>
-            </div>
-            <h3>API集成</h3>
-            <p>提供完整的RESTful API和SDK，支持快速集成和二次开发</p>
-            <div class="feature-details">
-              <div class="detail-item">
-                <span class="detail-icon">🔗</span>
-                <span class="detail-text">RESTful API</span>
-              </div>
-              <div class="detail-item">
-                <span class="detail-icon">📚</span>
-                <span class="detail-text">完整SDK支持</span>
-              </div>
-              <div class="detail-item">
-                <span class="detail-icon">🔔</span>
-                <span class="detail-text">Webhook通知</span>
+              <h3>API集成</h3>
+              <p>提供完整的RESTful API和SDK，支持快速集成和二次开发</p>
+              <div class="feature-highlight">
+                <span class="highlight-text">99.9% API可用性</span>
               </div>
             </div>
-            <div class="feature-metrics">
-              <div class="metric-item">
-                <span class="metric-number">20+</span>
-                <span class="metric-label">编程语言</span>
-              </div>
-              <div class="metric-item">
-                <span class="metric-number">99.9%</span>
-                <span class="metric-label">API可用性</span>
-              </div>
-            </div>
-            <div class="card-hover-effect"></div>
           </div>
         </div>
       </section>
-
-      <!-- 应用场景 -->
+        <!-- 应用场景 -->
       <section id="scenarios" class="scenarios-section" ref="scenariosRef">
-        <div class="section-header">
-          <h2 class="section-title">应用场景</h2>
-          <p class="section-subtitle">适用于各种企业级应用集成场景，已服务超过1000+企业客户</p>
-          <div class="title-decoration"></div>
-        </div>
-        <div class="scenarios-grid">
-          <div class="scenario-card">
-            <div class="scenario-header">
+        <div class="container">
+          <div class="section-header">
+            <h2 class="section-title">应用场景</h2>
+            <p class="section-subtitle">适用于各种企业级应用集成场景</p>
+          </div>
+          <div class="scenarios-grid">
+            <div class="scenario-card">
               <div class="scenario-icon">
-                <el-icon :size="32">
+                <el-icon :size="28" color="#409EFF">
                   <Monitor />
                 </el-icon>
               </div>
-              <div class="scenario-number">01</div>
-            </div>
-            <h3>企业内部系统</h3>
-            <p class="scenario-description">为企业内部各类业务系统提供统一身份认证服务</p>
-            <div class="scenario-features">
-              <div class="feature-item">
-                <span class="feature-icon">🏢</span>
-                <span>OA办公系统</span>
-              </div>
-              <div class="feature-item">
-                <span class="feature-icon">👥</span>
-                <span>CRM客户管理</span>
-              </div>
-              <div class="feature-item">
-                <span class="feature-icon">📊</span>
-                <span>ERP企业资源规划</span>
-              </div>
-              <div class="feature-item">
-                <span class="feature-icon">💼</span>
-                <span>HR人力资源</span>
+              <h3>企业内部系统</h3>
+              <p>为企业内部各类业务系统提供统一身份认证服务</p>
+              <div class="scenario-tags">
+                <span class="tag">OA系统</span>
+                <span class="tag">CRM</span>
+                <span class="tag">ERP</span>
               </div>
             </div>
-            <div class="scenario-stats">
-              <div class="stat-item">
-                <span class="stat-number">500+</span>
-                <span class="stat-label">企业用户</span>
-              </div>
-              <div class="stat-item">
-                <span class="stat-number">99.9%</span>
-                <span class="stat-label">可用性</span>
-              </div>
-            </div>
-            <div class="card-hover-effect"></div>
-          </div>
-          <div class="scenario-card">
-            <div class="scenario-header">
+            <div class="scenario-card">
               <div class="scenario-icon">
-                <el-icon :size="32">
+                <el-icon :size="28" color="#67C23A">
                   <Grid />
                 </el-icon>
               </div>
-              <div class="scenario-number">02</div>
-            </div>
-            <h3>第三方应用集成</h3>
-            <p class="scenario-description">支持主流第三方平台登录，提供多样化认证方式</p>
-            <div class="scenario-features">
-              <div class="feature-item">
-                <span class="feature-icon">💬</span>
-                <span>微信登录</span>
-              </div>
-              <div class="feature-item">
-                <span class="feature-icon">🐧</span>
-                <span>QQ登录</span>
-              </div>
-              <div class="feature-item">
-                <span class="feature-icon">🐙</span>
-                <span>GitHub登录</span>
-              </div>
-              <div class="feature-item">
-                <span class="feature-icon">🔗</span>
-                <span>钉钉集成</span>
+              <h3>第三方应用集成</h3>
+              <p>支持主流第三方平台登录，提供多样化认证方式</p>
+              <div class="scenario-tags">
+                <span class="tag">微信</span>
+                <span class="tag">GitHub</span>
+                <span class="tag">钉钉</span>
               </div>
             </div>
-            <div class="scenario-stats">
-              <div class="stat-item">
-                <span class="stat-number">10+</span>
-                <span class="stat-label">支持平台</span>
-              </div>
-              <div class="stat-item">
-                <span class="stat-number">2s</span>
-                <span class="stat-label">登录速度</span>
-              </div>
-            </div>
-            <div class="card-hover-effect"></div>
-          </div>
-          <div class="scenario-card">
-            <div class="scenario-header">
+            <div class="scenario-card">
               <div class="scenario-icon">
-                <el-icon :size="32">
+                <el-icon :size="28" color="#E6A23C">
                   <Setting />
                 </el-icon>
               </div>
-              <div class="scenario-number">03</div>
-            </div>
-            <h3>移动端应用</h3>
-            <p class="scenario-description">全面支持移动端SSO集成，实现跨平台统一认证</p>
-            <div class="scenario-features">
-              <div class="feature-item">
-                <span class="feature-icon">📱</span>
-                <span>iOS应用</span>
-              </div>
-              <div class="feature-item">
-                <span class="feature-icon">🤖</span>
-                <span>Android应用</span>
-              </div>
-              <div class="feature-item">
-                <span class="feature-icon">🌐</span>
-                <span>H5页面</span>
-              </div>
-              <div class="feature-item">
-                <span class="feature-icon">⚡</span>
-                <span>小程序</span>
+              <h3>移动端应用</h3>
+              <p>全面支持移动端SSO集成，实现跨平台统一认证</p>
+              <div class="scenario-tags">
+                <span class="tag">iOS</span>
+                <span class="tag">Android</span>
+                <span class="tag">小程序</span>
               </div>
             </div>
-            <div class="scenario-stats">
-              <div class="stat-item">
-                <span class="stat-number">100万+</span>
-                <span class="stat-label">日活用户</span>
-              </div>
-              <div class="stat-item">
-                <span class="stat-number">0.5s</span>
-                <span class="stat-label">响应时间</span>
-              </div>
-            </div>
-            <div class="card-hover-effect"></div>
           </div>
         </div>
 
-        <!-- 技术优势展示区域 -->
-        <div class="tech-advantages">
-          <div class="advantages-header">
-            <h3>技术优势</h3>
-            <p>基于现代化架构设计，提供企业级安全保障</p>
-          </div>
-          <div class="advantages-grid">
-            <div class="advantage-item">
-              <div class="advantage-icon">🔒</div>
-              <h4>安全可靠</h4>
-              <p>采用OAuth 2.0、SAML 2.0等国际标准协议，支持多因子认证</p>
-              <div class="advantage-features">
-                <span class="feature-tag">端到端加密</span>
-                <span class="feature-tag">零信任架构</span>
-                <span class="feature-tag">SOC2认证</span>
-              </div>
-              <div class="advantage-stats">
-                <div class="stat-item">
-                  <span class="stat-number">99.99%</span>
-                  <span class="stat-label">安全性</span>
-                </div>
-              </div>
-            </div>
-            <div class="advantage-item">
-              <div class="advantage-icon">⚡</div>
-              <h4>高性能</h4>
-              <p>分布式架构设计，支持高并发访问，响应时间小于100ms</p>
-              <div class="advantage-features">
-                <span class="feature-tag">微服务架构</span>
-                <span class="feature-tag">Redis缓存</span>
-                <span class="feature-tag">CDN加速</span>
-              </div>
-              <div class="advantage-stats">
-                <div class="stat-item">
-                  <span class="stat-number">&lt;50ms</span>
-                  <span class="stat-label">响应时间</span>
-                </div>
-              </div>
-            </div>
-            <div class="advantage-item">
-              <div class="advantage-icon">🔧</div>
-              <h4>易集成</h4>
-              <p>提供完整的SDK和API文档，支持多种编程语言和框架</p>
-              <div class="advantage-features">
-                <span class="feature-tag">RESTful API</span>
-                <span class="feature-tag">GraphQL</span>
-                <span class="feature-tag">Webhook</span>
-              </div>
-              <div class="advantage-stats">
-                <div class="stat-item">
-                  <span class="stat-number">15+</span>
-                  <span class="stat-label">SDK语言</span>
-                </div>
-              </div>
-            </div>
-            <div class="advantage-item">
-              <div class="advantage-icon">📊</div>
-              <h4>可视化</h4>
-              <p>实时监控面板，详细的访问日志和统计分析功能</p>
-              <div class="advantage-features">
-                <span class="feature-tag">实时监控</span>
-                <span class="feature-tag">数据分析</span>
-                <span class="feature-tag">告警通知</span>
-              </div>
-              <div class="advantage-stats">
-                <div class="stat-item">
-                  <span class="stat-number">24/7</span>
-                  <span class="stat-label">监控服务</span>
-                </div>
-              </div>
-            </div>
-            <div class="advantage-item">
-              <div class="advantage-icon">🌐</div>
-              <h4>多协议支持</h4>
-              <p>支持OIDC、SAML、CAS等多种认证协议，兼容性强</p>
-              <div class="advantage-features">
-                <span class="feature-tag">OIDC 1.0</span>
-                <span class="feature-tag">SAML 2.0</span>
-                <span class="feature-tag">CAS 3.0</span>
-              </div>
-              <div class="advantage-stats">
-                <div class="stat-item">
-                  <span class="stat-number">10+</span>
-                  <span class="stat-label">协议支持</span>
-                </div>
-              </div>
-            </div>
-            <div class="advantage-item">
-              <div class="advantage-icon">☁️</div>
-              <h4>云原生</h4>
-              <p>基于Kubernetes部署，支持弹性扩缩容和多云环境</p>
-              <div class="advantage-features">
-                <span class="feature-tag">Docker容器</span>
-                <span class="feature-tag">K8s编排</span>
-                <span class="feature-tag">多云部署</span>
-              </div>
-              <div class="advantage-stats">
-                <div class="stat-item">
-                  <span class="stat-number">99.9%</span>
-                  <span class="stat-label">可用性</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+
       </section>
 
       <!-- CTA区域 -->
       <section id="cta" class="cta-section">
-        <div class="cta-content">
-          <h2>准备开始了吗？</h2>
-          <p>立即体验 EPOCH SSO，让身份认证变得简单而安全</p>
-          <div class="flex gap-4 justify-center">
-            <button class="cta-button primary" @click="handleButtonClick($event, goToLogin)">
-              <span class="button-ripple"></span>
-              立即开始
-            </button>
-            <button class="cta-button secondary" @click="handleButtonClick($event, () => { })">
-              <span class="button-ripple"></span>
-              了解更多
-            </button>
+        <div class="container">
+          <div class="cta-content">
+            <h2>准备开始了吗？</h2>
+            <p>立即体验 EPOCH SSO，让身份认证变得简单而安全</p>
+            <div class="cta-buttons">
+              <button class="btn-primary" @click="goToLogin">
+                立即开始
+              </button>
+              <button class="btn-secondary">
+                了解更多
+              </button>
+            </div>
           </div>
         </div>
       </section>
 
       <!-- 客户案例区域 -->
       <section id="testimonials" class="testimonials-section">
-        <div class="section-header">
-          <h2 class="section-title">客户案例</h2>
-          <p class="section-subtitle">已为全球1000+企业提供可靠的身份认证服务</p>
-          <div class="title-decoration"></div>
-        </div>
+        <div class="container">
+          <div class="section-header">
+            <h2 class="section-title">客户案例</h2>
+            <p class="section-subtitle">已为全球1000+企业提供可靠的身份认证服务</p>
+          </div>
 
-        <div class="testimonials-grid">
-          <div class="testimonial-card">
-            <div class="testimonial-header">
-              <div class="company-logo">
-                <div class="logo-placeholder">A</div>
-              </div>
-              <div class="company-info">
-                <h4>阿里巴巴集团</h4>
-                <p class="company-type">互联网科技</p>
+          <div class="testimonials-grid">
+            <div class="testimonial-card">
+              <div class="testimonial-content">
+                <p>"EPOCH SSO帮助我们实现了全集团统一身份认证，大大提升了员工工作效率和系统安全性。"</p>
+                <div class="testimonial-author">
+                  <div class="author-avatar">A</div>
+                  <div class="author-info">
+                    <h4>阿里巴巴集团</h4>
+                    <span>张伟 - 技术总监</span>
+                  </div>
+                </div>
               </div>
             </div>
-            <div class="testimonial-content">
-              <div class="quote-icon">"</div>
-              <p class="testimonial-text">
-                EPOCH SSO帮助我们实现了全集团统一身份认证，大大提升了员工工作效率和系统安全性。部署简单，运行稳定，是我们数字化转型的重要基础设施。
-              </p>
-              <div class="testimonial-author">
-                <div class="author-info">
-                  <span class="author-name">张伟</span>
-                  <span class="author-title">技术总监</span>
-                </div>
-                <div class="testimonial-stats">
-                  <div class="stat-item">
-                    <span class="stat-number">50,000+</span>
-                    <span class="stat-label">员工用户</span>
+
+            <div class="testimonial-card">
+              <div class="testimonial-content">
+                <p>"作为一家大型互联网公司，EPOCH SSO的多重安全机制完全满足了我们的需求。"</p>
+                <div class="testimonial-author">
+                  <div class="author-avatar">T</div>
+                  <div class="author-info">
+                    <h4>腾讯科技</h4>
+                    <span>李明 - 安全架构师</span>
                   </div>
-                  <div class="stat-item">
-                    <span class="stat-number">200+</span>
-                    <span class="stat-label">接入应用</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="testimonial-card">
+              <div class="testimonial-content">
+                <p>"API设计优雅，文档详细，集成过程非常顺畅，技术支持团队响应迅速。"</p>
+                <div class="testimonial-author">
+                  <div class="author-avatar">B</div>
+                  <div class="author-info">
+                    <h4>字节跳动</h4>
+                    <span>王芳 - 研发经理</span>
                   </div>
                 </div>
               </div>
             </div>
           </div>
 
-          <div class="testimonial-card">
-            <div class="testimonial-header">
-              <div class="company-logo">
-                <div class="logo-placeholder">T</div>
+          <!-- 客户统计 -->
+          <div class="customer-stats">
+            <div class="stats-grid">
+              <div class="stat-card">
+                <div class="stat-number">1000+</div>
+                <div class="stat-label">企业客户</div>
               </div>
-              <div class="company-info">
-                <h4>腾讯科技</h4>
-                <p class="company-type">互联网服务</p>
+              <div class="stat-card">
+                <div class="stat-number">500万+</div>
+                <div class="stat-label">活跃用户</div>
               </div>
-            </div>
-            <div class="testimonial-content">
-              <div class="quote-icon">"</div>
-              <p class="testimonial-text">
-                作为一家大型互联网公司，我们对安全性要求极高。EPOCH SSO的多重安全机制和完善的审计功能完全满足了我们的需求，值得信赖。
-              </p>
-              <div class="testimonial-author">
-                <div class="author-info">
-                  <span class="author-name">李明</span>
-                  <span class="author-title">安全架构师</span>
-                </div>
-                <div class="testimonial-stats">
-                  <div class="stat-item">
-                    <span class="stat-number">99.99%</span>
-                    <span class="stat-label">可用性</span>
-                  </div>
-                  <div class="stat-item">
-                    <span class="stat-number">0</span>
-                    <span class="stat-label">安全事故</span>
-                  </div>
-                </div>
+              <div class="stat-card">
+                <div class="stat-number">10万+</div>
+                <div class="stat-label">应用集成</div>
               </div>
-            </div>
-          </div>
-
-          <div class="testimonial-card">
-            <div class="testimonial-header">
-              <div class="company-logo">
-                <div class="logo-placeholder">B</div>
+              <div class="stat-card">
+                <div class="stat-number">50+</div>
+                <div class="stat-label">国家地区</div>
               </div>
-              <div class="company-info">
-                <h4>字节跳动</h4>
-                <p class="company-type">内容科技</p>
-              </div>
-            </div>
-            <div class="testimonial-content">
-              <div class="quote-icon">"</div>
-              <p class="testimonial-text">
-                EPOCH SSO的API设计非常优雅，文档详细，集成过程非常顺畅。技术支持团队响应迅速，帮助我们快速完成了系统对接。
-              </p>
-              <div class="testimonial-author">
-                <div class="author-info">
-                  <span class="author-name">王芳</span>
-                  <span class="author-title">研发经理</span>
-                </div>
-                <div class="testimonial-stats">
-                  <div class="stat-item">
-                    <span class="stat-number">3天</span>
-                    <span class="stat-label">集成时间</span>
-                  </div>
-                  <div class="stat-item">
-                    <span class="stat-number">15+</span>
-                    <span class="stat-label">业务系统</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- 客户统计 -->
-        <div class="customer-stats">
-          <div class="stats-grid">
-            <div class="stat-card">
-              <div class="stat-icon">🏢</div>
-              <div class="stat-number">1000+</div>
-              <div class="stat-label">企业客户</div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-icon">👥</div>
-              <div class="stat-number">500万+</div>
-              <div class="stat-label">活跃用户</div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-icon">🔗</div>
-              <div class="stat-number">10万+</div>
-              <div class="stat-label">应用集成</div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-icon">🌍</div>
-              <div class="stat-number">50+</div>
-              <div class="stat-label">国家地区</div>
             </div>
           </div>
         </div>
@@ -705,37 +305,27 @@
 
     <!-- 底部 -->
     <footer class="home-footer">
-      <div class="footer-content">
-        <div class="footer-info">
-          <div class="footer-logo">
-            <el-icon :size="24" color="#409EFF">
-              <Lock />
-            </el-icon>
-            <span>SSO 单点登录系统</span>
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-brand">
+            <div class="footer-logo">
+              <el-icon :size="24" color="#409EFF">
+                <Lock />
+              </el-icon>
+              <span>SSO 单点登录系统</span>
+            </div>
+            <p>企业级统一身份认证解决方案</p>
           </div>
-          <p>企业级统一身份认证解决方案</p>
-        </div>
-        <div class="footer-links">
-          <div class="link-group">
-            <h4>产品</h4>
-            <ul>
-              <li><a href="#" @click.prevent>功能特性</a></li>
-              <li><a href="#" @click.prevent>技术文档</a></li>
-              <li><a href="#" @click.prevent>API接口</a></li>
-            </ul>
-          </div>
-          <div class="link-group">
-            <h4>支持</h4>
-            <ul>
-              <li><a href="#" @click.prevent>帮助中心</a></li>
-              <li><a href="#" @click.prevent>联系我们</a></li>
-              <li><a href="#" @click.prevent>服务条款</a></li>
-            </ul>
+          <div class="footer-links">
+            <a href="#features">功能特性</a>
+            <a href="#scenarios">应用场景</a>
+            <a href="#testimonials">客户案例</a>
+            <a href="#" @click.prevent>帮助中心</a>
           </div>
         </div>
-      </div>
-      <div class="footer-bottom">
-        <p>&copy; 2024 SSO 单点登录系统. All rights reserved.</p>
+        <div class="footer-bottom">
+          <p>&copy; 2024 SSO 单点登录系统. All rights reserved.</p>
+        </div>
       </div>
     </footer>
   </div>
@@ -744,8 +334,11 @@
 
 
 <script setup lang="ts">
+import { ref, reactive, onMounted, watchEffect, nextTick } from 'vue'
+import { useRouter } from 'vue-router'
+import { throttle } from 'lodash-es'
 import LoadingAnimation from '@/components/LoadingAnimation.vue'
-import { Lock, Grid, Monitor, Setting, TrendCharts, Connection } from '@element-plus/icons-vue'
+import { Lock, Grid, Monitor, Setting, TrendCharts, Connection, DataAnalysis } from '@element-plus/icons-vue'
 
 
 const throttle = (func: Function, limit: number) => {
@@ -872,6 +465,60 @@ const onLoadingFinished = () => {
   // 加载动画完成后的处理逻辑
   console.log('Loading finished')
 }
+
+// Intersection Observer 用于动画触发
+const setupIntersectionObserver = () => {
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          // 为features section添加动画类
+          if (entry.target.id === 'features') {
+            const featureCards = entry.target.querySelectorAll('.feature-card')
+            featureCards.forEach((card, index) => {
+              setTimeout(() => {
+                card.classList.add('animate-in')
+              }, index * 100) // 错开动画时间
+            })
+          }
+          
+          // 为scenarios section添加动画类
+          if (entry.target.id === 'scenarios') {
+            const scenarioCards = entry.target.querySelectorAll('.scenario-card')
+            scenarioCards.forEach((card, index) => {
+              setTimeout(() => {
+                card.classList.add('animate-in')
+              }, index * 100)
+            })
+          }
+          
+          // 添加section进入视口的类
+          entry.target.classList.add('in-viewport')
+        }
+      })
+    },
+    {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    }
+  )
+
+  // 观察features、scenarios和cta section
+  const featuresSection = document.getElementById('features')
+  const scenariosSection = document.getElementById('scenarios')
+  const ctaSection = document.getElementById('cta')
+  
+  if (featuresSection) observer.observe(featuresSection)
+  if (scenariosSection) observer.observe(scenariosSection)
+  if (ctaSection) observer.observe(ctaSection)
+}
+
+// 组件挂载时设置观察器
+onMounted(() => {
+  nextTick(() => {
+    setupIntersectionObserver()
+  })
+})
 
 </script>
 
@@ -1546,9 +1193,9 @@ const onLoadingFinished = () => {
 
   .features-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 2.5rem;
-    max-width: 1400px;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
     margin: 0 auto;
     position: relative;
     z-index: 10;
@@ -1556,57 +1203,26 @@ const onLoadingFinished = () => {
     .feature-card {
       background: rgba(255, 255, 255, 0.08);
       backdrop-filter: blur(20px);
-      border-radius: 24px;
-      padding: 3rem 2rem;
+      border-radius: 16px;
+      padding: 2rem;
       text-align: center;
       border: 1px solid rgba(255, 255, 255, 0.15);
       position: relative;
       overflow: hidden;
-      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-      transform-style: preserve-3d;
-      perspective: 1000px;
-      // 初始状态：向下偏移并透明
-      transform: translateY(50px);
+      transition: all 0.3s ease;
+      transform: translateY(20px);
       opacity: 0;
 
-      // 动画进入状态
       &.animate-in {
         transform: translateY(0);
         opacity: 1;
       }
 
-      &::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-        transition: left 0.8s ease;
-      }
-
-      &::after {
-        content: '';
-        position: absolute;
-        top: -50%;
-        left: -50%;
-        width: 200%;
-        height: 200%;
-        background: radial-gradient(circle, rgba(64, 158, 255, 0.1) 0%, transparent 70%);
-        opacity: 0;
-        transition: opacity 0.4s ease;
-        pointer-events: none;
-      }
-
       &:hover {
-        transform: translateY(-15px) rotateX(5deg) rotateY(5deg) scale(1.02);
+        transform: translateY(-8px);
         background: rgba(255, 255, 255, 0.12);
-        box-shadow:
-          0 35px 70px rgba(0, 0, 0, 0.25),
-          0 0 0 1px rgba(255, 255, 255, 0.1),
-          inset 0 1px 0 rgba(255, 255, 255, 0.2);
-        border-color: rgba(255, 255, 255, 0.3);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        border-color: rgba(255, 255, 255, 0.25);
 
         &::before {
           left: 100%;
@@ -1649,38 +1265,17 @@ const onLoadingFinished = () => {
       }
 
       .feature-icon {
-        position: relative;
-        width: 100px;
-        height: 100px;
-        margin: 0 auto 2rem;
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-
-        .icon-background {
-          width: 100%;
-          height: 100%;
-          background: linear-gradient(135deg, #409EFF, #67C23A);
-          border-radius: 50%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 2.5rem;
-          color: white;
-          position: relative;
-          z-index: 2;
-        }
-
-        .icon-glow {
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          width: 100%;
-          height: 100%;
-          background: radial-gradient(circle, rgba(64, 158, 255, 0.4) 0%, transparent 70%);
-          border-radius: 50%;
-          transform: translate(-50%, -50%) scale(0.8);
-          opacity: 0;
-          transition: all 0.4s ease;
-        }
+        width: 64px;
+        height: 64px;
+        margin: 0 auto 1.5rem;
+        background: linear-gradient(135deg, #409EFF, #67C23A);
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 32px;
+        color: white;
+        transition: all 0.3s ease;
       }
 
       h3 {
@@ -1697,94 +1292,19 @@ const onLoadingFinished = () => {
         font-size: 1.1rem;
       }
 
-      .feature-details {
-        margin: 2rem 0;
-
-        .detail-item {
-          display: flex;
-          align-items: center;
-          margin-bottom: 1rem;
-          padding: 0.8rem 1rem;
-          background: rgba(255, 255, 255, 0.05);
-          border-radius: 12px;
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          transition: all 0.3s ease;
-
-          &:hover {
-            background: rgba(255, 255, 255, 0.08);
-            border-color: rgba(64, 158, 255, 0.3);
-            transform: translateX(5px);
-          }
-
-          .detail-icon {
-            width: 20px;
-            height: 20px;
-            margin-right: 0.8rem;
-            color: #409EFF;
-            flex-shrink: 0;
-          }
-
-          .detail-text {
-            color: rgba(255, 255, 255, 0.9);
-            font-size: 0.95rem;
-            line-height: 1.4;
-          }
+      .feature-highlight {
+        margin-top: 1.5rem;
+        padding: 1rem;
+        background: rgba(64, 158, 255, 0.1);
+        border-radius: 12px;
+        border: 1px solid rgba(64, 158, 255, 0.2);
+        text-align: center;
+        
+        .highlight-text {
+          font-size: 1.1rem;
+          font-weight: 600;
+          color: #409EFF;
         }
-      }
-
-      .feature-metrics {
-        margin-top: 2rem;
-        padding-top: 2rem;
-        border-top: 1px solid rgba(255, 255, 255, 0.1);
-
-        .metrics-grid {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 1rem;
-
-          .metric-item {
-            text-align: center;
-            padding: 1rem;
-            background: rgba(64, 158, 255, 0.1);
-            border-radius: 12px;
-            border: 1px solid rgba(64, 158, 255, 0.2);
-            transition: all 0.3s ease;
-
-            &:hover {
-              background: rgba(64, 158, 255, 0.15);
-              border-color: rgba(64, 158, 255, 0.4);
-              transform: scale(1.05);
-            }
-
-            .metric-value {
-              font-size: 1.4rem;
-              font-weight: 700;
-              color: #409EFF;
-              margin-bottom: 0.3rem;
-              display: block;
-            }
-
-            .metric-label {
-              font-size: 0.85rem;
-              color: rgba(255, 255, 255, 0.8);
-              line-height: 1.3;
-            }
-          }
-        }
-      }
-
-      .card-hover-effect {
-        position: absolute;
-        bottom: -50px;
-        right: -50px;
-        width: 100px;
-        height: 100px;
-        background: radial-gradient(circle, rgba(64, 158, 255, 0.2) 0%, transparent 70%);
-        border-radius: 50%;
-        opacity: 0;
-        transform: scale(0.5);
-        transition: all 0.4s ease;
-        pointer-events: none;
       }
     }
   }
@@ -1865,9 +1385,9 @@ const onLoadingFinished = () => {
 
   .scenarios-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
-    gap: 2.5rem;
-    max-width: 1400px;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
     margin: 0 auto;
     position: relative;
     z-index: 10;
@@ -1875,127 +1395,39 @@ const onLoadingFinished = () => {
     .scenario-card {
       background: rgba(255, 255, 255, 0.08);
       backdrop-filter: blur(20px);
-      border-radius: 24px;
-      padding: 3rem 2.5rem;
+      border-radius: 16px;
+      padding: 2rem;
       border: 1px solid rgba(255, 255, 255, 0.15);
       position: relative;
       overflow: hidden;
-      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-      transform-style: preserve-3d;
-      perspective: 1000px;
-      // 初始状态：向右偏移并透明
-      transform: translateX(50px);
+      transition: all 0.3s ease;
+      transform: translateY(20px);
       opacity: 0;
 
-      // 动画进入状态
       &.animate-in {
-        transform: translateX(0);
+        transform: translateY(0);
         opacity: 1;
       }
 
-      &::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-        transition: left 0.8s ease;
-      }
-
-      &::after {
-        content: '';
-        position: absolute;
-        top: -50%;
-        left: -50%;
-        width: 200%;
-        height: 200%;
-        background: radial-gradient(circle, rgba(103, 194, 58, 0.1) 0%, transparent 70%);
-        opacity: 0;
-        transition: opacity 0.4s ease;
-        pointer-events: none;
-      }
-
       &:hover {
-        transform: translateY(-12px) rotateX(3deg) rotateY(-3deg) scale(1.02);
+        transform: translateY(-8px);
         background: rgba(255, 255, 255, 0.12);
-        box-shadow:
-          0 30px 60px rgba(0, 0, 0, 0.25),
-          0 0 0 1px rgba(255, 255, 255, 0.1),
-          inset 0 1px 0 rgba(255, 255, 255, 0.2);
-        border-color: rgba(255, 255, 255, 0.3);
-
-        &::before {
-          left: 100%;
-        }
-
-        &::after {
-          opacity: 1;
-        }
-
-        .scenario-number {
-          transform: scale(1.2) rotate(10deg) translateZ(20px);
-          background: linear-gradient(135deg, #67C23A, #409EFF);
-          box-shadow: 0 0 30px rgba(64, 158, 255, 0.6);
-        }
-
-        h3 {
-          color: #67C23A;
-          // 移除可能导致文字模糊的translateZ
-          -webkit-font-smoothing: antialiased;
-          -moz-osx-font-smoothing: grayscale;
-        }
-
-        p {
-          // 移除可能导致文字模糊的translateZ
-          -webkit-font-smoothing: antialiased;
-          -moz-osx-font-smoothing: grayscale;
-        }
-
-        .card-hover-effect {
-          opacity: 1;
-          transform: scale(1) translateZ(15px);
-        }
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        border-color: rgba(255, 255, 255, 0.25);
       }
 
-      .scenario-header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 1.5rem;
-
-        .scenario-icon {
-          width: 60px;
-          height: 60px;
-          background: linear-gradient(135deg, rgba(64, 158, 255, 0.2), rgba(103, 194, 58, 0.2));
-          border-radius: 16px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: #67C23A;
-          transition: all 0.3s ease;
-
-          &:hover {
-            transform: scale(1.1) rotate(5deg);
-            background: linear-gradient(135deg, rgba(64, 158, 255, 0.3), rgba(103, 194, 58, 0.3));
-          }
-        }
-      }
-
-      .scenario-number {
-        width: 50px;
-        height: 50px;
+      .scenario-icon {
+        width: 48px;
+        height: 48px;
         background: linear-gradient(135deg, #409EFF, #67C23A);
-        border-radius: 50%;
+        border-radius: 12px;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 1.3rem;
-        font-weight: 800;
         color: white;
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        box-shadow: 0 8px 25px rgba(64, 158, 255, 0.3);
+        font-size: 24px;
+        margin-bottom: 1.5rem;
+        transition: all 0.3s ease;
       }
 
       h3 {
@@ -2013,73 +1445,26 @@ const onLoadingFinished = () => {
         margin-bottom: 1.5rem;
       }
 
-      .scenario-features {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 0.8rem;
-        margin-bottom: 1.5rem;
+      .scenario-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-top: 1.5rem;
 
-        .feature-item {
-          display: flex;
-          align-items: center;
-          gap: 0.5rem;
-          padding: 0.5rem;
-          background: rgba(255, 255, 255, 0.05);
-          border-radius: 8px;
+        .tag {
+          padding: 0.5rem 1rem;
+          background: rgba(64, 158, 255, 0.1);
+          border: 1px solid rgba(64, 158, 255, 0.2);
+          border-radius: 20px;
+          font-size: 0.9rem;
+          color: #409EFF;
           transition: all 0.3s ease;
 
-          .feature-icon {
-            font-size: 1.2rem;
-          }
-
-          span:last-child {
-            color: rgba(255, 255, 255, 0.9);
-            font-size: 0.9rem;
-          }
-
           &:hover {
-            background: rgba(255, 255, 255, 0.1);
-            transform: translateX(5px);
+            background: rgba(64, 158, 255, 0.15);
+            border-color: rgba(64, 158, 255, 0.3);
           }
         }
-      }
-
-      .scenario-stats {
-        display: flex;
-        justify-content: space-between;
-        padding-top: 1rem;
-        border-top: 1px solid rgba(255, 255, 255, 0.1);
-
-        .stat-item {
-          text-align: center;
-
-          .stat-number {
-            display: block;
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #67C23A;
-            margin-bottom: 0.2rem;
-          }
-
-          .stat-label {
-            font-size: 0.8rem;
-            color: rgba(255, 255, 255, 0.7);
-          }
-        }
-      }
-
-      .card-hover-effect {
-        position: absolute;
-        bottom: -50px;
-        left: -50px;
-        width: 100px;
-        height: 100px;
-        background: radial-gradient(circle, rgba(103, 194, 58, 0.2) 0%, transparent 70%);
-        border-radius: 50%;
-        opacity: 0;
-        transform: scale(0.5);
-        transition: all 0.4s ease;
-        pointer-events: none;
       }
     }
   }
@@ -2094,23 +1479,11 @@ const onLoadingFinished = () => {
   z-index: 10;
 
   @media (max-width: 1024px) {
-    padding: 96px 48px 32px;
+    padding: 4rem 2rem 2rem;
   }
 
   @media (max-width: 768px) {
-    padding: 112px 32px 32px;
-  }
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: -1px;
-    left: 0;
-    right: 0;
-    height: 100px;
-    background: #f3f4f6;
-    clip-path: polygon(0 0, 100% 0, 100% 80%, 0 100%);
-    z-index: 10;
+    padding: 3rem 1.5rem 2rem;
   }
 
   .footer-content {
@@ -2118,34 +1491,33 @@ const onLoadingFinished = () => {
     margin: 0 auto;
     display: grid;
     grid-template-columns: 1fr 2fr;
-    gap: 96px;
+    gap: 4rem;
     position: relative;
-    z-index: 20;
-    margin-bottom: 48px;
+    margin-bottom: 2rem;
     align-items: start;
 
     @media (max-width: 1024px) {
       grid-template-columns: 1fr;
-      gap: 80px;
+      gap: 3rem;
       text-align: center;
     }
 
     @media (max-width: 768px) {
-      gap: 64px;
+      gap: 2rem;
     }
   }
 
   .footer-info {
     display: flex;
     flex-direction: column;
-    gap: 32px;
+    gap: 1.5rem;
 
     .footer-logo {
       display: flex;
       align-items: center;
       justify-content: flex-start;
-      gap: 12px;
-      font-size: 20px;
+      gap: 0.75rem;
+      font-size: 1.25rem;
       font-weight: 700;
       color: #ffffff;
 
@@ -2155,8 +1527,8 @@ const onLoadingFinished = () => {
     }
 
     p {
-      color: rgba(255, 255, 255, 0.9);
-      font-size: 16px;
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 0.95rem;
       line-height: 1.5;
       font-weight: 400;
     }
@@ -2164,25 +1536,25 @@ const onLoadingFinished = () => {
 
   .footer-links {
     display: flex;
-    gap: 96px;
+    gap: 4rem;
     justify-content: flex-start;
 
     @media (max-width: 1024px) {
       justify-content: center;
-      gap: 80px;
+      gap: 3rem;
     }
 
     @media (max-width: 768px) {
       flex-direction: column;
-      gap: 48px;
+      gap: 2rem;
       align-items: center;
     }
 
     .link-group {
       h4 {
-        font-size: 20px;
-        font-weight: 700;
-        margin-bottom: 32px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
         color: #ffffff;
       }
 
@@ -2192,17 +1564,17 @@ const onLoadingFinished = () => {
         margin: 0;
 
         li {
-          margin-bottom: 12px;
+          margin-bottom: 0.5rem;
 
           a {
             text-decoration: none;
             transition: color 0.3s ease;
-            color: rgba(255, 255, 255, 0.85);
-            font-size: 16px;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
             font-weight: 400;
 
             &:hover {
-              color: #ffffff;
+              color: #409EFF;
             }
           }
         }
@@ -2211,15 +1583,14 @@ const onLoadingFinished = () => {
   }
 
   .footer-bottom {
-    border-top: 1px solid rgba(255, 255, 255, 0.2);
-    padding-top: 32px;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    padding-top: 1.5rem;
     text-align: center;
     position: relative;
-    z-index: 20;
 
     p {
-      color: rgba(255, 255, 255, 0.8);
-      font-size: 14px;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.85rem;
       margin: 0;
       font-weight: 400;
     }
@@ -2272,7 +1643,7 @@ const onLoadingFinished = () => {
 
   .testimonials-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     gap: 2rem;
     margin-top: 3rem;
     margin-bottom: 4rem;
@@ -2284,156 +1655,80 @@ const onLoadingFinished = () => {
   }
 
   .testimonial-card {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 16px;
     padding: 2rem;
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
 
-    &::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: linear-gradient(135deg, rgba(64, 158, 255, 0.05) 0%, rgba(103, 194, 58, 0.05) 100%);
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-
     &:hover {
       transform: translateY(-8px);
-      border-color: rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.12);
+      border-color: rgba(255, 255, 255, 0.25);
       box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-
-      &::before {
-        opacity: 1;
-      }
     }
 
-    .testimonial-header {
+    .company-name {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: white;
+      margin-bottom: 1rem;
+    }
+
+    .testimonial-text {
+      font-size: 1rem;
+      line-height: 1.6;
+      color: rgba(255, 255, 255, 0.9);
+      margin-bottom: 1.5rem;
+      font-style: italic;
+    }
+
+    .author-info {
       display: flex;
       align-items: center;
-      margin-bottom: 1.5rem;
-      position: relative;
-      z-index: 1;
+      gap: 1rem;
 
-      .company-logo {
-        width: 60px;
-        height: 60px;
-        margin-right: 1rem;
-
-        .logo-placeholder {
-          width: 100%;
-          height: 100%;
-          background: linear-gradient(135deg, #409EFF, #67C23A);
-          border-radius: 12px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 1.5rem;
-          font-weight: 700;
-          color: white;
-        }
+      .author-avatar {
+        width: 40px;
+        height: 40px;
+        background: linear-gradient(135deg, #409EFF, #67C23A);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1rem;
+        font-weight: 600;
+        color: white;
       }
 
-      .company-info {
-        h4 {
-          font-size: 1.2rem;
+      .author-details {
+        .author-name {
+          font-size: 1rem;
           font-weight: 600;
           color: white;
-          margin-bottom: 0.3rem;
+          margin-bottom: 0.2rem;
         }
 
-        .company-type {
-          font-size: 0.9rem;
+        .author-title {
+          font-size: 0.85rem;
           color: rgba(255, 255, 255, 0.6);
-          margin: 0;
-        }
-      }
-    }
-
-    .testimonial-content {
-      position: relative;
-      z-index: 1;
-
-      .quote-icon {
-        font-size: 3rem;
-        color: rgba(64, 158, 255, 0.3);
-        line-height: 1;
-        margin-bottom: 1rem;
-        font-family: serif;
-      }
-
-      .testimonial-text {
-        font-size: 1rem;
-        line-height: 1.6;
-        color: rgba(255, 255, 255, 0.9);
-        margin-bottom: 1.5rem;
-        font-style: italic;
-      }
-
-      .testimonial-author {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-end;
-
-        @media (max-width: 480px) {
-          flex-direction: column;
-          align-items: flex-start;
-          gap: 1rem;
-        }
-
-        .author-info {
-          .author-name {
-            display: block;
-            font-size: 1rem;
-            font-weight: 600;
-            color: white;
-            margin-bottom: 0.2rem;
-          }
-
-          .author-title {
-            font-size: 0.85rem;
-            color: rgba(255, 255, 255, 0.6);
-          }
-        }
-
-        .testimonial-stats {
-          display: flex;
-          gap: 1rem;
-
-          .stat-item {
-            text-align: center;
-
-            .stat-number {
-              display: block;
-              font-size: 1rem;
-              font-weight: 700;
-              color: #67C23A;
-              margin-bottom: 0.2rem;
-            }
-
-            .stat-label {
-              font-size: 0.7rem;
-              color: rgba(255, 255, 255, 0.5);
-              text-transform: uppercase;
-              letter-spacing: 0.5px;
-            }
-          }
         }
       }
     }
   }
 
   .customer-stats {
+    margin-top: 3rem;
+    padding: 2rem 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+
     .stats-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 2rem;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
 
       @media (max-width: 768px) {
         grid-template-columns: repeat(2, 1fr);
@@ -2442,27 +1737,21 @@ const onLoadingFinished = () => {
 
       .stat-card {
         text-align: center;
-        padding: 2rem 1rem;
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 16px;
+        padding: 1.5rem;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 12px;
         transition: all 0.3s ease;
 
         &:hover {
-          transform: translateY(-5px);
-          background: rgba(255, 255, 255, 0.08);
-          border-color: rgba(255, 255, 255, 0.2);
-          box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
-        }
-
-        .stat-icon {
-          font-size: 2.5rem;
-          margin-bottom: 1rem;
-          display: block;
+          transform: translateY(-4px);
+          background: rgba(255, 255, 255, 0.12);
+          border-color: rgba(255, 255, 255, 0.25);
+          box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
         }
 
         .stat-number {
-          font-size: 2rem;
+          font-size: 1.8rem;
           font-weight: 700;
           color: #409EFF;
           margin-bottom: 0.5rem;
@@ -2470,10 +1759,10 @@ const onLoadingFinished = () => {
         }
 
         .stat-label {
-          font-size: 0.9rem;
+          font-size: 0.85rem;
           color: rgba(255, 255, 255, 0.7);
           text-transform: uppercase;
-          letter-spacing: 1px;
+          letter-spacing: 0.5px;
         }
       }
     }
@@ -2482,17 +1771,10 @@ const onLoadingFinished = () => {
 
 // CTA区域样式
 .cta-section {
-  padding: 8rem 2rem;
-  background: radial-gradient(ellipse at center, rgba(64, 158, 255, 0.15) 0%, transparent 70%);
+  padding: 6rem 2rem;
+  background: rgba(64, 158, 255, 0.1);
   position: relative;
   overflow: hidden;
-  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-
-  // 分屏动画效果
-  &.section-entering {
-    transform: scale(1.02);
-    background: radial-gradient(ellipse at center, rgba(64, 158, 255, 0.25) 0%, transparent 70%);
-  }
 
   &.in-viewport {
     .cta-content {
@@ -2501,47 +1783,31 @@ const onLoadingFinished = () => {
     }
   }
 
-  &::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: conic-gradient(from 0deg, transparent, rgba(64, 158, 255, 0.1), transparent);
-    animation: rotate 20s linear infinite;
-  }
-
   .cta-content {
     max-width: 800px;
     margin: 0 auto;
     text-align: center;
     position: relative;
     z-index: 10;
-    // 初始状态：向下偏移并透明
-    transform: translateY(50px);
+    transform: translateY(30px);
     opacity: 0;
-    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.6s ease;
 
     h2 {
-      font-size: 3.5rem;
-      font-weight: 800;
+      font-size: 3rem;
+      font-weight: 700;
       color: white;
       margin-bottom: 1.5rem;
-      background: linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
 
       @media (max-width: 768px) {
-        font-size: 2.8rem;
+        font-size: 2.4rem;
       }
     }
 
     p {
-      font-size: 1.3rem;
+      font-size: 1.2rem;
       color: rgba(255, 255, 255, 0.9);
-      margin-bottom: 3rem;
+      margin-bottom: 2.5rem;
       line-height: 1.6;
     }
   }
@@ -2552,48 +1818,24 @@ const onLoadingFinished = () => {
   position: relative;
   overflow: hidden;
   border: none;
-  border-radius: 50px;
+  border-radius: 12px;
   font-size: 1.1rem;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  transform-style: preserve-3d;
+  transition: all 0.3s ease;
 
   &.primary {
     background: linear-gradient(135deg, #409EFF, #67C23A);
     color: white;
     padding: 1rem 2.5rem;
 
-    &::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-
     &:hover {
-      transform: translateY(-3px) scale(1.05) rotateX(5deg);
-      box-shadow:
-        0 15px 35px rgba(64, 158, 255, 0.4),
-        0 5px 15px rgba(0, 0, 0, 0.1);
-
-      &::before {
-        opacity: 1;
-      }
-
-      .button-ripple {
-        transform: scale(1);
-        opacity: 0;
-      }
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(64, 158, 255, 0.3);
     }
 
     &:active {
-      transform: translateY(-1px) scale(0.98);
+      transform: translateY(0);
       transition: all 0.1s ease;
     }
   }
@@ -2603,32 +1845,13 @@ const onLoadingFinished = () => {
     color: white;
     border: 2px solid rgba(255, 255, 255, 0.3);
     padding: 0.875rem 2.5rem;
-    backdrop-filter: blur(10px);
 
     &:hover {
       border-color: rgba(255, 255, 255, 0.6);
       background: rgba(255, 255, 255, 0.1);
       transform: translateY(-2px);
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-
-      .button-ripple {
-        transform: scale(1);
-        opacity: 0;
-      }
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
     }
-  }
-
-  .button-ripple {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 0;
-    height: 0;
-    background: rgba(255, 255, 255, 0.3);
-    border-radius: 50%;
-    transform: translate(-50%, -50%) scale(0);
-    transition: all 0.6s ease;
-    pointer-events: none;
   }
 }
 
