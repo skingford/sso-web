@@ -287,9 +287,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
-import { ElMessage } from 'element-plus'
+
 import { 
   UserFilled, Grid, Connection, Lock, TrendCharts, User, Key, Document, Setting, 
   ArrowRight, Refresh 

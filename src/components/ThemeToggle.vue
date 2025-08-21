@@ -120,7 +120,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, nextTick, onMounted, onUnmounted, watch } from 'vue'
+
 import { Sun, Moon, Monitor } from 'lucide-vue-next'
 import { useTheme, type Theme } from '../composables/useTheme'
 

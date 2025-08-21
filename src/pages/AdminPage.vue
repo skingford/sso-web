@@ -374,7 +374,7 @@
               style="width: 150px"
               clearable
             />
-            <el-button type="primary" @click="searchAuditLogs">搜索</el-button>
+            <el-button type="primary" @click="searchAuditLogs(0)">搜索</el-button>
           </div>
 
           <!-- 日志列表 -->
@@ -636,13 +636,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, computed, onMounted, watch } from 'vue'
-import { useRouter } from 'vue-router'
-import { ElMessage, ElMessageBox } from 'element-plus'
-import {
-  Lock, ArrowDown, Odometer, User, Grid, Key, Document, Setting,
-  Plus, Upload, Search, MoreFilled, Download, Monitor, View
-} from '@element-plus/icons-vue'
+import type { FormRules } from 'element-plus'
 import { useAuthStore } from '@/stores/auth'
 import api, { auditAPI, type AuditLog } from '@/utils/api'
 
@@ -880,7 +874,7 @@ const newRole = reactive({
 })
 
 // 表单验证规则
-const userRules = {
+const userRules: FormRules = {
   name: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
   email: [
     { required: true, message: '请输入邮箱', trigger: 'blur' },
@@ -890,14 +884,14 @@ const userRules = {
   password: [{ required: true, message: '请输入密码', trigger: 'blur' }]
 }
 
-const appRules = {
+const appRules: FormRules = {
   name: [{ required: true, message: '请输入应用名称', trigger: 'blur' }],
   description: [{ required: true, message: '请输入应用描述', trigger: 'blur' }],
   redirectUri: [{ required: true, message: '请输入回调地址', trigger: 'blur' }],
   type: [{ required: true, message: '请选择应用类型', trigger: 'change' }]
 }
 
-const roleRules = {
+const roleRules: FormRules = {
   name: [{ required: true, message: '请输入角色名称', trigger: 'blur' }],
   description: [{ required: true, message: '请输入角色描述', trigger: 'blur' }]
 }

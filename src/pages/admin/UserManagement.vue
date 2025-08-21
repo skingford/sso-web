@@ -345,12 +345,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, computed, onMounted } from 'vue'
-import { ElMessage, ElMessageBox } from 'element-plus'
-import { 
-  Search, Download, Plus, UserFilled, Connection, Lock, Refresh, 
-  ArrowDown 
-} from '@element-plus/icons-vue'
+
 
 interface User {
   id: string
@@ -409,7 +404,7 @@ const userForm = reactive({
 })
 
 // 表单验证规则
-const userFormRules = {
+const userFormRules: Record<string, any> = {
   username: [
     { required: true, message: '请输入用户名', trigger: 'blur' },
     { min: 3, max: 20, message: '用户名长度在 3 到 20 个字符', trigger: 'blur' }
@@ -541,8 +536,8 @@ const getRoleLabel = (role: string) => {
   return labels[role as keyof typeof labels] || role
 }
 
-const getRoleTagType = (role: string) => {
-  const types = {
+const getRoleTagType = (role: string): 'primary' | 'success' | 'warning' | 'info' | 'danger' => {
+  const types: Record<string, 'primary' | 'success' | 'warning' | 'info' | 'danger'> = {
     admin: 'danger',
     user: 'primary',
     guest: 'info'
@@ -559,8 +554,8 @@ const getStatusLabel = (status: string) => {
   return labels[status as keyof typeof labels] || status
 }
 
-const getStatusTagType = (status: string) => {
-  const types = {
+const getStatusTagType = (status: string): 'primary' | 'success' | 'warning' | 'info' | 'danger' => {
+  const types: Record<string, 'primary' | 'success' | 'warning' | 'info' | 'danger'> = {
     active: 'success',
     disabled: 'danger',
     pending: 'warning'

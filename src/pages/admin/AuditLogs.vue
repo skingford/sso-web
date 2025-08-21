@@ -459,8 +459,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, computed, onMounted } from 'vue'
-import { ElMessage, ElMessageBox } from 'element-plus'
+
 import { 
   Document, Calendar, Warning, Lock, Search, Refresh, Download,
   Grid, Clock, ArrowDown, Location, Position, Monitor
@@ -697,15 +696,15 @@ const getLogTypeLabel = (type: string) => {
   return labels[type as keyof typeof labels] || type
 }
 
-const getLogTypeTagType = (type: string) => {
-  const types = {
+const getLogTypeTagType = (type: string): 'primary' | 'success' | 'warning' | 'info' | 'danger' => {
+  const types: Record<string, 'primary' | 'success' | 'warning' | 'info' | 'danger'> = {
     user: 'primary',
     system: 'info',
     security: 'danger',
     application: 'success',
     permission: 'warning'
   }
-  return types[type as keyof typeof types] || 'info'
+  return types[type] || 'info'
 }
 
 const getLogLevelLabel = (level: string) => {
@@ -718,18 +717,18 @@ const getLogLevelLabel = (level: string) => {
   return labels[level as keyof typeof labels] || level
 }
 
-const getLogLevelTagType = (level: string) => {
-  const types = {
+const getLogLevelTagType = (level: string): 'primary' | 'success' | 'warning' | 'info' | 'danger' => {
+  const types: Record<string, 'primary' | 'success' | 'warning' | 'info' | 'danger'> = {
     info: 'primary',
     warning: 'warning',
     error: 'danger',
     critical: 'danger'
   }
-  return types[level as keyof typeof types] || 'info'
+  return types[level] || 'info'
 }
 
-const getTimelineType = (level: string) => {
-  const types = {
+const getTimelineType = (level: string): 'primary' | 'success' | 'warning' | 'info' | 'danger' => {
+  const types: Record<string, 'primary' | 'success' | 'warning' | 'info' | 'danger'> = {
     info: 'primary',
     warning: 'warning',
     error: 'danger',

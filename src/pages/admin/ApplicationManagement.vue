@@ -492,12 +492,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, computed, onMounted } from 'vue'
-import { ElMessage, ElMessageBox } from 'element-plus'
-import { 
-  Search, Download, Plus, Grid, CircleCheck, Connection, User, Refresh, 
-  ArrowDown, CopyDocument, Delete, Iphone, Monitor, View, Hide
-} from '@element-plus/icons-vue'
+
 
 interface Application {
   id: string
@@ -561,7 +556,7 @@ const appForm = reactive({
 })
 
 // 表单验证规则
-const appFormRules = {
+const appFormRules: Record<string, any> = {
   name: [
     { required: true, message: '请输入应用名称', trigger: 'blur' },
     { min: 2, max: 50, message: '应用名称长度在 2 到 50 个字符', trigger: 'blur' }
@@ -702,8 +697,8 @@ const getTypeLabel = (type: string) => {
   return labels[type as keyof typeof labels] || type
 }
 
-const getTypeTagType = (type: string) => {
-  const types = {
+const getTypeTagType = (type: string): 'primary' | 'success' | 'warning' | 'info' | 'danger' => {
+  const types: Record<string, 'primary' | 'success' | 'warning' | 'info' | 'danger'> = {
     web: 'primary',
     mobile: 'success',
     desktop: 'warning',
@@ -721,8 +716,8 @@ const getStatusLabel = (status: string) => {
   return labels[status as keyof typeof labels] || status
 }
 
-const getStatusTagType = (status: string) => {
-  const types = {
+const getStatusTagType = (status: string): 'primary' | 'success' | 'warning' | 'info' | 'danger' => {
+  const types: Record<string, 'primary' | 'success' | 'warning' | 'info' | 'danger'> = {
     active: 'success',
     maintenance: 'warning',
     disabled: 'danger'

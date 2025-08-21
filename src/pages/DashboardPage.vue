@@ -72,7 +72,7 @@
             <el-icon><Document /></el-icon>
             <span>操作日志</span>
           </el-menu-item>
-          <el-menu-item index="admin" v-if="authStore.hasAnyUserPermission(['管理员', '超级管理员'])" @click="goToAdmin">
+          <el-menu-item index="admin" v-if="authStore.hasAnyUserPermission(['管理员', '超级管理员'])" @click="() => goToAdmin()">
             <el-icon><Tools /></el-icon>
             <span>系统管理</span>
           </el-menu-item>
@@ -381,13 +381,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted, computed } from 'vue';
-import { ElMessage, ElMessageBox, type FormInstance, type FormRules } from 'element-plus';
+import type { FormInstance, FormRules } from 'element-plus';
 import {
   Lock, User, ArrowDown, Setting, SwitchButton, Odometer, Grid,
   Monitor, Document, Tools, Calendar, UserFilled
 } from '@element-plus/icons-vue';
-import { useRouter } from 'vue-router';
 import { useAuthStore } from '@/stores/auth';
 import { authAPI, usersAPI, applicationsAPI } from '@/utils/api';
 import type { User as UserType, Application } from '@/utils/api';

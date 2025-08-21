@@ -88,12 +88,10 @@
 </template>
 
 <script setup lang="ts">
-import { ElMessage, ElMessageBox } from 'element-plus';
 import {
   Lock, User, ArrowDown, Setting, SwitchButton, Odometer, Grid,
   Monitor, Document, Tools
 } from '@element-plus/icons-vue';
-import { useRouter } from 'vue-router';
 import { useAuthStore } from '@/stores/auth';
 
 // 使用认证store和路由

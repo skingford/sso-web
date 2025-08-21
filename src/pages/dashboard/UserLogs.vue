@@ -247,9 +247,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted } from 'vue'
-import { ElMessage } from 'element-plus'
-import { Search, Refresh, Download, UserFilled, Link, Lock, Edit } from '@element-plus/icons-vue'
+
 
 interface UserLog {
   id: string
@@ -366,8 +364,8 @@ const getActionTypeName = (type: string) => {
 }
 
 // 获取操作类型颜色
-const getActionTypeColor = (type: string) => {
-  const colorMap: Record<string, string> = {
+const getActionTypeColor = (type: string): 'primary' | 'success' | 'warning' | 'info' | 'danger' => {
+  const colorMap: Record<string, 'primary' | 'success' | 'warning' | 'info' | 'danger'> = {
     login: 'success',
     logout: 'info',
     profile_update: 'primary',

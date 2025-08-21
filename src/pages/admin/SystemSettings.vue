@@ -604,8 +604,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted } from 'vue'
-import { ElMessage, ElMessageBox } from 'element-plus'
+import type { FormRules } from 'element-plus'
 import { 
   Plus, Monitor, Cpu, FolderOpened, Refresh, RefreshRight
 } from '@element-plus/icons-vue'
@@ -728,7 +727,7 @@ const timezones = [
 ]
 
 // 表单验证规则
-const basicRules = {
+const basicRules: FormRules = {
   systemName: [
     { required: true, message: '请输入系统名称', trigger: 'blur' },
     { min: 2, max: 50, message: '长度在 2 到 50 个字符', trigger: 'blur' }
@@ -745,7 +744,7 @@ const basicRules = {
   ]
 }
 
-const emailRules = {
+const emailRules: FormRules = {
   smtpHost: [
     { required: true, message: '请输入SMTP服务器地址', trigger: 'blur' }
   ],
@@ -911,9 +910,9 @@ const beforeLogoUpload = (file: File) => {
   return true
 }
 
-const handleLogoSuccess = (response: any, file: File) => {
+const handleLogoSuccess = (response: any, uploadFile: any, fileList: any) => {
   // 这里应该处理上传成功后的逻辑
-  basicSettings.systemLogo = URL.createObjectURL(file)
+  basicSettings.systemLogo = URL.createObjectURL(uploadFile.raw)
   ElMessage.success('Logo上传成功')
 }
 

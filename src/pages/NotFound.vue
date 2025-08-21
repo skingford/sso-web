@@ -21,9 +21,7 @@
 </template>
 
 <script setup lang="ts">
-import { ElButton, ElIcon } from 'element-plus'
 import { House, ArrowLeft } from '@element-plus/icons-vue'
-import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 
 const router = useRouter()

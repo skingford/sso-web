@@ -122,9 +122,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
-import { ElMessage } from 'element-plus'
+
 import { Grid, Monitor, User, Lock, ArrowRight, Key } from '@element-plus/icons-vue'
 import { useAuthStore } from '@/stores/auth'
 import type { Application } from '@/types/application'

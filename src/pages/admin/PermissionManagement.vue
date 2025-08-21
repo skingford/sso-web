@@ -504,8 +504,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, computed, onMounted } from 'vue'
-import { ElMessage, ElMessageBox } from 'element-plus'
+
 import { 
   UserFilled, Key, Link, Search, Download, Plus, ArrowDown, 
   Folder, Edit, Delete
@@ -899,8 +898,8 @@ const getRoleTypeLabel = (type: string) => {
   return labels[type as keyof typeof labels] || type
 }
 
-const getRoleTypeTagType = (type: string) => {
-  const types = {
+const getRoleTypeTagType = (type: string): 'primary' | 'success' | 'warning' | 'info' | 'danger' => {
+  const types: Record<string, 'primary' | 'success' | 'warning' | 'info' | 'danger'> = {
     system: 'danger',
     business: 'warning',
     custom: 'primary'

@@ -1,5 +1,3 @@
-import { ref, readonly, watchEffect, onMounted, onUnmounted, computed } from 'vue'
-
 // 主题类型定义
 export type Theme = 'light' | 'dark' | 'auto'
 export type EffectiveTheme = 'light' | 'dark'

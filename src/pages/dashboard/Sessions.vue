@@ -183,9 +183,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted } from 'vue'
-import { ElMessage, ElMessageBox } from 'element-plus'
-import { Monitor, Location, Connection, Clock } from '@element-plus/icons-vue'
+
 
 interface Session {
   id: string

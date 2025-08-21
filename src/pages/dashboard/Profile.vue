@@ -66,8 +66,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted } from 'vue'
-import { ElMessage, type FormInstance, type FormRules, type UploadProps } from 'element-plus'
+import type { FormInstance, FormRules, UploadProps } from 'element-plus'
 import { UserFilled } from '@element-plus/icons-vue'
 import { useAuthStore } from '@/stores/auth'
 

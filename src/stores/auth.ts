@@ -1,16 +1,14 @@
 import { defineStore } from 'pinia'
-import { ref, computed } from 'vue'
-import { ElMessage } from 'element-plus'
 import router from '@/router'
 import { authAPI, type User, type LoginRequest, type RegisterRequest } from '@/utils/api'
-import { 
-  parseJWT, 
-  isTokenExpired, 
-  isTokenExpiringSoon as isJWTExpiringSoon, 
-  extractUserFromToken, 
-  hasRole as jwtHasRole, 
+import {
+  parseJWT,
+  isTokenExpired,
+  isTokenExpiringSoon,
+  extractUserFromToken,
+  hasRole as jwtHasRole,
   hasAnyRole as jwtHasAnyRole,
-  tokenRefreshManager 
+  tokenRefreshManager
 } from '@/utils/jwt'
 
 export const useAuthStore = defineStore('auth', () => {
@@ -316,7 +314,6 @@ export const useAuthStore = defineStore('auth', () => {
 
   // 检查用户是否具有任一权限
   const hasAnyUserPermission = (roles: string[]): boolean => {
-    return true
     if (!accessToken.value) {
       return false;
     }
@@ -328,7 +325,7 @@ export const useAuthStore = defineStore('auth', () => {
     if (!accessToken.value) {
       return false;
     }
-    return isJWTExpiringSoon(accessToken.value);
+    return isTokenExpiringSoon(accessToken.value);
   });
 
   return {

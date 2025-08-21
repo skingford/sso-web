@@ -1,6 +1,5 @@
 import axios, { AxiosError } from 'axios';
 import type { AxiosInstance, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
-import { ElMessage } from 'element-plus';
 import router from '@/router';
 
 // 扩展InternalAxiosRequestConfig类型

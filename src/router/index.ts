@@ -1,5 +1,4 @@
 import { createRouter, createWebHashHistory, type RouteRecordRaw } from 'vue-router'
-import { ElMessage } from 'element-plus'
 import { useAuthStore } from '@/stores/auth'
 import HomePage from '@/pages/HomePage.vue'
 import LoginPage from '@/pages/LoginPage.vue'

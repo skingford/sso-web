@@ -206,8 +206,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted } from 'vue';
-import { ElMessage, ElMessageBox, type FormInstance, type FormRules } from 'element-plus';
+import type { FormInstance, FormRules } from 'element-plus';
 import { Lock, User, ChatDotRound, Link, Search } from '@element-plus/icons-vue';
 import { useAuthStore } from '@/stores/auth';
 import type { LoginRequest } from '@/utils/api';
