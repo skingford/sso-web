@@ -179,9 +179,6 @@
 
       <!-- 第三方登录 -->
       <div class="third-party-login">
-        <div class="divider">
-          <span class="divider-text">或使用第三方登录</span>
-        </div>
         
         <!-- 展开/收起按钮 -->
         <div class="third-party-toggle">
@@ -197,24 +194,22 @@
         
         <!-- 可折叠的第三方登录按钮容器 -->
         <div 
-          class="third-party-buttons-container"
+          class="third-party-buttons"
           :class="{ 'expanded': isThirdPartyExpanded }"
         >
-          <div class="third-party-buttons">
-            <button 
-              v-for="platform in visiblePlatforms"
-              :key="platform.key"
-              :class="['third-party-btn', platform.key]"
-              @click="handleThirdPartyLogin(platform.key)"
-              :disabled="thirdPartyLoading[platform.key]"
-            >
-              <div class="btn-content">
-                <i :class="platform.iconClass"></i>
-                <span v-if="!thirdPartyLoading[platform.key]">{{ platform.name }}</span>
-                <span v-else class="loading-text">登录中...</span>
-              </div>
-            </button>
-          </div>
+          <button 
+            v-for="platform in visiblePlatforms"
+            :key="platform.key"
+            :class="['third-party-btn', platform.key]"
+            @click="handleThirdPartyLogin(platform.key)"
+            :disabled="thirdPartyLoading[platform.key]"
+          >
+            <div class="btn-content">
+              <i :class="platform.iconClass"></i>
+              <span v-if="!thirdPartyLoading[platform.key]">{{ platform.name }}</span>
+              <span v-else class="loading-text">登录中...</span>
+            </div>
+          </button>
         </div>
       </div>
 
@@ -697,7 +692,7 @@ onUnmounted(() => {
 });
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .login-container {
   min-height: 100vh;
   display: flex;
@@ -906,45 +901,10 @@ onUnmounted(() => {
   transform: rotate(180deg);
 }
 
-/* 可折叠容器样式 */
-.third-party-buttons-container {
-  max-height: 0;
-  overflow: hidden;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  opacity: 0;
-  transform: translateY(-10px);
-}
-
-.third-party-buttons-container.expanded {
-  max-height: 200px;
-  opacity: 1;
-  transform: translateY(0);
-  margin-top: 8px;
-}
-
 .divider {
   position: relative;
   text-align: center;
   margin: 24px 0;
-}
-
-.divider::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, #e4e7ed, transparent);
-}
-
-.divider-text {
-  background: #fff;
-  padding: 0 16px;
-  color: #909399;
-  font-size: 13px;
-  position: relative;
-  z-index: 1;
 }
 
 .third-party-buttons {
@@ -956,6 +916,18 @@ onUnmounted(() => {
   margin-top: 20px;
   max-width: 100%;
   justify-items: center;
+  max-height: 0;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+.third-party-buttons.expanded {
+  max-height: 200px;
+  opacity: 1;
+  transform: translateY(0);
+  margin-top: 8px;
 }
 
 .third-party-btn {
@@ -1361,7 +1333,7 @@ onUnmounted(() => {
     font-size: 11px;
   }
   
-  .third-party-buttons-container.expanded {
+  .third-party-buttons.expanded {
     max-height: 150px;
   }
 }
