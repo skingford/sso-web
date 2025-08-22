@@ -46,6 +46,25 @@
             />
           </el-form-item>
 
+          <el-form-item prop="captcha">
+            <div class="captcha-input-group">
+              <el-input
+                v-model="loginForm.captcha"
+                placeholder="请输入验证码"
+                prefix-icon="Picture"
+                class="captcha-input"
+                maxlength="4"
+              />
+              <Captcha
+                ref="captchaRef"
+                :width="120"
+                :height="40"
+                @change="onCaptchaChange"
+                class="captcha-component"
+              />
+            </div>
+          </el-form-item>
+
           <el-form-item>
             <div class="login-options">
               <el-checkbox v-model="loginForm.remember_me">
@@ -127,6 +146,24 @@
             </div>
           </el-form-item>
 
+          <el-form-item prop="smsCaptcha">
+            <div class="captcha-group">
+              <el-input
+                v-model="smsForm.captcha"
+                placeholder="请输入验证码"
+                prefix-icon="Picture"
+                class="captcha-input"
+                maxlength="4"
+              />
+              <Captcha
+                ref="smsCaptchaRef"
+                @change="onSmsCaptchaChange"
+                :width="120"
+                :height="40"
+              />
+            </div>
+          </el-form-item>
+
           <el-form-item>
             <el-button
               type="primary"
@@ -152,9 +189,11 @@
 </template>
 
 <script setup lang="ts">
-import type { FormInstance, FormRules } from 'element-plus';import { Lock, User, Phone, Message } from '@element-plus/icons-vue';
+import type { FormInstance, FormRules } from 'element-plus';
+import { Lock, User, Phone, Message, Picture } from '@element-plus/icons-vue';
 import { useAuthStore } from '@/stores/auth';
 import type { LoginRequest } from '@/utils/api';
+import Captcha from '@/components/Captcha.vue';
 
 // 使用认证store
 const authStore = useAuthStore();
@@ -162,6 +201,8 @@ const authStore = useAuthStore();
 // 表单引用
 const loginFormRef = ref<FormInstance>();
 const smsFormRef = ref<FormInstance>();
+const captchaRef = ref<InstanceType<typeof Captcha>>();
+const smsCaptchaRef = ref<InstanceType<typeof Captcha>>();
 
 // 当前激活的选项卡
 const activeTab = ref('password');
@@ -174,16 +215,26 @@ const loginTabs = [
 ];
 
 // 登录表单
-const loginForm = reactive<LoginRequest>({
+const loginForm = reactive<LoginRequest & { captcha: string }>({
   username: 'admin',
   password: 'password',
   remember_me: true,
+  captcha: '',
 });
+
+// 当前验证码值
+const currentCaptcha = ref('');
+const currentSmsCaptcha = ref('');
+
+// 验证码自动刷新定时器
+let captchaTimer: NodeJS.Timeout | null = null;
+const CAPTCHA_REFRESH_INTERVAL = 5 * 60 * 1000; // 5分钟自动刷新
 
 // 短信登录表单
 const smsForm = reactive({
   phone: '',
-  code: ''
+  code: '',
+  captcha: ''
 });
 
 // 短信验证码倒计时
@@ -200,6 +251,22 @@ const loginRules: FormRules = {
     { required: true, message: '请输入密码', trigger: 'blur' },
     { min: 6, max: 50, message: '密码长度在 6 到 50 个字符', trigger: 'blur' },
   ],
+  captcha: [
+    { required: true, message: '请输入验证码', trigger: 'blur' },
+    { len: 4, message: '验证码为4位字符', trigger: 'blur' },
+    {
+      validator: (rule: any, value: string, callback: any) => {
+        if (!value) {
+          callback(new Error('请输入验证码'));
+        } else if (value.toUpperCase() !== currentCaptcha.value.toUpperCase()) {
+          callback(new Error('验证码错误'));
+        } else {
+          callback();
+        }
+      },
+      trigger: 'blur'
+    }
+  ],
 };
 
 // 短信验证规则
@@ -212,11 +279,50 @@ const smsRules: FormRules = {
     { required: true, message: '请输入验证码', trigger: 'blur' },
     { len: 6, message: '验证码为6位数字', trigger: 'blur' },
   ],
+  smsCaptcha: [
+    { required: true, message: '请输入验证码', trigger: 'blur' },
+    { len: 4, message: '验证码为4位字符', trigger: 'blur' },
+    {
+      validator: (rule: any, value: string, callback: any) => {
+        if (!value) {
+          callback(new Error('请输入验证码'));
+        } else if (value.toUpperCase() !== currentSmsCaptcha.value.toUpperCase()) {
+          callback(new Error('验证码错误'));
+        } else {
+          callback();
+        }
+      },
+      trigger: 'blur'
+    }
+  ],
 };
 
 // 切换选项卡
 const switchTab = (tabKey: string) => {
   activeTab.value = tabKey;
+};
+
+// 处理验证码变化
+const onCaptchaChange = (value: string) => {
+  currentCaptcha.value = value;
+  
+  // 清除之前的定时器
+  if (captchaTimer) {
+    clearTimeout(captchaTimer);
+  }
+  
+  // 设置新的自动刷新定时器
+  captchaTimer = setTimeout(() => {
+    if (captchaRef.value) {
+      captchaRef.value.refresh();
+      loginForm.captcha = '';
+    }
+  }, CAPTCHA_REFRESH_INTERVAL);
+};
+
+// 处理短信验证码变化
+const onSmsCaptchaChange = (value: string) => {
+  currentSmsCaptcha.value = value;
 };
 
 // 处理账密登录
@@ -226,11 +332,27 @@ const handleLogin = async () => {
   try {
     const valid = await loginFormRef.value.validate();
     if (valid) {
-       ElMessage.success('登录成功');
+      // 验证验证码
+      if (!captchaRef.value?.validate(loginForm.captcha)) {
+        ElMessage.error('验证码错误');
+        // 刷新验证码
+        captchaRef.value?.refresh();
+        loginForm.captcha = '';
+        return;
+      }
+      
+      ElMessage.success('登录成功');
       //await authStore.login(loginForm);
+      
+      // 登录成功后刷新验证码
+      captchaRef.value?.refresh();
+      loginForm.captcha = '';
     }
   } catch (error) {
     console.error('Login validation error:', error);
+    // 登录失败时刷新验证码
+    captchaRef.value?.refresh();
+    loginForm.captcha = '';
   }
 };
 
@@ -241,12 +363,28 @@ const handleSmsLogin = async () => {
   try {
     const valid = await smsFormRef.value.validate();
     if (valid) {
+      // 验证图形验证码
+      if (!smsCaptchaRef.value?.validate(smsForm.captcha)) {
+        ElMessage.error('验证码错误');
+        // 刷新验证码
+        smsCaptchaRef.value?.refresh();
+        smsForm.captcha = '';
+        return;
+      }
+      
       // 这里可以调用短信登录API
       console.log('SMS login:', smsForm);
       ElMessage.success('短信登录功能待实现');
+      
+      // 登录成功后刷新验证码
+      smsCaptchaRef.value?.refresh();
+      smsForm.captcha = '';
     }
   } catch (error) {
     console.error('SMS login validation error:', error);
+    // 登录失败时刷新验证码
+    smsCaptchaRef.value?.refresh();
+    smsForm.captcha = '';
   }
 };
 
@@ -296,6 +434,9 @@ onMounted(() => {
 onUnmounted(() => {
   if (smsTimer) {
     clearInterval(smsTimer);
+  }
+  if (captchaTimer) {
+    clearTimeout(captchaTimer);
   }
 });
 </script>
@@ -543,6 +684,36 @@ onUnmounted(() => {
   font-size: 13px;
 }
 
+/* 验证码输入框样式 */
+.captcha-input-group {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.captcha-input {
+  flex: 1;
+}
+
+.captcha-component {
+  flex-shrink: 0;
+}
+
+/* 验证码组样式（通用） */
+.captcha-group {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.captcha-group .captcha-input {
+  flex: 1;
+}
+
+.captcha-group .captcha-container {
+  flex-shrink: 0;
+}
+
 /* 短信验证码样式 */
 .sms-input-group {
   display: flex;
@@ -627,6 +798,14 @@ onUnmounted(() => {
     width: 90px;
     height: 48px;
     font-size: 13px;
+  }
+  
+  .captcha-input-group {
+    gap: 6px;
+  }
+  
+  .captcha-component {
+    width: 100px;
   }
   
   .tab-content {

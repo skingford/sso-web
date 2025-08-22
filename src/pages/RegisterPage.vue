@@ -65,6 +65,18 @@
             />
           </el-form-item>
 
+          <el-form-item prop="captcha">
+            <div class="captcha-input-group">
+              <el-input
+                v-model="emailForm.captcha"
+                placeholder="请输入验证码"
+                maxlength="4"
+                class="captcha-input"
+              />
+              <Captcha ref="emailCaptchaRef" class="captcha-image" />
+            </div>
+          </el-form-item>
+
           <el-form-item>
             <el-button
               type="primary"
@@ -141,6 +153,18 @@
             />
           </el-form-item>
 
+          <el-form-item prop="captcha">
+            <div class="captcha-input-group">
+              <el-input
+                v-model="phoneForm.captcha"
+                placeholder="请输入验证码"
+                maxlength="4"
+                class="captcha-input"
+              />
+              <Captcha ref="phoneCaptchaRef" class="captcha-image" />
+            </div>
+          </el-form-item>
+
           <el-form-item>
             <el-button
               type="primary"
@@ -181,6 +205,18 @@
             />
           </el-form-item>
 
+          <el-form-item prop="captcha">
+            <div class="captcha-input-group">
+              <el-input
+                v-model="quickForm.captcha"
+                placeholder="请输入验证码"
+                maxlength="4"
+                class="captcha-input"
+              />
+              <Captcha ref="quickCaptchaRef" class="captcha-image" />
+            </div>
+          </el-form-item>
+
           <el-form-item>
             <el-checkbox v-model="quickForm.agree">
               我同意<a href="#" class="link">用户协议</a>和<a href="#" class="link">隐私政策</a>
@@ -217,6 +253,7 @@
 import type { FormInstance, FormRules } from 'element-plus'
 import { Lock, User, Phone, Message } from '@element-plus/icons-vue'
 import { useAuthStore } from '@/stores/auth'
+import Captcha from '@/components/Captcha.vue'
 
 const router = useRouter()
 const authStore = useAuthStore()
@@ -225,6 +262,9 @@ const authStore = useAuthStore()
 const emailFormRef = ref<FormInstance>()
 const phoneFormRef = ref<FormInstance>()
 const quickFormRef = ref<FormInstance>()
+const emailCaptchaRef = ref()
+const phoneCaptchaRef = ref()
+const quickCaptchaRef = ref()
 
 // 当前激活的选项卡
 const activeTab = ref('email')
@@ -244,7 +284,8 @@ const emailForm = reactive({
   username: '',
   email: '',
   password: '',
-  confirmPassword: ''
+  confirmPassword: '',
+  captcha: ''
 })
 
 // 手机号注册表单
@@ -253,14 +294,16 @@ const phoneForm = reactive({
   code: '',
   username: '',
   password: '',
-  confirmPassword: ''
+  confirmPassword: '',
+  captcha: ''
 })
 
 // 快速注册表单
 const quickForm = reactive({
   email: '',
   password: '',
-  agree: false
+  agree: false,
+  captcha: ''
 })
 
 // 短信验证码倒计时
@@ -279,20 +322,24 @@ const emailRules: FormRules = {
   ],
   password: [
     { required: true, message: '请输入密码', trigger: 'blur' },
-    { min: 6, max: 50, message: '密码长度在 6 到 50 个字符', trigger: 'blur' }
+    { min: 6, max: 20, message: '密码长度在 6 到 20 个字符', trigger: 'blur' }
   ],
   confirmPassword: [
     { required: true, message: '请确认密码', trigger: 'blur' },
     {
-      validator: (rule, value, callback) => {
+      validator: (rule: any, value: any, callback: any) => {
         if (value !== emailForm.password) {
-          callback(new Error('两次输入的密码不一致'))
+          callback(new Error('两次输入密码不一致'))
         } else {
           callback()
         }
       },
       trigger: 'blur'
     }
+  ],
+  captcha: [
+    { required: true, message: '请输入验证码', trigger: 'blur' },
+    { min: 4, max: 4, message: '验证码为4位字符', trigger: 'blur' }
   ]
 }
 
@@ -303,7 +350,7 @@ const phoneRules: FormRules = {
     { pattern: /^1[3-9]\d{9}$/, message: '请输入正确的手机号', trigger: 'blur' }
   ],
   code: [
-    { required: true, message: '请输入验证码', trigger: 'blur' },
+    { required: true, message: '请输入短信验证码', trigger: 'blur' },
     { len: 6, message: '验证码为6位数字', trigger: 'blur' }
   ],
   username: [
@@ -312,20 +359,24 @@ const phoneRules: FormRules = {
   ],
   password: [
     { required: true, message: '请输入密码', trigger: 'blur' },
-    { min: 6, max: 50, message: '密码长度在 6 到 50 个字符', trigger: 'blur' }
+    { min: 6, max: 20, message: '密码长度在 6 到 20 个字符', trigger: 'blur' }
   ],
   confirmPassword: [
     { required: true, message: '请确认密码', trigger: 'blur' },
     {
-      validator: (rule, value, callback) => {
+      validator: (rule: any, value: any, callback: any) => {
         if (value !== phoneForm.password) {
-          callback(new Error('两次输入的密码不一致'))
+          callback(new Error('两次输入密码不一致'))
         } else {
           callback()
         }
       },
       trigger: 'blur'
     }
+  ],
+  captcha: [
+    { required: true, message: '请输入验证码', trigger: 'blur' },
+    { min: 4, max: 4, message: '验证码为4位字符', trigger: 'blur' }
   ]
 }
 
@@ -337,7 +388,11 @@ const quickRules: FormRules = {
   ],
   password: [
     { required: true, message: '请输入密码', trigger: 'blur' },
-    { min: 6, max: 50, message: '密码长度在 6 到 50 个字符', trigger: 'blur' }
+    { min: 6, max: 20, message: '密码长度在 6 到 20 个字符', trigger: 'blur' }
+  ],
+  captcha: [
+    { required: true, message: '请输入验证码', trigger: 'blur' },
+    { min: 4, max: 4, message: '验证码为4位字符', trigger: 'blur' }
   ]
 }
 
@@ -353,6 +408,14 @@ const handleEmailRegister = async () => {
   try {
     const valid = await emailFormRef.value.validate()
     if (valid) {
+      // 验证图形验证码
+      if (!emailCaptchaRef.value?.validateCaptcha(emailForm.captcha)) {
+        ElMessage.error('验证码错误，请重新输入')
+        emailCaptchaRef.value?.refreshCaptcha()
+        emailForm.captcha = ''
+        return
+      }
+      
       loading.value = true
       message.value = ''
       
@@ -362,7 +425,7 @@ const handleEmailRegister = async () => {
         password: emailForm.password
       })
       
-      ElMessage.success('注册成功！')
+      ElMessage.success('邮箱注册成功！')
       message.value = '注册成功，正在跳转到登录页面...'
       
       setTimeout(() => {
@@ -372,6 +435,9 @@ const handleEmailRegister = async () => {
   } catch (error: any) {
     console.error('邮箱注册失败:', error)
     ElMessage.error(error.message || '注册失败，请重试')
+    // 注册失败后刷新验证码
+    emailCaptchaRef.value?.refreshCaptcha()
+    emailForm.captcha = ''
   } finally {
     loading.value = false
   }
@@ -384,24 +450,36 @@ const handlePhoneRegister = async () => {
   try {
     const valid = await phoneFormRef.value.validate()
     if (valid) {
+      // 验证图形验证码
+      if (!phoneCaptchaRef.value?.validateCaptcha(phoneForm.captcha)) {
+        ElMessage.error('验证码错误，请重新输入')
+        phoneCaptchaRef.value?.refreshCaptcha()
+        phoneForm.captcha = ''
+        return
+      }
+      
       loading.value = true
       message.value = ''
       
-      // 这里可以调用手机号注册API
-      console.log('Phone register:', phoneForm)
-      ElMessage.success('手机号注册功能待实现')
+      await authStore.register({
+        username: phoneForm.username,
+        phone: phoneForm.phone,
+        password: phoneForm.password
+      })
       
-      // 模拟注册成功
+      ElMessage.success('手机号注册成功！')
+      message.value = '注册成功，正在跳转到登录页面...'
+      
       setTimeout(() => {
-        message.value = '注册成功，正在跳转到登录页面...'
-        setTimeout(() => {
-          router.push('/login')
-        }, 2000)
-      }, 1000)
+        router.push('/login')
+      }, 2000)
     }
   } catch (error: any) {
     console.error('手机号注册失败:', error)
     ElMessage.error(error.message || '注册失败，请重试')
+    // 注册失败后刷新验证码
+    phoneCaptchaRef.value?.refreshCaptcha()
+    phoneForm.captcha = ''
   } finally {
     loading.value = false
   }
@@ -419,6 +497,14 @@ const handleQuickRegister = async () => {
   try {
     const valid = await quickFormRef.value.validate()
     if (valid) {
+      // 验证图形验证码
+      if (!quickCaptchaRef.value?.validateCaptcha(quickForm.captcha)) {
+        ElMessage.error('验证码错误，请重新输入')
+        quickCaptchaRef.value?.refreshCaptcha()
+        quickForm.captcha = ''
+        return
+      }
+      
       loading.value = true
       message.value = ''
       
@@ -441,6 +527,9 @@ const handleQuickRegister = async () => {
   } catch (error: any) {
     console.error('快速注册失败:', error)
     ElMessage.error(error.message || '注册失败，请重试')
+    // 注册失败后刷新验证码
+    quickCaptchaRef.value?.refreshCaptcha()
+    quickForm.captcha = ''
   } finally {
     loading.value = false
   }
@@ -637,6 +726,30 @@ onUnmounted(() => {
   color: #ccc;
   cursor: not-allowed;
   box-shadow: none;
+}
+
+/* 验证码输入组样式 */
+.captcha-input-group {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.captcha-input {
+  flex: 1;
+}
+
+.captcha-image {
+  flex-shrink: 0;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.captcha-image:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
 }
 
 /* 登录链接 */
