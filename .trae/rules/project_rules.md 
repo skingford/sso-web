@@ -124,6 +124,7 @@
 - 默认使用Pinia替代Vuex
 - 默认移除未使用的导入
 - 默认使用vite
+- 禁用EasySass编译scss,直接在项目中使用scss语法
 - vue、vue-router、element-plus、pinia默认使用vite插件按需导入
 * Use Vue 3 Composition API instead of Vue 2 Options API.
 * Use Vue 3 Teleport instead of Vue 2 Portal.

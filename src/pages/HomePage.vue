@@ -1,7 +1,6 @@
 <template>
   <div class="home-container" ref="containerRef" @mousemove="handleMouseMove">
-    <!-- 加载动画 -->
-    <LoadingAnimation @finished="onLoadingFinished" />
+    <!-- 移除加载动画，让页面立即显示 -->
     <!-- 粒子背景 -->
     <div class="particles-container" ref="particlesRef"></div>
 
@@ -27,7 +26,7 @@
 
     <!-- 主要内容区域 -->
     <main class="home-main">
-      <section id="hero" class="hero-section" ref="heroRef">
+      <section id="hero" class="hero-section" ref="heroRef" :class="{ 'content-visible': isContentVisible }">
         <div class="hero-background">
           <div class="floating-shapes">
             <div class="shape shape-1"></div>
@@ -334,23 +333,14 @@
 
 
 <script setup lang="ts">
-import { ref, reactive, onMounted, watchEffect, nextTick } from 'vue'
+import { ref, reactive, onMounted, onUnmounted, watchEffect, nextTick } from 'vue'
 import { useRouter } from 'vue-router'
 import { throttle } from 'lodash-es'
-import LoadingAnimation from '@/components/LoadingAnimation.vue'
+// 移除LoadingAnimation组件的引入
 import { Lock, Grid, Monitor, Setting, TrendCharts, Connection, DataAnalysis } from '@element-plus/icons-vue'
 
 
-const throttle = (func: Function, limit: number) => {
-  let inThrottle: boolean
-  return function executedFunction(this: any, ...args: any[]) {
-    if (!inThrottle) {
-      func.apply(this, args)
-      inThrottle = true
-      setTimeout(() => inThrottle = false, limit)
-    }
-  }
-}
+// 使用lodash-es的throttle函数
 
 const router = useRouter()
 
@@ -367,7 +357,7 @@ const isScrolled = ref(false)
 const showCursor = ref(true)
 
 // 滚动监听
-const handleScroll = () => {
+const handleScrollRaw = () => {
   const scrollTop = window.pageYOffset || document.documentElement.scrollTop
   const scrollHeight = document.documentElement.scrollHeight - window.innerHeight
 
@@ -383,6 +373,9 @@ const handleScroll = () => {
     heroGraphicRef.value.style.transform = `translateY(${scrollTop * parallaxSpeed}px)`
   }
 }
+
+// 使用throttle包装滚动处理函数
+const handleScroll = throttle(handleScrollRaw, 16)
 
 // 鼠标跟随效果
 const handleMouseMove = (e: MouseEvent) => {
@@ -460,11 +453,8 @@ const scrollToFeatures = () => {
   }
 }
 
-// 加载完成回调
-const onLoadingFinished = () => {
-  // 加载动画完成后的处理逻辑
-  console.log('Loading finished')
-}
+// 页面内容显示状态 - 立即显示内容
+const isContentVisible = ref(true)
 
 // Intersection Observer 用于动画触发
 const setupIntersectionObserver = () => {
@@ -513,11 +503,26 @@ const setupIntersectionObserver = () => {
   if (ctaSection) observer.observe(ctaSection)
 }
 
-// 组件挂载时设置观察器
+// 组件挂载时设置观察器和事件监听
 onMounted(() => {
+  // 添加滚动监听
+  window.addEventListener('scroll', handleScroll, { passive: true })
+  window.addEventListener('resize', checkDevice, { passive: true })
+  
+  // 初始化滚动状态和设备检测
+  handleScrollRaw()
+  checkDevice()
+  
+  // 设置 Intersection Observer
   nextTick(() => {
     setupIntersectionObserver()
   })
+})
+
+// 组件卸载时清理事件监听器
+onUnmounted(() => {
+  window.removeEventListener('scroll', handleScroll)
+  window.removeEventListener('resize', checkDevice)
 })
 
 </script>
@@ -530,6 +535,24 @@ onMounted(() => {
   position: relative;
   overflow: hidden;
   will-change: transform;
+  /* 确保背景色覆盖整个容器，防止白屏 */
+  background-color: var(--color-bg-base);
+  /* 添加渐变背景作为装饰层 */
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    z-index: 0;
+  }
+  /* 确保内容在背景之上 */
+  > * {
+    position: relative;
+    z-index: 1;
+  }
 }
 
 
@@ -815,6 +838,31 @@ onMounted(() => {
   padding: 128px 64px 96px;
   position: relative;
   overflow: hidden;
+  
+  // 初始状态：隐藏内容
+  .hero-content,
+  .hero-visual {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  // 内容可见状态：显示内容
+  &.content-visible {
+    .hero-content,
+    .hero-visual {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    .hero-content {
+      transition-delay: 0.1s;
+    }
+    
+    .hero-visual {
+      transition-delay: 0.2s;
+    }
+  }
 
   .hero-background {
     position: absolute;

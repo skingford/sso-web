@@ -11,14 +11,16 @@ html, body {
   padding: 0;
   height: 100%;
   overflow-x: hidden;
+  // 防止白屏的全局背景保护
+  background-color: var(--color-bg-base, #ffffff) !important;
 }
 
 body {
-  font-family: var(--font-family-base);
-  line-height: var(--line-height-base);
-  font-weight: var(--font-weight-normal);
-  color: var(--color-text-primary);
-  background-color: var(--color-bg-base);
+  font-family: var(--font-family-base, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif);
+  line-height: var(--line-height-base, 1.6);
+  font-weight: var(--font-weight-normal, 400);
+  color: var(--color-text-primary, #111827);
+  background-color: var(--color-bg-base, #ffffff) !important;
   // 优化字体渲染，解决模糊问题
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -26,11 +28,17 @@ body {
   font-feature-settings: "liga" 1, "kern" 1;
   // 确保文字清晰
   image-rendering: -webkit-optimize-contrast;
+  // 确保过渡期间背景色连续性
+  transition: background-color 0.2s ease;
 }
 
 #app {
   height: 100%;
   overflow-x: hidden;
+  // 应用级别的背景保护
+  background-color: var(--color-bg-base, #ffffff) !important;
+  // 确保应用容器始终有背景
+  min-height: 100vh;
 }
 
 :root {

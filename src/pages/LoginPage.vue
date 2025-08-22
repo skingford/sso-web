@@ -308,6 +308,25 @@ onUnmounted(() => {
   justify-content: center;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   padding: 20px;
+  /* 确保背景色覆盖整个容器，防止白屏 */
+  background-color: var(--color-bg-base);
+  position: relative;
+  /* 添加渐变背景作为装饰层 */
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    z-index: 0;
+  }
+  /* 确保内容在背景之上 */
+  > * {
+    position: relative;
+    z-index: 1;
+  }
 }
 
 .login-card {
