@@ -177,6 +177,47 @@
         </el-form>
       </div>
 
+      <!-- 第三方登录 -->
+      <div class="third-party-login">
+        <div class="divider">
+          <span class="divider-text">或使用第三方登录</span>
+        </div>
+        
+        <!-- 展开/收起按钮 -->
+        <div class="third-party-toggle">
+          <button 
+            class="toggle-btn"
+            @click="toggleThirdPartyExpanded"
+            :class="{ 'expanded': isThirdPartyExpanded }"
+          >
+            <span>{{ isThirdPartyExpanded ? '收起登录方式' : '更多登录方式' }}</span>
+            <i class="toggle-icon" :class="isThirdPartyExpanded ? 'el-icon-arrow-up' : 'el-icon-arrow-down'"></i>
+          </button>
+        </div>
+        
+        <!-- 可折叠的第三方登录按钮容器 -->
+        <div 
+          class="third-party-buttons-container"
+          :class="{ 'expanded': isThirdPartyExpanded }"
+        >
+          <div class="third-party-buttons">
+            <button 
+              v-for="platform in visiblePlatforms"
+              :key="platform.key"
+              :class="['third-party-btn', platform.key]"
+              @click="handleThirdPartyLogin(platform.key)"
+              :disabled="thirdPartyLoading[platform.key]"
+            >
+              <div class="btn-content">
+                <i :class="platform.iconClass"></i>
+                <span v-if="!thirdPartyLoading[platform.key]">{{ platform.name }}</span>
+                <span v-else class="loading-text">登录中...</span>
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+
       <!-- 注册链接 -->
       <div class="register-link">
         <span>还没有账号？</span>
@@ -240,6 +281,104 @@ const smsForm = reactive({
 // 短信验证码倒计时
 const smsCountdown = ref(0);
 let smsTimer: NodeJS.Timeout | null = null;
+
+// 第三方登录平台配置
+interface ThirdPartyPlatform {
+  key: string;
+  name: string;
+  iconClass: string;
+  color: string;
+  authUrl: string;
+  enabled: boolean;
+}
+
+const thirdPartyPlatforms: ThirdPartyPlatform[] = [
+  {
+    key: 'wechat',
+    name: '微信',
+    iconClass: 'icon-wechat',
+    color: '#07c160',
+    authUrl: 'https://open.weixin.qq.com/connect/qrconnect',
+    enabled: true
+  },
+  {
+    key: 'qq',
+    name: 'QQ',
+    iconClass: 'icon-qq',
+    color: '#12b7f5',
+    authUrl: 'https://graph.qq.com/oauth2.0/authorize',
+    enabled: true
+  },
+  {
+    key: 'alipay',
+    name: '支付宝',
+    iconClass: 'icon-alipay',
+    color: '#1677ff',
+    authUrl: 'https://openauth.alipay.com/oauth2/publicAppAuthorize.htm',
+    enabled: true
+  },
+  {
+    key: 'douyin',
+    name: '抖音',
+    iconClass: 'icon-douyin',
+    color: '#fe2c55',
+    authUrl: 'https://open.douyin.com/platform/oauth/connect',
+    enabled: true
+  },
+  {
+    key: 'dingtalk',
+    name: '钉钉',
+    iconClass: 'icon-dingtalk',
+    color: '#0089ff',
+    authUrl: 'https://oapi.dingtalk.com/connect/oauth2/sns_authorize',
+    enabled: true
+  },
+  {
+    key: 'github',
+    name: 'GitHub',
+    iconClass: 'icon-github',
+    color: '#24292f',
+    authUrl: 'https://github.com/login/oauth/authorize',
+    enabled: true
+  },
+  {
+    key: 'google',
+    name: 'Google',
+    iconClass: 'icon-google',
+    color: '#4285f4',
+    authUrl: 'https://accounts.google.com/oauth2/v2/auth',
+    enabled: true
+  },
+  {
+    key: 'microsoft',
+    name: 'Microsoft',
+    iconClass: 'icon-microsoft',
+    color: '#00a1f1',
+    authUrl: 'https://login.microsoftonline.com/common/oauth2/v2.0/authorize',
+    enabled: false
+  }
+];
+
+// 可见的第三方登录平台（只显示启用的平台）
+const visiblePlatforms = computed(() => 
+  thirdPartyPlatforms.filter(platform => platform.enabled)
+);
+
+// 第三方登录展开/收起状态
+const isThirdPartyExpanded = ref(false);
+
+// 切换第三方登录展开状态
+const toggleThirdPartyExpanded = () => {
+  isThirdPartyExpanded.value = !isThirdPartyExpanded.value;
+};
+
+// 第三方登录状态（动态生成）
+const thirdPartyLoading = ref(
+  thirdPartyPlatforms.reduce((acc, platform) => {
+    acc[platform.key] = false;
+    return acc;
+  }, {} as Record<string, boolean>)
+);
 
 // 表单验证规则
 const loginRules: FormRules = {
@@ -422,6 +561,123 @@ const refreshQRCode = () => {
   ElMessage.success('二维码已刷新');
 };
 
+// 第三方登录处理
+const handleThirdPartyLogin = async (platformKey: string) => {
+  try {
+    // 查找平台配置
+    const platform = thirdPartyPlatforms.find(p => p.key === platformKey)
+    if (!platform || !platform.enabled) {
+      ElMessage.error('该登录方式暂不可用')
+      return
+    }
+    
+    thirdPartyLoading.value[platformKey] = true
+    
+    // 根据平台生成OAuth授权URL
+    const redirectUri = encodeURIComponent(window.location.origin + '/auth/callback')
+    let authUrl = ''
+    
+    switch (platformKey) {
+      case 'wechat':
+        authUrl = `${platform.authUrl}?appid=YOUR_WECHAT_APPID&redirect_uri=${redirectUri}&response_type=code&scope=snsapi_login&state=${platformKey}#wechat_redirect`
+        break
+      case 'qq':
+        authUrl = `${platform.authUrl}?client_id=YOUR_QQ_APPID&redirect_uri=${redirectUri}&response_type=code&scope=get_user_info&state=${platformKey}`
+        break
+      case 'alipay':
+        authUrl = `${platform.authUrl}?app_id=YOUR_ALIPAY_APPID&redirect_uri=${redirectUri}&scope=auth_user&state=${platformKey}`
+        break
+      case 'douyin':
+        authUrl = `${platform.authUrl}?client_key=YOUR_DOUYIN_CLIENT_KEY&response_type=code&scope=user_info&redirect_uri=${redirectUri}&state=${platformKey}`
+        break
+      case 'dingtalk':
+        authUrl = `${platform.authUrl}?appid=YOUR_DINGTALK_APPID&response_type=code&scope=snsapi_auth&redirect_uri=${redirectUri}&state=${platformKey}`
+        break
+      case 'github':
+        authUrl = `${platform.authUrl}?client_id=YOUR_GITHUB_CLIENT_ID&redirect_uri=${redirectUri}&scope=user:email&state=${platformKey}`
+        break
+      case 'google':
+        authUrl = `${platform.authUrl}?client_id=YOUR_GOOGLE_CLIENT_ID&redirect_uri=${redirectUri}&response_type=code&scope=openid%20email%20profile&state=${platformKey}`
+        break
+      case 'microsoft':
+        authUrl = `${platform.authUrl}?client_id=YOUR_MICROSOFT_CLIENT_ID&redirect_uri=${redirectUri}&response_type=code&scope=openid%20email%20profile&state=${platformKey}`
+        break
+      default:
+        ElMessage.error(`暂不支持${platform.name}登录`)
+        thirdPartyLoading.value[platformKey] = false
+        return
+    }
+    
+    // 打开新窗口进行OAuth授权
+    const popup = window.open(
+      authUrl,
+      `${platformKey}_login`,
+      'width=500,height=600,scrollbars=yes,resizable=yes'
+    )
+    
+    // 监听授权回调
+    const checkClosed = setInterval(() => {
+      if (popup?.closed) {
+        clearInterval(checkClosed)
+        thirdPartyLoading.value[platformKey] = false
+      }
+    }, 1000)
+    
+    // 监听来自弹窗的消息
+    const messageHandler = (event: MessageEvent) => {
+      if (event.origin !== window.location.origin) return
+      
+      if (event.data.type === 'THIRD_PARTY_LOGIN_SUCCESS') {
+        const { platform: loginPlatform, userInfo } = event.data
+        if (loginPlatform === platformKey) {
+          popup?.close()
+          clearInterval(checkClosed)
+          window.removeEventListener('message', messageHandler)
+          
+          // 处理登录成功
+          handleThirdPartyLoginSuccess(platformKey, userInfo)
+        }
+      } else if (event.data.type === 'THIRD_PARTY_LOGIN_ERROR') {
+        const { platform: loginPlatform, error } = event.data
+        if (loginPlatform === platformKey) {
+          popup?.close()
+          clearInterval(checkClosed)
+          window.removeEventListener('message', messageHandler)
+          
+          // 处理登录失败
+          handleThirdPartyLoginError(platformKey, error)
+        }
+      }
+    }
+    
+    window.addEventListener('message', messageHandler)
+    
+  } catch (error) {
+    console.error(`${platform.name}登录失败:`, error)
+    ElMessage.error(`${platform.name}登录失败，请重试`)
+    thirdPartyLoading.value[platformKey] = false
+  }
+}
+
+// 第三方登录成功处理
+const handleThirdPartyLoginSuccess = (platform: string, userInfo: any) => {
+  console.log(`${platform}登录成功:`, userInfo)
+  ElMessage.success(`${platform}登录成功！`)
+  
+  // 这里应该调用后端API保存用户信息并生成token
+  // 然后跳转到主页
+  router.push('/dashboard')
+  
+  thirdPartyLoading.value[platform as keyof typeof thirdPartyLoading.value] = false
+}
+
+// 第三方登录失败处理
+const handleThirdPartyLoginError = (platform: string, error: any) => {
+  console.error(`${platform}登录失败:`, error)
+  ElMessage.error(`${platform}登录失败：${error.message || '未知错误'}`)
+  thirdPartyLoading.value[platform as keyof typeof thirdPartyLoading.value] = false
+}
+
 // 组件挂载时检查是否已登录
 onMounted(() => {
   if (authStore.isAuthenticated) {
@@ -601,21 +857,289 @@ onUnmounted(() => {
 
 
 
+/* 第三方登录样式 */
+.third-party-login {
+  margin-top: 32px;
+}
+
+/* 第三方登录展开/收起按钮 */
+.third-party-toggle {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.toggle-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 20px;
+  color: #6c757d;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.toggle-btn:hover {
+  background: #e9ecef;
+  border-color: #dee2e6;
+  color: #495057;
+}
+
+.toggle-btn.expanded {
+  background: #e3f2fd;
+  border-color: #2196f3;
+  color: #1976d2;
+}
+
+.toggle-icon {
+  font-size: 12px;
+  transition: transform 0.3s ease;
+}
+
+.toggle-btn.expanded .toggle-icon {
+  transform: rotate(180deg);
+}
+
+/* 可折叠容器样式 */
+.third-party-buttons-container {
+  max-height: 0;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+.third-party-buttons-container.expanded {
+  max-height: 200px;
+  opacity: 1;
+  transform: translateY(0);
+  margin-top: 8px;
+}
+
+.divider {
+  position: relative;
+  text-align: center;
+  margin: 24px 0;
+}
+
+.divider::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #e4e7ed, transparent);
+}
+
+.divider-text {
+  background: #fff;
+  padding: 0 16px;
+  color: #909399;
+  font-size: 13px;
+  position: relative;
+  z-index: 1;
+}
+
+.third-party-buttons {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+  gap: 12px;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  max-width: 100%;
+  justify-items: center;
+}
+
+.third-party-btn {
+  width: 80px;
+  height: 48px;
+  border: 1px solid #e4e7ed;
+  border-radius: 8px;
+  background: #fff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.third-party-btn:hover:not(:disabled) {
+  border-color: #409eff;
+  box-shadow: 0 2px 8px rgba(64, 158, 255, 0.1);
+  transform: translateY(-1px);
+}
+
+.third-party-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  gap: 2px;
+  text-align: center;
+}
+
+.third-party-btn i {
+  font-size: 20px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.third-party-btn span {
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading-text {
+  color: #409eff;
+}
+
+/* 平台特定颜色 */
+.third-party-btn.wechat:hover:not(:disabled) {
+  border-color: #07c160;
+  box-shadow: 0 2px 8px rgba(7, 193, 96, 0.1);
+}
+
+.third-party-btn.wechat .icon-wechat {
+  color: #07c160;
+}
+
+.third-party-btn.qq:hover:not(:disabled) {
+  border-color: #12b7f5;
+  box-shadow: 0 2px 8px rgba(18, 183, 245, 0.1);
+}
+
+.third-party-btn.qq .icon-qq {
+  color: #12b7f5;
+}
+
+.third-party-btn.alipay:hover:not(:disabled) {
+  border-color: #1677ff;
+  box-shadow: 0 2px 8px rgba(22, 119, 255, 0.1);
+}
+
+.third-party-btn.alipay .icon-alipay {
+  color: #1677ff;
+}
+
+.third-party-btn.douyin:hover:not(:disabled) {
+  border-color: #fe2c55;
+  box-shadow: 0 2px 8px rgba(254, 44, 85, 0.1);
+}
+
+.third-party-btn.douyin .icon-douyin {
+  color: #fe2c55;
+}
+
+.third-party-btn.dingtalk:hover:not(:disabled) {
+  border-color: #0089ff;
+  box-shadow: 0 2px 8px rgba(0, 137, 255, 0.1);
+}
+
+.third-party-btn.dingtalk .icon-dingtalk {
+  color: #0089ff;
+}
+
+.third-party-btn.github:hover:not(:disabled) {
+  border-color: #24292f;
+  box-shadow: 0 2px 8px rgba(36, 41, 47, 0.1);
+}
+
+.third-party-btn.github .icon-github {
+  color: #24292f;
+}
+
+.third-party-btn.google:hover:not(:disabled) {
+  border-color: #4285f4;
+  box-shadow: 0 2px 8px rgba(66, 133, 244, 0.1);
+}
+
+.third-party-btn.google .icon-google {
+  color: #4285f4;
+}
+
+.third-party-btn.microsoft:hover:not(:disabled) {
+  border-color: #00a1f1;
+  box-shadow: 0 2px 8px rgba(0, 161, 241, 0.1);
+}
+
+.third-party-btn.microsoft .icon-microsoft {
+  color: #00a1f1;
+}
+
+/* 图标字体 */
+.icon-wechat::before {
+  content: '\e7eb';
+}
+
+.icon-qq::before {
+  content: '\e7ee';
+}
+
+.icon-alipay::before {
+  content: '\e7ef';
+}
+
+.icon-douyin::before {
+  content: '\e7ec';
+}
+
+.icon-dingtalk::before {
+  content: '\e7ed';
+}
+
+.icon-github::before {
+  content: '\e7f0';
+}
+
+.icon-google::before {
+  content: '\e7f1';
+}
+
+.icon-microsoft::before {
+  content: '\e7f2';
+}
+
+/* 注册链接样式 */
 .register-link {
   text-align: center;
-  font-size: 14px;
+  margin-top: 24px;
   color: #666;
-  margin-top: 16px;
+  font-size: 14px;
 }
 
-.register-link a {
-  color: #667eea;
+.register-btn {
+  color: #409eff;
   text-decoration: none;
+  margin-left: 8px;
   font-weight: 500;
-  margin: 0 8px;
+  transition: color 0.3s ease;
 }
 
-.register-link a:hover {
+.register-btn:hover {
+  color: #66b1ff;
   text-decoration: underline;
 }
 
@@ -810,6 +1334,35 @@ onUnmounted(() => {
   
   .tab-content {
     min-height: 180px;
+  }
+  
+  /* 第三方登录响应式优化 */
+  .toggle-btn {
+    padding: 6px 12px;
+    font-size: 13px;
+    gap: 6px;
+  }
+  
+  .third-party-buttons {
+    grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+    gap: 8px;
+  }
+  
+  .third-party-btn {
+    width: 70px;
+    height: 44px;
+  }
+  
+  .third-party-btn i {
+    font-size: 18px;
+  }
+  
+  .third-party-btn span {
+    font-size: 11px;
+  }
+  
+  .third-party-buttons-container.expanded {
+    max-height: 150px;
   }
 }
 
