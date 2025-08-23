@@ -531,12 +531,10 @@ onUnmounted(() => {
 // 主容器样式
 .home-container {
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
   position: relative;
   overflow: hidden;
   will-change: transform;
-  /* 确保背景色覆盖整个容器，防止白屏 */
-  background-color: var(--color-bg-base);
   /* 添加渐变背景作为装饰层 */
   &::before {
     content: '';
@@ -545,7 +543,7 @@ onUnmounted(() => {
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
     z-index: 0;
   }
   /* 确保内容在背景之上 */
@@ -838,6 +836,11 @@ onUnmounted(() => {
   padding: 128px 64px 96px;
   position: relative;
   overflow: hidden;
+  // 添加渐变背景，修复全白背景问题
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+  // 确保背景覆盖整个区域
+  background-size: 100% 100%;
+  background-attachment: fixed;
   
   // 初始状态：隐藏内容
   .hero-content,
@@ -1151,7 +1154,7 @@ onUnmounted(() => {
 // 特性介绍区域
 .features-section {
   padding: 8rem 2rem;
-  background: rgba(255, 255, 255, 0.05);
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.15) 0%, rgba(118, 75, 162, 0.15) 100%) !important;
   backdrop-filter: blur(10px);
   position: relative;
   overflow: hidden;
@@ -1160,7 +1163,7 @@ onUnmounted(() => {
   // 分屏动画效果
   &.section-entering {
     transform: scale(1.02);
-    background: rgba(255, 255, 255, 0.08);
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%);
   }
 
   &.in-viewport {
@@ -1361,7 +1364,7 @@ onUnmounted(() => {
 // 应用场景区域
 .scenarios-section {
   padding: 8rem 2rem;
-  background: rgba(0, 0, 0, 0.1);
+  background: linear-gradient(135deg, rgba(118, 75, 162, 0.12) 0%, rgba(102, 126, 234, 0.12) 100%) !important;
   position: relative;
   overflow: hidden;
   transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
@@ -1369,7 +1372,7 @@ onUnmounted(() => {
   // 分屏动画效果
   &.section-entering {
     transform: scale(1.02);
-    background: rgba(0, 0, 0, 0.15);
+    background: linear-gradient(135deg, rgba(118, 75, 162, 0.18) 0%, rgba(102, 126, 234, 0.18) 100%);
   }
 
   &.in-viewport {
@@ -1678,7 +1681,7 @@ onUnmounted(() => {
 // 客户案例区域样式
 .testimonials-section {
   padding: 8rem 2rem;
-  background: linear-gradient(135deg, rgba(103, 194, 58, 0.1) 0%, rgba(64, 158, 255, 0.1) 100%);
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%) !important;
   position: relative;
   overflow: hidden;
   transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
@@ -1686,7 +1689,7 @@ onUnmounted(() => {
   // 分屏动画效果
   &.section-entering {
     transform: scale(1.02);
-    background: linear-gradient(135deg, rgba(103, 194, 58, 0.15) 0%, rgba(64, 158, 255, 0.15) 100%);
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.15) 0%, rgba(118, 75, 162, 0.15) 100%);
   }
 
   .testimonials-grid {
@@ -1820,7 +1823,7 @@ onUnmounted(() => {
 // CTA区域样式
 .cta-section {
   padding: 6rem 2rem;
-  background: rgba(64, 158, 255, 0.1);
+  background: linear-gradient(135deg, rgba(64, 158, 255, 0.15) 0%, rgba(103, 194, 58, 0.15) 100%) !important;
   position: relative;
   overflow: hidden;
 
