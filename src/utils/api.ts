@@ -124,11 +124,14 @@ export interface LoginRequest {
   username: string;
   password: string;
   remember_me?: boolean;
+  captcha_id?: string;
+  captcha_answer?: string;
 }
 
 export interface RegisterRequest {
   username: string;
-  email: string;
+  email?: string;
+  phone?: string;
   password: string;
   display_name?: string;
 }
@@ -242,6 +245,16 @@ export const authAPI = {
   // 获取当前用户信息
   getCurrentUser: (): Promise<AxiosResponse<{ success: boolean; user: User }>> => {
     return api.get('/auth/me');
+  },
+  
+  // 获取数学验证码
+  getCaptcha: (): Promise<AxiosResponse<{ success: boolean; captcha_id: string; expression: string }>> => {
+    return api.get('/auth/captcha');
+  },
+  
+  // 验证验证码
+  verifyCaptcha: (data: { captcha_id: string; captcha_answer: string }): Promise<AxiosResponse<{ success: boolean; message: string }>> => {
+    return api.post('/auth/verify-captcha', data);
   },
 };
 

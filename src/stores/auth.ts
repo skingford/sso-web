@@ -50,9 +50,10 @@ export const useAuthStore = defineStore('auth', () => {
   // 用户注册
   const register = async (registerData: {
     username: string;
-    email: string;
+    email?: string;
     password: string;
     display_name?: string;
+    phone?: string;
   }) => {
     try {
       isLoading.value = true;

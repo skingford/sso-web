@@ -46,20 +46,17 @@
             />
           </el-form-item>
 
-          <el-form-item prop="captcha">
+          <el-form-item prop="captcha_answer">
             <div class="captcha-input-group">
-              <el-input
-                v-model="loginForm.captcha"
-                placeholder="请输入验证码"
+              <!-- <el-input
+                v-model="loginForm.captcha_answer"
+                placeholder="请输入计算结果"
                 prefix-icon="Picture"
                 class="captcha-input"
-                maxlength="4"
-              />
-              <Captcha
+                maxlength="10"
+              /> -->
+              <MathCaptcha
                 ref="captchaRef"
-                :width="120"
-                :height="40"
-                @change="onCaptchaChange"
                 class="captcha-component"
               />
             </div>
@@ -230,6 +227,10 @@ import { Lock, User, Phone, Message, Picture } from '@element-plus/icons-vue';
 import { useAuthStore } from '@/stores/auth';
 import type { LoginRequest } from '@/utils/api';
 import Captcha from '@/components/Captcha.vue';
+import MathCaptcha from '@/components/MathCaptcha.vue';
+
+// 路由
+const router = useRouter();
 
 // 使用认证store
 const authStore = useAuthStore();
@@ -237,7 +238,7 @@ const authStore = useAuthStore();
 // 表单引用
 const loginFormRef = ref<FormInstance>();
 const smsFormRef = ref<FormInstance>();
-const captchaRef = ref<InstanceType<typeof Captcha>>();
+const captchaRef = ref<InstanceType<typeof MathCaptcha>>();
 const smsCaptchaRef = ref<InstanceType<typeof Captcha>>();
 
 // 当前激活的选项卡
@@ -251,11 +252,12 @@ const loginTabs = [
 ];
 
 // 登录表单
-const loginForm = reactive<LoginRequest & { captcha: string }>({
+const loginForm = reactive<LoginRequest & { captcha_id: string; captcha_answer: string }>({
   username: 'admin',
   password: 'password',
   remember_me: true,
-  captcha: '',
+  captcha_id: '',
+  captcha_answer: '',
 });
 
 // 当前验证码值
@@ -385,21 +387,9 @@ const loginRules: FormRules = {
     { required: true, message: '请输入密码', trigger: 'blur' },
     { min: 6, max: 50, message: '密码长度在 6 到 50 个字符', trigger: 'blur' },
   ],
-  captcha: [
-    { required: true, message: '请输入验证码', trigger: 'blur' },
-    { len: 4, message: '验证码为4位字符', trigger: 'blur' },
-    {
-      validator: (rule: any, value: string, callback: any) => {
-        if (!value) {
-          callback(new Error('请输入验证码'));
-        } else if (value.toUpperCase() !== currentCaptcha.value.toUpperCase()) {
-          callback(new Error('验证码错误'));
-        } else {
-          callback();
-        }
-      },
-      trigger: 'blur'
-    }
+  captcha_answer: [
+    { required: true, message: '请输入计算结果', trigger: 'blur' },
+    { pattern: /^\d+$/, message: '请输入数字', trigger: 'blur' },
   ],
 };
 
@@ -436,22 +426,9 @@ const switchTab = (tabKey: string) => {
   activeTab.value = tabKey;
 };
 
-// 处理验证码变化
+// 处理验证码变化（MathCaptcha不需要此函数，但保留以防其他地方使用）
 const onCaptchaChange = (value: string) => {
   currentCaptcha.value = value;
-  
-  // 清除之前的定时器
-  if (captchaTimer) {
-    clearTimeout(captchaTimer);
-  }
-  
-  // 设置新的自动刷新定时器
-  captchaTimer = setTimeout(() => {
-    if (captchaRef.value) {
-      captchaRef.value.refresh();
-      loginForm.captcha = '';
-    }
-  }, CAPTCHA_REFRESH_INTERVAL);
 };
 
 // 处理短信验证码变化
@@ -466,27 +443,41 @@ const handleLogin = async () => {
   try {
     const valid = await loginFormRef.value.validate();
     if (valid) {
-      // 验证验证码
-      if (!captchaRef.value?.validate(loginForm.captcha)) {
-        ElMessage.error('验证码错误');
-        // 刷新验证码
-        captchaRef.value?.refresh();
-        loginForm.captcha = '';
+      // 获取验证码数据
+      const captchaData = captchaRef.value?.getCaptchaData();
+      if (!captchaData) {
+        ElMessage.error('请先获取验证码');
         return;
       }
       
+      // 设置验证码ID
+      loginForm.captcha_id = captchaData.captchaId;
+      
+      // 验证验证码答案
+      if (!captchaRef.value?.validate()) {
+        ElMessage.error('计算结果错误');
+        // 刷新验证码
+        captchaRef.value?.refresh();
+        loginForm.captcha_answer = '';
+        return;
+      }
+      
+      // 调用登录API
+      await authStore.login(loginForm);
       ElMessage.success('登录成功');
-      //await authStore.login(loginForm);
       
       // 登录成功后刷新验证码
       captchaRef.value?.refresh();
-      loginForm.captcha = '';
+      loginForm.captcha_answer = '';
+      loginForm.captcha_id = '';
     }
   } catch (error) {
     console.error('Login validation error:', error);
+    ElMessage.error('登录失败，请重试');
     // 登录失败时刷新验证码
     captchaRef.value?.refresh();
-    loginForm.captcha = '';
+    loginForm.captcha_answer = '';
+    loginForm.captcha_id = '';
   }
 };
 
@@ -648,8 +639,9 @@ const handleThirdPartyLogin = async (platformKey: string) => {
     window.addEventListener('message', messageHandler)
     
   } catch (error) {
-    console.error(`${platform.name}登录失败:`, error)
-    ElMessage.error(`${platform.name}登录失败，请重试`)
+    const platformName = thirdPartyPlatforms.find(p => p.key === platformKey)?.name || platformKey
+    console.error(`${platformName}登录失败:`, error)
+    ElMessage.error(`${platformName}登录失败，请重试`)
     thirdPartyLoading.value[platformKey] = false
   }
 }

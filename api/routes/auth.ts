@@ -36,6 +36,9 @@ const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
 const JWT_EXPIRES_IN = '24h';
 const REFRESH_TOKEN_EXPIRES_IN = '7d';
 
+// 验证码存储（生产环境应使用Redis等缓存）
+const captchaStore = new Map<string, { answer: string; expires: number }>();
+
 // 生成JWT令牌
 const generateTokens = (user: any) => {
   const payload = {
@@ -51,16 +54,145 @@ const generateTokens = (user: any) => {
   return { accessToken, refreshToken };
 };
 
+// 生成随机数学表达式
+const generateMathExpression = () => {
+  const num1 = Math.floor(Math.random() * 9) + 1; // 1-9
+  const num2 = Math.floor(Math.random() * 9) + 1; // 1-9
+  const expression = `${num1} + ${num2}`;
+  const answer = num1 + num2;
+  return { expression, answer: answer.toString() };
+};
+
+// 生成数学验证码
+router.get('/captcha', (req, res) => {
+  try {
+    // 生成数学表达式
+    const { expression, answer } = generateMathExpression();
+    
+    // 生成唯一ID
+    const captchaId = Date.now().toString() + Math.random().toString(36).substr(2, 9);
+    
+    // 存储验证码答案（5分钟过期）
+    captchaStore.set(captchaId, {
+      answer: answer,
+      expires: Date.now() + 5 * 60 * 1000
+    });
+    
+    // 清理过期的验证码
+    const now = Date.now();
+    for (const [key, value] of captchaStore.entries()) {
+      if (value.expires < now) {
+        captchaStore.delete(key);
+      }
+    }
+    
+    res.json({
+      success: true,
+      captcha_id: captchaId,
+      expression: expression,
+      answer: answer // 仅用于开发调试，生产环境应移除
+    });
+  } catch (error) {
+    console.error('Captcha generation error:', error);
+    res.status(500).json({
+      success: false,
+      message: '验证码生成失败'
+    });
+  }
+});
+
+// 验证验证码
+router.post('/verify-captcha', (req, res) => {
+  try {
+    const { captcha_id, captcha_answer } = req.body;
+    
+    if (!captcha_id || !captcha_answer) {
+      return res.status(400).json({
+        success: false,
+        message: '验证码ID和答案不能为空'
+      });
+    }
+    
+    const storedCaptcha = captchaStore.get(captcha_id);
+    
+    if (!storedCaptcha) {
+      return res.status(400).json({
+        success: false,
+        message: '验证码不存在或已过期'
+      });
+    }
+    
+    if (storedCaptcha.expires < Date.now()) {
+      captchaStore.delete(captcha_id);
+      return res.status(400).json({
+        success: false,
+        message: '验证码已过期'
+      });
+    }
+    
+    if (storedCaptcha.answer !== captcha_answer.toString()) {
+      return res.status(400).json({
+        success: false,
+        message: '验证码答案错误'
+      });
+    }
+    
+    // 验证成功后删除验证码
+    captchaStore.delete(captcha_id);
+    
+    res.json({
+      success: true,
+      message: '验证码验证成功'
+    });
+  } catch (error) {
+    console.error('Captcha verification error:', error);
+    res.status(500).json({
+      success: false,
+      message: '验证码验证失败'
+    });
+  }
+});
+
 // 用户登录
 router.post('/login', async (req, res) => {
   try {
-    const { username, password, remember, mfa_code, client_id } = req.body;
+    const { username, password, remember, mfa_code, client_id, captcha_id, captcha_answer } = req.body;
     
     if (!username || !password) {
       return res.status(400).json({
         success: false,
         message: '用户名和密码不能为空'
       });
+    }
+    
+    // 验证验证码（如果提供了验证码信息）
+    if (captcha_id && captcha_answer) {
+      const storedCaptcha = captchaStore.get(captcha_id);
+      
+      if (!storedCaptcha) {
+        return res.status(400).json({
+          success: false,
+          message: '验证码不存在或已过期'
+        });
+      }
+      
+      if (storedCaptcha.expires < Date.now()) {
+        captchaStore.delete(captcha_id);
+        return res.status(400).json({
+          success: false,
+          message: '验证码已过期'
+        });
+      }
+      
+      if (storedCaptcha.answer !== captcha_answer.toString()) {
+        return res.status(400).json({
+          success: false,
+          message: '验证码答案错误'
+        });
+      }
+      
+      // 验证成功后删除验证码
+      captchaStore.delete(captcha_id);
     }
     
     // 查找用户
