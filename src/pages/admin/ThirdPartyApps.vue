@@ -166,14 +166,18 @@
         <el-table-column label="操作" width="180" fixed="right">
           <template #default="{ row }">
             <div class="action-buttons">
-              <el-button size="small" @click="viewApplication(row)" title="查看详情">
-                <el-icon><View /></el-icon>
-              </el-button>
-              <el-button size="small" @click="manageUsers(row)" type="primary" title="查看用户">
-                <el-icon><User /></el-icon>
-              </el-button>
+              <el-tooltip content="查看应用详细信息" placement="top">
+                <el-button size="small" @click="viewApplication(row)">
+                  <el-icon><View /></el-icon>
+                </el-button>
+              </el-tooltip>
+              <el-tooltip content="管理应用用户" placement="top">
+                <el-button size="small" @click="manageUsers(row)" type="primary">
+                  <el-icon><User /></el-icon>
+                </el-button>
+              </el-tooltip>
               <el-dropdown @command="handleCommand" trigger="click">
-                <el-button size="small" title="更多操作">
+                <el-button size="small" title="更多操作选项">
                   <el-icon><MoreFilled /></el-icon>
                 </el-button>
                 <template #dropdown>
