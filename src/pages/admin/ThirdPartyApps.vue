@@ -163,29 +163,37 @@
           </template>
         </el-table-column>
         
-        <el-table-column label="操作" width="240" fixed="right">
+        <el-table-column label="操作" width="180" fixed="right">
           <template #default="{ row }">
-            <el-button-group>
-              <el-button size="small" @click="viewApplication(row)">
+            <div class="action-buttons">
+              <el-button size="small" @click="viewApplication(row)" title="查看详情">
                 <el-icon><View /></el-icon>
               </el-button>
-              <el-button size="small" @click="editApplication(row)">
-                <el-icon><Edit /></el-icon>
-              </el-button>
-              <el-button size="small" @click="manageUsers(row)" type="primary">
+              <el-button size="small" @click="manageUsers(row)" type="primary" title="查看用户">
                 <el-icon><User /></el-icon>
               </el-button>
-              <el-button size="small" @click="manageCredentials(row)">
-                <el-icon><Key /></el-icon>
-              </el-button>
-              <el-button 
-                size="small" 
-                type="danger" 
-                @click="deleteApplication(row)"
-              >
-                <el-icon><Delete /></el-icon>
-              </el-button>
-            </el-button-group>
+              <el-dropdown @command="handleCommand" trigger="click">
+                <el-button size="small" title="更多操作">
+                  <el-icon><MoreFilled /></el-icon>
+                </el-button>
+                <template #dropdown>
+                  <el-dropdown-menu>
+                    <el-dropdown-item :command="{ action: 'edit', row }">
+                      <el-icon><Edit /></el-icon>
+                      编辑应用
+                    </el-dropdown-item>
+                    <el-dropdown-item :command="{ action: 'credentials', row }">
+                      <el-icon><Key /></el-icon>
+                      凭证管理
+                    </el-dropdown-item>
+                    <el-dropdown-item :command="{ action: 'delete', row }" divided>
+                      <el-icon><Delete /></el-icon>
+                      删除应用
+                    </el-dropdown-item>
+                  </el-dropdown-menu>
+                </template>
+              </el-dropdown>
+            </div>
           </template>
         </el-table-column>
       </el-table>
@@ -388,7 +396,7 @@
 import { ref, reactive, onMounted, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { Plus, Grid, Check, Close, Warning, Search, Refresh, View, Edit, Key, Delete, User } from '@element-plus/icons-vue'
+import { Plus, Grid, Check, Close, Warning, Search, Refresh, View, Edit, Key, Delete, User, MoreFilled } from '@element-plus/icons-vue'
 import type { Application, ApplicationStats } from '@/types/application'
 import { applicationsAPI, credentialsAPI } from '@/utils/api'
 import { debounce } from 'lodash-es'
@@ -694,6 +702,24 @@ const manageUsers = (app: Application) => {
     name: 'admin-third-party-app-detail',
     params: { id: app.id }
   })
+}
+
+const handleCommand = (command: { action: string; row: Application }) => {
+  const { action, row } = command
+  
+  switch (action) {
+    case 'edit':
+      editApplication(row)
+      break
+    case 'credentials':
+      manageCredentials(row)
+      break
+    case 'delete':
+      deleteApplication(row)
+      break
+    default:
+      console.warn('Unknown action:', action)
+  }
 }
 
 const loadCredentials = async (clientId: string) => {
@@ -1086,6 +1112,23 @@ onMounted(() => {
   background: #f3f4f6;
   padding: 4px 8px;
   border-radius: 4px;
+}
+
+.action-buttons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  
+  .el-button {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+  
+  .el-dropdown {
+    .el-button {
+      padding: 6px 8px;
+    }
+  }
 }
 
 .pagination-wrapper {
