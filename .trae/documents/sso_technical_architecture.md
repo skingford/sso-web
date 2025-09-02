@@ -56,59 +56,76 @@ graph TD
 ## 2. Technology Description
 
 ### 2.1 前端技术栈
-* Frontend: Vue@3 + TypeScript + Element Plus + Vite
+
+* Frontend: Vue\@3 + TypeScript + Element Plus + Vite
+
 * 状态管理: Pinia
+
 * 路由管理: Vue Router 4
+
 * HTTP客户端: Axios
 
 ### 2.2 核心服务技术栈
-* **统一认证中心**: Express@4 + TypeScript + Passport.js + jsonwebtoken
-* **身份提供商网关**: Express@4 + TypeScript + OAuth 2.0 SDK
-* **应用管理平台**: Express@4 + TypeScript + RBAC权限模型
+
+* **统一认证中心**: Express\@4 + TypeScript + Passport.js + jsonwebtoken
+
+* **身份提供商网关**: Express\@4 + TypeScript + OAuth 2.0 SDK
+
+* **应用管理平台**: Express\@4 + TypeScript + RBAC权限模型
+
 * **API网关**: Kong Gateway / Nginx + Lua
-* **审计日志服务**: Express@4 + TypeScript + Winston
+
+* **审计日志服务**: Express\@4 + TypeScript + Winston
 
 ### 2.3 数据存储技术栈
+
 * **主数据库**: Supabase (PostgreSQL)
-* **缓存层**: Redis@7 (会话、令牌缓存)
+
+* **缓存层**: Redis\@7 (会话、令牌缓存)
+
 * **日志数据库**: ClickHouse (审计日志、行为分析)
+
 * **消息队列**: Redis Pub/Sub (服务间通信)
 
 ### 2.4 认证协议与安全
+
 * **认证协议**: OAuth 2.0 + OpenID Connect + SAML 2.0
+
 * **令牌标准**: JWT (Access Token) + Refresh Token
+
 * **加密算法**: RS256 (JWT签名) + AES-256 (敏感数据加密)
+
 * **安全防护**: CSRF防护 + XSS防护 + 请求限流
 
 ## 3. Route definitions
 
 ### 3.1 前端路由
 
-| Route                    | Purpose                |
-| ------------------------ | ---------------------- |
-| /login                   | SSO统一登录页面              |
-| /dashboard               | 用户控制台，显示可访问的应用列表       |
-| /profile                 | 个人信息管理页面               |
-| /admin                   | 系统管理后台入口               |
-| /admin/users             | 用户管理页面                 |
-| /admin/apps              | 应用管理页面                 |
-| /admin/roles             | 权限角色管理页面               |
-| /admin/providers         | 身份提供商管理页面              |
-| /admin/logs              | 审计日志查看页面               |
-| /admin/monitoring        | 系统监控和统计页面              |
-| /admin/gateway           | API网关配置页面              |
+| Route             | Purpose          |
+| ----------------- | ---------------- |
+| /login            | SSO统一登录页面        |
+| /dashboard        | 用户控制台，显示可访问的应用列表 |
+| /profile          | 个人信息管理页面         |
+| /admin            | 系统管理后台入口         |
+| /admin/users      | 用户管理页面           |
+| /admin/apps       | 应用管理页面           |
+| /admin/roles      | 权限角色管理页面         |
+| /admin/providers  | 身份提供商管理页面        |
+| /admin/logs       | 审计日志查看页面         |
+| /admin/monitoring | 系统监控和统计页面        |
+| /admin/gateway    | API网关配置页面        |
 
 ### 3.2 API网关路由
 
-| Route                    | Target Service         | Purpose                |
-| ------------------------ | ---------------------- | ---------------------- |
-| /api/auth/*              | 统一认证中心               | 认证相关API              |
-| /api/oauth/*             | 统一认证中心               | OAuth 2.0协议端点        |
-| /api/providers/*         | 身份提供商网关              | 第三方身份源集成API         |
-| /api/apps/*              | 应用管理平台               | 应用管理API              |
-| /api/users/*             | 应用管理平台               | 用户管理API              |
-| /api/roles/*             | 应用管理平台               | 权限管理API              |
-| /api/audit/*             | 审计日志服务               | 日志查询和分析API           |
+| Route             | Target Service | Purpose       |
+| ----------------- | -------------- | ------------- |
+| /api/auth/\*      | 统一认证中心         | 认证相关API       |
+| /api/oauth/\*     | 统一认证中心         | OAuth 2.0协议端点 |
+| /api/providers/\* | 身份提供商网关        | 第三方身份源集成API   |
+| /api/apps/\*      | 应用管理平台         | 应用管理API       |
+| /api/users/\*     | 应用管理平台         | 用户管理API       |
+| /api/roles/\*     | 应用管理平台         | 权限管理API       |
+| /api/audit/\*     | 审计日志服务         | 日志查询和分析API    |
 
 ## 4. API definitions
 
@@ -129,19 +146,19 @@ Request:
 | username   | string     | true       | 用户名或邮箱      |
 | password   | string     | true       | 用户密码        |
 | remember   | boolean    | false      | 是否记住登录状态    |
-| mfa_code   | string     | false      | 多因素认证码      |
-| client_id  | string     | false      | 客户端应用ID     |
+| mfa\_code  | string     | false      | 多因素认证码      |
+| client\_id | string     | false      | 客户端应用ID     |
 
 Response:
 
-| Param Name | Param Type | Description |
-| ---------- | ---------- | ----------- |
-| success    | boolean    | 登录是否成功      |
-| access_token | string   | JWT访问令牌     |
-| refresh_token | string  | 刷新令牌        |
-| expires_in | number     | 令牌过期时间(秒)   |
-| user       | object     | 用户基本信息      |
-| requires_mfa | boolean  | 是否需要多因素认证  |
+| Param Name     | Param Type | Description |
+| -------------- | ---------- | ----------- |
+| success        | boolean    | 登录是否成功      |
+| access\_token  | string     | JWT访问令牌     |
+| refresh\_token | string     | 刷新令牌        |
+| expires\_in    | number     | 令牌过期时间(秒)   |
+| user           | object     | 用户基本信息      |
+| requires\_mfa  | boolean    | 是否需要多因素认证   |
 
 **令牌验证**
 
@@ -157,11 +174,11 @@ Request:
 
 Response:
 
-| Param Name | Param Type | Description |
-| ---------- | ---------- | ----------- |
-| valid      | boolean    | 令牌是否有效      |
-| user       | object     | 用户信息        |
-| expires_at | timestamp  | 令牌过期时间      |
+| Param Name  | Param Type | Description |
+| ----------- | ---------- | ----------- |
+| valid       | boolean    | 令牌是否有效      |
+| user        | object     | 用户信息        |
+| expires\_at | timestamp  | 令牌过期时间      |
 
 **令牌刷新**
 
@@ -171,16 +188,16 @@ POST /api/auth/refresh
 
 Request:
 
-| Param Name | Param Type | isRequired | Description |
-| ---------- | ---------- | ---------- | ----------- |
-| refresh_token | string  | true       | 刷新令牌        |
+| Param Name     | Param Type | isRequired | Description |
+| -------------- | ---------- | ---------- | ----------- |
+| refresh\_token | string     | true       | 刷新令牌        |
 
 Response:
 
-| Param Name | Param Type | Description |
-| ---------- | ---------- | ----------- |
-| access_token | string   | 新的访问令牌      |
-| expires_in | number     | 令牌过期时间(秒)   |
+| Param Name    | Param Type | Description |
+| ------------- | ---------- | ----------- |
+| access\_token | string     | 新的访问令牌      |
+| expires\_in   | number     | 令牌过期时间(秒)   |
 
 **用户登出**
 
@@ -190,10 +207,10 @@ POST /api/auth/logout
 
 Request:
 
-| Param Name | Param Type | isRequired | Description |
-| ---------- | ---------- | ---------- | ----------- |
-| token      | string     | true       | 访问令牌        |
-| all_devices | boolean   | false      | 是否登出所有设备    |
+| Param Name   | Param Type | isRequired | Description |
+| ------------ | ---------- | ---------- | ----------- |
+| token        | string     | true       | 访问令牌        |
+| all\_devices | boolean    | false      | 是否登出所有设备    |
 
 Response:
 
@@ -211,14 +228,14 @@ GET /api/oauth/authorize
 
 Request:
 
-| Param Name     | Param Type | isRequired | Description |
-| -------------- | ---------- | ---------- | ----------- |
-| client_id      | string     | true       | 客户端应用ID     |
-| redirect_uri   | string     | true       | 回调地址        |
-| response_type  | string     | true       | 响应类型(code/token) |
-| scope          | string     | false      | 授权范围        |
-| state          | string     | false      | 状态参数        |
-| nonce          | string     | false      | OIDC随机数     |
+| Param Name     | Param Type | isRequired | Description              |
+| -------------- | ---------- | ---------- | ------------------------ |
+| client\_id     | string     | true       | 客户端应用ID                  |
+| redirect\_uri  | string     | true       | 回调地址                     |
+| response\_type | string     | true       | 响应类型(code/token)         |
+| scope          | string     | false      | 授权范围                     |
+| state          | string     | false      | 状态参数                     |
+| nonce          | string     | false      | OIDC随机数                  |
 | prompt         | string     | false      | 交互提示(none/login/consent) |
 
 **令牌端点**
@@ -231,22 +248,22 @@ Request:
 
 | Param Name     | Param Type | isRequired | Description |
 | -------------- | ---------- | ---------- | ----------- |
-| grant_type     | string     | true       | 授权类型        |
+| grant\_type    | string     | true       | 授权类型        |
 | code           | string     | true       | 授权码         |
-| redirect_uri   | string     | true       | 回调地址        |
-| client_id      | string     | true       | 客户端ID       |
-| client_secret  | string     | true       | 客户端密钥       |
+| redirect\_uri  | string     | true       | 回调地址        |
+| client\_id     | string     | true       | 客户端ID       |
+| client\_secret | string     | true       | 客户端密钥       |
 
 Response:
 
-| Param Name     | Param Type | Description |
-| -------------- | ---------- | ----------- |
-| access_token   | string     | 访问令牌        |
-| token_type     | string     | 令牌类型(Bearer) |
-| expires_in     | number     | 过期时间(秒)     |
-| refresh_token  | string     | 刷新令牌        |
-| id_token       | string     | OIDC身份令牌    |
-| scope          | string     | 授权范围        |
+| Param Name     | Param Type | Description  |
+| -------------- | ---------- | ------------ |
+| access\_token  | string     | 访问令牌         |
+| token\_type    | string     | 令牌类型(Bearer) |
+| expires\_in    | number     | 过期时间(秒)      |
+| refresh\_token | string     | 刷新令牌         |
+| id\_token      | string     | OIDC身份令牌     |
+| scope          | string     | 授权范围         |
 
 **用户信息端点**
 
@@ -256,19 +273,19 @@ GET /api/oauth/userinfo
 
 Headers:
 
-| Header Name   | Value |
-| ------------- | ----- |
-| Authorization | Bearer {access_token} |
+| Header Name   | Value                  |
+| ------------- | ---------------------- |
+| Authorization | Bearer {access\_token} |
 
 Response:
 
-| Param Name | Param Type | Description |
-| ---------- | ---------- | ----------- |
-| sub        | string     | 用户唯一标识      |
-| name       | string     | 用户姓名        |
-| email      | string     | 用户邮箱        |
-| picture    | string     | 用户头像URL     |
-| preferred_username | string | 用户名    |
+| Param Name          | Param Type | Description |
+| ------------------- | ---------- | ----------- |
+| sub                 | string     | 用户唯一标识      |
+| name                | string     | 用户姓名        |
+| email               | string     | 用户邮箱        |
+| picture             | string     | 用户头像URL     |
+| preferred\_username | string     | 用户名         |
 
 ### 4.2 身份提供商网关 API
 
@@ -287,6 +304,7 @@ Response:
 | providers  | array      | 身份提供商列表     |
 
 Example:
+
 ```json
 {
   "providers": [
@@ -316,12 +334,12 @@ POST /api/providers/{provider_key}/config
 
 Request:
 
-| Param Name    | Param Type | isRequired | Description |
-| ------------- | ---------- | ---------- | ----------- |
-| client_id     | string     | true       | 第三方应用ID     |
-| client_secret | string     | true       | 第三方应用密钥     |
-| scope         | string     | false      | 授权范围        |
-| is_active     | boolean    | false      | 是否启用        |
+| Param Name     | Param Type | isRequired | Description |
+| -------------- | ---------- | ---------- | ----------- |
+| client\_id     | string     | true       | 第三方应用ID     |
+| client\_secret | string     | true       | 第三方应用密钥     |
+| scope          | string     | false      | 授权范围        |
+| is\_active     | boolean    | false      | 是否启用        |
 
 **第三方登录授权**
 
@@ -333,16 +351,16 @@ Request:
 
 | Param Name    | Param Type | isRequired | Description |
 | ------------- | ---------- | ---------- | ----------- |
-| redirect_uri  | string     | false      | 登录成功后重定向地址  |
+| redirect\_uri | string     | false      | 登录成功后重定向地址  |
 | state         | string     | false      | 状态参数        |
-| client_id     | string     | false      | SSO客户端ID    |
+| client\_id    | string     | false      | SSO客户端ID    |
 
 Response:
 
-| Param Name    | Param Type | Description |
-| ------------- | ---------- | ----------- |
-| authorize_url | string     | 第三方授权页面URL |
-| state         | string     | 状态参数        |
+| Param Name     | Param Type | Description |
+| -------------- | ---------- | ----------- |
+| authorize\_url | string     | 第三方授权页面URL  |
+| state          | string     | 状态参数        |
 
 **第三方登录回调**
 
@@ -359,13 +377,13 @@ Request:
 
 Response:
 
-| Param Name   | Param Type | Description |
-| ------------ | ---------- | ----------- |
-| success      | boolean    | 登录是否成功      |
-| access_token | string     | SSO访问令牌     |
-| user         | object     | 用户信息        |
-| is_new_user  | boolean    | 是否为新用户      |
-| redirect_url | string     | 重定向地址       |
+| Param Name    | Param Type | Description |
+| ------------- | ---------- | ----------- |
+| success       | boolean    | 登录是否成功      |
+| access\_token | string     | SSO访问令牌     |
+| user          | object     | 用户信息        |
+| is\_new\_user | boolean    | 是否为新用户      |
+| redirect\_url | string     | 重定向地址       |
 
 #### 4.2.2 LDAP/AD 集成
 
@@ -377,12 +395,12 @@ POST /api/providers/ldap/test
 
 Request:
 
-| Param Name | Param Type | isRequired | Description |
-| ---------- | ---------- | ---------- | ----------- |
-| server_url | string     | true       | LDAP服务器地址   |
-| bind_dn    | string     | true       | 绑定DN        |
-| bind_password | string  | true       | 绑定密码        |
-| base_dn    | string     | true       | 搜索基础DN      |
+| Param Name     | Param Type | isRequired | Description |
+| -------------- | ---------- | ---------- | ----------- |
+| server\_url    | string     | true       | LDAP服务器地址   |
+| bind\_dn       | string     | true       | 绑定DN        |
+| bind\_password | string     | true       | 绑定密码        |
+| base\_dn       | string     | true       | 搜索基础DN      |
 
 **LDAP用户同步**
 
@@ -394,8 +412,8 @@ Request:
 
 | Param Name | Param Type | isRequired | Description |
 | ---------- | ---------- | ---------- | ----------- |
-| full_sync  | boolean    | false      | 是否全量同步      |
-| ou_filter  | string     | false      | 组织单位过滤器     |
+| full\_sync | boolean    | false      | 是否全量同步      |
+| ou\_filter | string     | false      | 组织单位过滤器     |
 
 ### 4.3 应用管理平台 API
 
@@ -413,19 +431,19 @@ Request:
 | -------------- | ---------- | ---------- | ----------- |
 | name           | string     | true       | 应用名称        |
 | description    | string     | false      | 应用描述        |
-| homepage_url   | string     | false      | 应用主页URL     |
-| logo_url       | string     | false      | 应用图标URL     |
-| redirect_uris  | array      | true       | 回调地址列表      |
+| homepage\_url  | string     | false      | 应用主页URL     |
+| logo\_url      | string     | false      | 应用图标URL     |
+| redirect\_uris | array      | true       | 回调地址列表      |
 | scopes         | array      | false      | 支持的授权范围     |
-| grant_types    | array      | false      | 支持的授权类型     |
+| grant\_types   | array      | false      | 支持的授权类型     |
 
 Response:
 
-| Param Name    | Param Type | Description |
-| ------------- | ---------- | ----------- |
-| id            | string     | 应用ID        |
-| client_id     | string     | 客户端ID      |
-| client_secret | string     | 客户端密钥       |
+| Param Name     | Param Type | Description |
+| -------------- | ---------- | ----------- |
+| id             | string     | 应用ID        |
+| client\_id     | string     | 客户端ID       |
+| client\_secret | string     | 客户端密钥       |
 
 **获取应用列表**
 
@@ -440,7 +458,7 @@ Query Parameters:
 | page       | number     | false      | 页码(默认1)     |
 | limit      | number     | false      | 每页数量(默认20)  |
 | search     | string     | false      | 搜索关键词       |
-| is_active  | boolean    | false      | 是否启用        |
+| is\_active | boolean    | false      | 是否启用        |
 
 #### 4.3.2 用户管理
 
@@ -452,14 +470,14 @@ POST /api/users
 
 Request:
 
-| Param Name   | Param Type | isRequired | Description |
-| ------------ | ---------- | ---------- | ----------- |
-| username     | string     | true       | 用户名         |
-| email        | string     | true       | 邮箱地址        |
-| password     | string     | true       | 初始密码        |
-| display_name | string     | false      | 显示名称        |
-| phone        | string     | false      | 手机号码        |
-| roles        | array      | false      | 用户角色列表      |
+| Param Name    | Param Type | isRequired | Description |
+| ------------- | ---------- | ---------- | ----------- |
+| username      | string     | true       | 用户名         |
+| email         | string     | true       | 邮箱地址        |
+| password      | string     | true       | 初始密码        |
+| display\_name | string     | false      | 显示名称        |
+| phone         | string     | false      | 手机号码        |
+| roles         | array      | false      | 用户角色列表      |
 
 **批量导入用户**
 
@@ -500,7 +518,7 @@ Request:
 
 | Param Name | Param Type | isRequired | Description |
 | ---------- | ---------- | ---------- | ----------- |
-| role_ids   | array      | true       | 角色ID列表      |
+| role\_ids  | array      | true       | 角色ID列表      |
 
 ### 4.4 API网关管理 API
 
@@ -514,14 +532,14 @@ POST /api/gateway/routes
 
 Request:
 
-| Param Name | Param Type | isRequired | Description |
-| ---------- | ---------- | ---------- | ----------- |
-| name       | string     | true       | 路由名称        |
-| path       | string     | true       | 路由路径        |
-| methods    | array      | true       | HTTP方法列表    |
-| service_url | string    | true       | 后端服务地址      |
-| auth_required | boolean | false      | 是否需要认证      |
-| rate_limit | object     | false      | 限流配置        |
+| Param Name     | Param Type | isRequired | Description |
+| -------------- | ---------- | ---------- | ----------- |
+| name           | string     | true       | 路由名称        |
+| path           | string     | true       | 路由路径        |
+| methods        | array      | true       | HTTP方法列表    |
+| service\_url   | string     | true       | 后端服务地址      |
+| auth\_required | boolean    | false      | 是否需要认证      |
+| rate\_limit    | object     | false      | 限流配置        |
 
 **配置限流策略**
 
@@ -531,11 +549,11 @@ POST /api/gateway/rate-limits
 
 Request:
 
-| Param Name | Param Type | isRequired | Description |
-| ---------- | ---------- | ---------- | ----------- |
-| name       | string     | true       | 策略名称        |
-| requests   | number     | true       | 请求次数限制      |
-| window     | number     | true       | 时间窗口(秒)     |
+| Param Name | Param Type | isRequired | Description          |
+| ---------- | ---------- | ---------- | -------------------- |
+| name       | string     | true       | 策略名称                 |
+| requests   | number     | true       | 请求次数限制               |
+| window     | number     | true       | 时间窗口(秒)              |
 | scope      | string     | true       | 限流范围(ip/user/global) |
 
 #### 4.4.2 服务发现
@@ -548,12 +566,12 @@ POST /api/gateway/services
 
 Request:
 
-| Param Name | Param Type | isRequired | Description |
-| ---------- | ---------- | ---------- | ----------- |
-| name       | string     | true       | 服务名称        |
-| url        | string     | true       | 服务地址        |
-| health_check | object   | false      | 健康检查配置      |
-| weight     | number     | false      | 负载均衡权重      |
+| Param Name    | Param Type | isRequired | Description |
+| ------------- | ---------- | ---------- | ----------- |
+| name          | string     | true       | 服务名称        |
+| url           | string     | true       | 服务地址        |
+| health\_check | object     | false      | 健康检查配置      |
+| weight        | number     | false      | 负载均衡权重      |
 
 ### 4.5 审计日志服务 API
 
@@ -567,15 +585,15 @@ GET /api/audit/login-logs
 
 Query Parameters:
 
-| Param Name | Param Type | isRequired | Description |
-| ---------- | ---------- | ---------- | ----------- |
-| user_id    | string     | false      | 用户ID        |
-| start_time | timestamp  | false      | 开始时间        |
-| end_time   | timestamp  | false      | 结束时间        |
-| success    | boolean    | false      | 是否成功        |
-| ip_address | string     | false      | IP地址        |
-| page       | number     | false      | 页码          |
-| limit      | number     | false      | 每页数量        |
+| Param Name  | Param Type | isRequired | Description |
+| ----------- | ---------- | ---------- | ----------- |
+| user\_id    | string     | false      | 用户ID        |
+| start\_time | timestamp  | false      | 开始时间        |
+| end\_time   | timestamp  | false      | 结束时间        |
+| success     | boolean    | false      | 是否成功        |
+| ip\_address | string     | false      | IP地址        |
+| page        | number     | false      | 页码          |
+| limit       | number     | false      | 每页数量        |
 
 Response:
 
@@ -594,13 +612,13 @@ GET /api/audit/operation-logs
 
 Query Parameters:
 
-| Param Name | Param Type | isRequired | Description |
-| ---------- | ---------- | ---------- | ----------- |
-| user_id    | string     | false      | 操作用户ID      |
-| resource   | string     | false      | 资源类型        |
-| action     | string     | false      | 操作类型        |
-| start_time | timestamp  | false      | 开始时间        |
-| end_time   | timestamp  | false      | 结束时间        |
+| Param Name  | Param Type | isRequired | Description |
+| ----------- | ---------- | ---------- | ----------- |
+| user\_id    | string     | false      | 操作用户ID      |
+| resource    | string     | false      | 资源类型        |
+| action      | string     | false      | 操作类型        |
+| start\_time | timestamp  | false      | 开始时间        |
+| end\_time   | timestamp  | false      | 结束时间        |
 
 #### 4.5.2 统计分析
 
@@ -612,20 +630,20 @@ GET /api/audit/stats/login
 
 Query Parameters:
 
-| Param Name | Param Type | isRequired | Description |
-| ---------- | ---------- | ---------- | ----------- |
-| period     | string     | false      | 统计周期(day/week/month) |
-| start_date | date       | false      | 开始日期        |
-| end_date   | date       | false      | 结束日期        |
+| Param Name  | Param Type | isRequired | Description          |
+| ----------- | ---------- | ---------- | -------------------- |
+| period      | string     | false      | 统计周期(day/week/month) |
+| start\_date | date       | false      | 开始日期                 |
+| end\_date   | date       | false      | 结束日期                 |
 
 Response:
 
-| Param Name | Param Type | Description |
-| ---------- | ---------- | ----------- |
-| total_logins | number   | 总登录次数       |
-| success_rate | number   | 成功率         |
-| unique_users | number   | 独立用户数       |
-| daily_stats | array     | 每日统计数据      |
+| Param Name    | Param Type | Description |
+| ------------- | ---------- | ----------- |
+| total\_logins | number     | 总登录次数       |
+| success\_rate | number     | 成功率         |
+| unique\_users | number     | 独立用户数       |
+| daily\_stats  | array      | 每日统计数据      |
 
 **安全事件统计**
 
@@ -635,11 +653,11 @@ GET /api/audit/stats/security
 
 Response:
 
-| Param Name | Param Type | Description |
-| ---------- | ---------- | ----------- |
-| failed_logins | number  | 失败登录次数      |
-| suspicious_ips | array   | 可疑IP列表      |
-| blocked_attempts | number | 被阻止的尝试次数   |
+| Param Name        | Param Type | Description |
+| ----------------- | ---------- | ----------- |
+| failed\_logins    | number     | 失败登录次数      |
+| suspicious\_ips   | array      | 可疑IP列表      |
+| blocked\_attempts | number     | 被阻止的尝试次数    |
 
 #### 4.5.3 告警管理
 
@@ -651,14 +669,15 @@ POST /api/audit/alerts
 
 Request:
 
-| Param Name | Param Type | isRequired | Description |
-| ---------- | ---------- | ---------- | ----------- |
-| name       | string     | true       | 告警规则名称      |
-| condition  | object     | true       | 告警条件        |
-| threshold  | number     | true       | 阈值          |
-| notification | object   | true       | 通知配置        |
+| Param Name   | Param Type | isRequired | Description |
+| ------------ | ---------- | ---------- | ----------- |
+| name         | string     | true       | 告警规则名称      |
+| condition    | object     | true       | 告警条件        |
+| threshold    | number     | true       | 阈值          |
+| notification | object     | true       | 通知配置        |
 
 Example:
+
 ```json
 {
   "name": "异常登录告警",
@@ -681,19 +700,19 @@ GET /api/auth/{provider}/authorize
 
 Request:
 
-| Param Name    | Param Type | isRequired | Description |
-| ------------- | ---------- | ---------- | ----------- |
-| provider      | string     | true       | 第三方登录提供商标识  |
-| redirect\_uri | string     | false      | 登录成功后的自定义重定向地址  |
-| state         | string     | false      | 防CSRF攻击的状态参数        |
-| client_id     | string     | false      | 客户端应用ID（用于应用间跳转） |
+| Param Name    | Param Type | isRequired | Description      |
+| ------------- | ---------- | ---------- | ---------------- |
+| provider      | string     | true       | 第三方登录提供商标识       |
+| redirect\_uri | string     | false      | 登录成功后的自定义重定向地址   |
+| state         | string     | false      | 防CSRF攻击的状态参数     |
+| client\_id    | string     | false      | 客户端应用ID（用于应用间跳转） |
 
 Response:
 
-| Param Name | Param Type | Description |
-| ---------- | ---------- | ----------- |
-| authorize_url | string  | 第三方授权页面URL |
-| state      | string     | 状态参数（用于回调验证） |
+| Param Name     | Param Type | Description  |
+| -------------- | ---------- | ------------ |
+| authorize\_url | string     | 第三方授权页面URL   |
+| state          | string     | 状态参数（用于回调验证） |
 
 ```
 POST /api/auth/{provider}/callback
@@ -704,17 +723,17 @@ Request:
 | Param Name | Param Type | isRequired | Description |
 | ---------- | ---------- | ---------- | ----------- |
 | code       | string     | true       | 第三方授权码      |
-| state      | string     | true       | 状态参数（防CSRF）        |
+| state      | string     | true       | 状态参数（防CSRF） |
 
 Response:
 
-| Param Name | Param Type | Description |
-| ---------- | ---------- | ----------- |
-| success    | boolean    | 登录是否成功      |
-| token      | string     | JWT访问令牌     |
-| user       | object     | 用户基本信息      |
-| isNewUser  | boolean    | 是否为新注册用户    |
-| redirect_url | string   | 自定义重定向URL |
+| Param Name    | Param Type | Description |
+| ------------- | ---------- | ----------- |
+| success       | boolean    | 登录是否成功      |
+| token         | string     | JWT访问令牌     |
+| user          | object     | 用户基本信息      |
+| isNewUser     | boolean    | 是否为新注册用户    |
+| redirect\_url | string     | 自定义重定向URL   |
 
 ```
 POST /api/auth/redirect/validate
@@ -722,17 +741,17 @@ POST /api/auth/redirect/validate
 
 Request:
 
-| Param Name | Param Type | isRequired | Description |
-| ---------- | ---------- | ---------- | ----------- |
-| redirect_uri | string   | true       | 待验证的重定向URL |
-| client_id  | string     | false      | 客户端应用ID |
+| Param Name    | Param Type | isRequired | Description |
+| ------------- | ---------- | ---------- | ----------- |
+| redirect\_uri | string     | true       | 待验证的重定向URL  |
+| client\_id    | string     | false      | 客户端应用ID     |
 
 Response:
 
 | Param Name | Param Type | Description |
 | ---------- | ---------- | ----------- |
-| valid      | boolean    | URL是否有效 |
-| message    | string     | 验证结果说明 |
+| valid      | boolean    | URL是否有效     |
+| message    | string     | 验证结果说明      |
 
 ```
 GET /api/auth/session/status
@@ -740,17 +759,17 @@ GET /api/auth/session/status
 
 Request:
 
-| Param Name | Param Type | isRequired | Description |
-| ---------- | ---------- | ---------- | ----------- |
-| session_id | string     | true       | 会话ID |
+| Param Name  | Param Type | isRequired | Description |
+| ----------- | ---------- | ---------- | ----------- |
+| session\_id | string     | true       | 会话ID        |
 
 Response:
 
-| Param Name | Param Type | Description |
-| ---------- | ---------- | ----------- |
-| status     | string     | 会话状态(active/expired/invalid) |
-| user       | object     | 用户信息（如果已登录） |
-| expires_at | timestamp  | 会话过期时间 |
+| Param Name  | Param Type | Description                  |
+| ----------- | ---------- | ---------------------------- |
+| status      | string     | 会话状态(active/expired/invalid) |
+| user        | object     | 用户信息（如果已登录）                  |
+| expires\_at | timestamp  | 会话过期时间                       |
 
 ```
 POST /api/auth/sms/send
@@ -791,10 +810,10 @@ GET /api/auth/qrcode/status/{token}
 
 Response:
 
-| Param Name | Param Type | Description |
-| ---------- | ---------- | ----------- |
+| Param Name | Param Type | Description                             |
+| ---------- | ---------- | --------------------------------------- |
 | status     | string     | 扫码状态(pending/scanned/confirmed/expired) |
-| user       | object     | 用户信息(确认后返回) |
+| user       | object     | 用户信息(确认后返回)                             |
 
 ## 5. Server architecture diagram
 
@@ -1188,7 +1207,7 @@ erDiagram
 
 用户表 (users)
 
-```sql
+````sql
 -- 创建用户表
 CREATE TABLE users (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -1731,7 +1750,7 @@ volumes:
 networks:
   sso-network:
     driver: bridge
-```
+````
 
 ### 7.2 Kubernetes部署
 
@@ -1985,39 +2004,43 @@ find $BACKUP_DIR -name "*.rdb" -mtime +7 -delete
 
 echo "Backup completed: $DATE"
 ```
-    status VARCHAR(20) DEFAULT 'pending' CHECK (status IN ('pending', 'completed', 'expired', 'failed')),
-    expires_at TIMESTAMP WITH TIME ZONE NOT NULL,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+
+```
+status VARCHAR(20) DEFAULT 'pending' CHECK (status IN ('pending', 'completed', 'expired', 'failed')),
+expires_at TIMESTAMP WITH TIME ZONE NOT NULL,
+created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+```
+
 );
 
--- 授权码表
-CREATE TABLE authorization_codes (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    code VARCHAR(128) UNIQUE NOT NULL,
-    user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-    client_id UUID NOT NULL REFERENCES oauth_clients(id) ON DELETE CASCADE,
-    redirect_uri VARCHAR(500) NOT NULL,
-    scopes JSON,
-    is_used BOOLEAN DEFAULT false,
-    expires_at TIMESTAMP WITH TIME ZONE NOT NULL,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+\-- 授权码表
+CREATE TABLE authorization\_codes (
+id UUID PRIMARY KEY DEFAULT gen\_random\_uuid(),
+code VARCHAR(128) UNIQUE NOT NULL,
+user\_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+client\_id UUID NOT NULL REFERENCES oauth\_clients(id) ON DELETE CASCADE,
+redirect\_uri VARCHAR(500) NOT NULL,
+scopes JSON,
+is\_used BOOLEAN DEFAULT false,
+expires\_at TIMESTAMP WITH TIME ZONE NOT NULL,
+created\_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
--- 创建索引
-CREATE INDEX idx_redirect_urls_application_id ON redirect_urls(application_id);
-CREATE INDEX idx_redirect_urls_active ON redirect_urls(is_active);
-CREATE INDEX idx_auth_sessions_session_id ON auth_sessions(session_id);
-CREATE INDEX idx_auth_sessions_user_id ON auth_sessions(user_id);
-CREATE INDEX idx_auth_sessions_expires_at ON auth_sessions(expires_at);
-CREATE INDEX idx_authorization_codes_code ON authorization_codes(code);
-CREATE INDEX idx_authorization_codes_user_id ON authorization_codes(user_id);
-CREATE INDEX idx_authorization_codes_client_id ON authorization_codes(client_id);
-CREATE INDEX idx_authorization_codes_expires_at ON authorization_codes(expires_at);
+\-- 创建索引
+CREATE INDEX idx\_redirect\_urls\_application\_id ON redirect\_urls(application\_id);
+CREATE INDEX idx\_redirect\_urls\_active ON redirect\_urls(is\_active);
+CREATE INDEX idx\_auth\_sessions\_session\_id ON auth\_sessions(session\_id);
+CREATE INDEX idx\_auth\_sessions\_user\_id ON auth\_sessions(user\_id);
+CREATE INDEX idx\_auth\_sessions\_expires\_at ON auth\_sessions(expires\_at);
+CREATE INDEX idx\_authorization\_codes\_code ON authorization\_codes(code);
+CREATE INDEX idx\_authorization\_codes\_user\_id ON authorization\_codes(user\_id);
+CREATE INDEX idx\_authorization\_codes\_client\_id ON authorization\_codes(client\_id);
+CREATE INDEX idx\_authorization\_codes\_expires\_at ON authorization\_codes(expires\_at);
 
--- 初始化第三方登录提供商
-INSERT INTO third_party_providers (provider_key, provider_name, provider_type, is_active) VALUES
+\-- 初始化第三方登录提供商
+INSERT INTO third\_party\_providers (provider\_key, provider\_name, provider\_type, is\_active) VALUES
 ('wechat', '微信登录', 'oauth', true),
-('wechat_work', '企业微信', 'oauth', false),
+('wechat\_work', '企业微信', 'oauth', false),
 ('alipay', '支付宝登录', 'oauth', true),
 ('sms', '手机号登录', 'sms', false),
 ('qrcode', '二维码登录', 'qrcode', false),
@@ -2026,17 +2049,19 @@ INSERT INTO third_party_providers (provider_key, provider_name, provider_type, i
 ('google', '谷歌登录', 'oauth', true),
 ('douyin', '抖音登录', 'oauth', true);
 
--- 初始化重定向URL示例
-INSERT INTO redirect_urls (application_id, url) 
-SELECT id, 'https://example.com/callback' FROM applications LIMIT 1;
+\-- 初始化重定向URL示例
+INSERT INTO redirect\_urls (application\_id, url)
+SELECT id, '<https://example.com/callback>' FROM applications LIMIT 1;
 
--- 为系统管理员角色分配所有权限
-INSERT INTO role_permissions (role_id, permission_id)
+\-- 为系统管理员角色分配所有权限
+INSERT INTO role\_permissions (role\_id, permission\_id)
 SELECT r.id, p.id FROM roles r, permissions p WHERE r.name = '系统管理员';
 
--- 为普通用户分配基础权限
-INSERT INTO role_permissions (role_id, permission_id)
-SELECT r.id, p.id FROM roles r, permissions p 
+\-- 为普通用户分配基础权限
+INSERT INTO role\_permissions (role\_id, permission\_id)
+SELECT r.id, p.id FROM roles r, permissions p
 WHERE r.name = '普通用户' AND p.name = '个人信息';
+
+```
 ```
 

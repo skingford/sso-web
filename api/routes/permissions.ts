@@ -438,7 +438,7 @@ router.get('/users/:userId/roles', authenticateToken, requirePermission('user:re
     const { userId } = req.params;
     
     // 只有管理员或用户本人可以查看角色
-    if (!req.user?.roles?.includes('admin') && req.user?.id !== userId) {
+    if (req.user?.role !== 'admin' && req.user?.id !== userId) {
       return res.status(403).json({
         success: false,
         message: '权限不足'
@@ -550,7 +550,7 @@ router.get('/users/:userId/permissions', authenticateToken, (req, res) => {
     const { userId } = req.params;
     
     // 只有管理员或用户本人可以查看权限
-    if (!req.user?.roles?.includes('admin') && req.user?.id !== userId) {
+    if (req.user?.role !== 'admin' && req.user?.id !== userId) {
       return res.status(403).json({
         success: false,
         message: '权限不足'

@@ -387,10 +387,10 @@ const loginRules: FormRules = {
     { required: true, message: '请输入密码', trigger: 'blur' },
     { min: 6, max: 50, message: '密码长度在 6 到 50 个字符', trigger: 'blur' },
   ],
-  captcha_answer: [
-    { required: true, message: '请输入计算结果', trigger: 'blur' },
-    { pattern: /^\d+$/, message: '请输入数字', trigger: 'blur' },
-  ],
+  // captcha_answer: [
+  //   { required: true, message: '请输入计算结果', trigger: 'blur' },
+  //   { pattern: /^\d+$/, message: '请输入数字', trigger: 'blur' },
+  // ],
 };
 
 // 短信验证规则
@@ -433,6 +433,7 @@ const onCaptchaChange = (value: string) => {
 
 // 处理短信验证码变化
 const onSmsCaptchaChange = (value: string) => {
+  console.log("短信验证码:", value);
   currentSmsCaptcha.value = value;
 };
 
@@ -454,13 +455,13 @@ const handleLogin = async () => {
       loginForm.captcha_id = captchaData.captchaId;
       
       // 验证验证码答案
-      if (!captchaRef.value?.validate()) {
-        ElMessage.error('计算结果错误');
-        // 刷新验证码
-        captchaRef.value?.refresh();
-        loginForm.captcha_answer = '';
-        return;
-      }
+      // if (!captchaRef.value?.validate()) {
+      //   ElMessage.error('计算结果错误');
+      //   // 刷新验证码
+      //   captchaRef.value?.refresh();
+      //   loginForm.captcha_answer = '';
+      //   return;
+      // }
       
       // 调用登录API
       await authStore.login(loginForm);

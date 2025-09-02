@@ -13,6 +13,9 @@ import usersRoutes from './routes/users.js';
 import applicationsRoutes from './routes/applications.js';
 import permissionsRoutes from './routes/permissions.js';
 import auditRoutes from './routes/audit.js';
+import credentialsRoutes from './routes/credentials.js';
+import protectedRoutes from './routes/protected.js';
+import rolesRoutes from './routes/roles.js';
 
 // for esm mode
 const __filename = fileURLToPath(import.meta.url);
@@ -37,6 +40,9 @@ app.use('/api/users', usersRoutes);
 app.use('/api/applications', applicationsRoutes);
 app.use('/api/permissions', permissionsRoutes);
 app.use('/api/audit', auditRoutes);
+app.use('/api/credentials', credentialsRoutes);
+app.use('/api/protected', protectedRoutes);
+app.use('/api/roles', rolesRoutes);
 
 /**
  * health

@@ -1,6 +1,8 @@
 import express from 'express';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import { logAuditEvent } from './audit';
+import { sensitiveOperationRateLimit, passwordResetRateLimit, registrationRateLimit } from '../middleware/rateLimit';
 
 const router = express.Router();
 
@@ -143,7 +145,7 @@ router.get('/:id', authenticateToken, (req, res) => {
     const { id } = req.params;
     
     // 只有管理员或用户本人可以查看详细信息
-    if (!req.user?.roles?.includes('admin') && req.user?.id !== id) {
+    if (req.user?.role !== 'admin' && req.user?.id !== id) {
       return res.status(403).json({
         success: false,
         message: '权限不足'
@@ -173,7 +175,7 @@ router.get('/:id', authenticateToken, (req, res) => {
 });
 
 // 创建用户
-router.post('/', authenticateToken, requireAdmin, async (req, res) => {
+router.post('/', authenticateToken, requireAdmin, registrationRateLimit, async (req, res) => {
   try {
     const {
       username,
@@ -223,6 +225,23 @@ router.post('/', authenticateToken, requireAdmin, async (req, res) => {
     
     mockUsers.push(newUser);
     
+    // 记录审计日志
+    logAuditEvent({
+      user_id: req.user?.id,
+      username: req.user?.username || 'system',
+      action: 'user:create',
+      resource_type: 'user',
+      resource_id: newUser.id,
+      details: {
+        target_user: username,
+        email,
+        roles
+      },
+      ip_address: req.ip,
+      user_agent: req.get('User-Agent'),
+      status: 'success'
+    });
+    
     const { password: _, ...safeUser } = newUser;
     res.status(201).json({
       success: true,
@@ -239,7 +258,7 @@ router.post('/', authenticateToken, requireAdmin, async (req, res) => {
 });
 
 // 更新用户
-router.put('/:id', authenticateToken, (req, res) => {
+router.put('/:id', authenticateToken, sensitiveOperationRateLimit, (req, res) => {
   try {
     const { id } = req.params;
     const {
@@ -252,7 +271,7 @@ router.put('/:id', authenticateToken, (req, res) => {
     } = req.body;
     
     // 只有管理员或用户本人可以更新信息
-    if (!req.user?.roles?.includes('admin') && req.user?.id !== id) {
+    if (req.user?.role !== 'admin' && req.user?.id !== id) {
       return res.status(403).json({
         success: false,
         message: '权限不足'
@@ -270,7 +289,7 @@ router.put('/:id', authenticateToken, (req, res) => {
     const user = mockUsers[userIndex];
     
     // 非管理员用户不能修改某些字段
-    if (!req.user.roles.includes('admin')) {
+    if (req.user.role !== 'admin') {
       if (roles !== undefined || is_active !== undefined) {
         return res.status(403).json({
           success: false,
@@ -312,6 +331,27 @@ router.put('/:id', authenticateToken, (req, res) => {
       updated_at: new Date().toISOString()
     };
     
+    // 记录审计日志
+    logAuditEvent({
+      user_id: req.user?.id,
+      username: req.user?.username || 'system',
+      action: 'user:update',
+      resource_type: 'user',
+      resource_id: id,
+      details: {
+        target_user: mockUsers[userIndex].username,
+        changes: {
+          username: username !== user.username ? { from: user.username, to: username } : undefined,
+          email: email !== user.email ? { from: user.email, to: email } : undefined,
+          roles: JSON.stringify(roles) !== JSON.stringify(user.roles) ? { from: user.roles, to: roles } : undefined,
+          is_active: is_active !== user.is_active ? { from: user.is_active, to: is_active } : undefined
+        }
+      },
+      ip_address: req.ip,
+      user_agent: req.get('User-Agent'),
+      status: 'success'
+    });
+    
     const { password, ...safeUser } = mockUsers[userIndex];
     res.json({
       success: true,
@@ -328,7 +368,7 @@ router.put('/:id', authenticateToken, (req, res) => {
 });
 
 // 删除用户
-router.delete('/:id', authenticateToken, requireAdmin, (req, res) => {
+router.delete('/:id', authenticateToken, requireAdmin, sensitiveOperationRateLimit, (req, res) => {
   try {
     const { id } = req.params;
     
@@ -348,7 +388,24 @@ router.delete('/:id', authenticateToken, requireAdmin, (req, res) => {
       });
     }
     
+    const deletedUser = mockUsers[userIndex];
     mockUsers.splice(userIndex, 1);
+    
+    // 记录审计日志
+    logAuditEvent({
+      user_id: req.user?.id,
+      username: req.user?.username || 'system',
+      action: 'user:delete',
+      resource_type: 'user',
+      resource_id: id,
+      details: {
+        target_user: deletedUser.username,
+        email: deletedUser.email
+      },
+      ip_address: req.ip,
+      user_agent: req.get('User-Agent'),
+      status: 'success'
+    });
     
     res.json({
       success: true,
@@ -364,7 +421,7 @@ router.delete('/:id', authenticateToken, requireAdmin, (req, res) => {
 });
 
 // 重置用户密码
-router.post('/:id/reset-password', authenticateToken, requireAdmin, async (req, res) => {
+router.post('/:id/reset-password', authenticateToken, requireAdmin, passwordResetRateLimit, async (req, res) => {
   try {
     const { id } = req.params;
     const { password } = req.body;
@@ -389,6 +446,21 @@ router.post('/:id/reset-password', authenticateToken, requireAdmin, async (req, 
     
     mockUsers[userIndex].password = hashedPassword;
     mockUsers[userIndex].updated_at = new Date().toISOString();
+    
+    // 记录审计日志
+    logAuditEvent({
+      user_id: req.user?.id,
+      username: req.user?.username || 'system',
+      action: 'user:reset_password',
+      resource_type: 'user',
+      resource_id: id,
+      details: {
+        target_user: mockUsers[userIndex].username
+      },
+      ip_address: req.ip,
+      user_agent: req.get('User-Agent'),
+      status: 'success'
+    });
     
     res.json({
       success: true,

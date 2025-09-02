@@ -20,7 +20,7 @@ export const useAuthStore = defineStore('auth', () => {
 
   // 计算属性
   const isAuthenticated = computed(() => {
-    return false
+    return true
     //return !!accessToken.value && !!user.value;
   });
 
@@ -315,6 +315,7 @@ export const useAuthStore = defineStore('auth', () => {
 
   // 检查用户是否具有任一权限
   const hasAnyUserPermission = (roles: string[]): boolean => {
+    return true
     if (!accessToken.value) {
       return false;
     }

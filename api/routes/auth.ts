@@ -1,6 +1,9 @@
 import express from 'express';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
+import { authenticateToken } from '../middleware/auth';
+import { logAuditEvent } from './audit';
+import { loginRateLimit } from '../middleware/rateLimit';
 
 const router = express.Router();
 
@@ -154,7 +157,7 @@ router.post('/verify-captcha', (req, res) => {
 });
 
 // 用户登录
-router.post('/login', async (req, res) => {
+router.post('/login', loginRateLimit, async (req, res) => {
   try {
     const { username, password, remember, mfa_code, client_id, captcha_id, captcha_answer } = req.body;
     
@@ -201,6 +204,21 @@ router.post('/login', async (req, res) => {
     );
     
     if (!user) {
+      // 记录失败的登录尝试
+      logAuditEvent({
+        username: username || 'unknown',
+        action: 'auth:login',
+        resource_type: 'session',
+        details: {
+          login_method: 'password',
+          attempted_username: username,
+          failure_reason: 'user_not_found'
+        },
+        ip_address: req.ip,
+        user_agent: req.get('User-Agent'),
+        status: 'failed'
+      });
+      
       return res.status(401).json({
         success: false,
         message: '用户名或密码错误'
@@ -210,6 +228,21 @@ router.post('/login', async (req, res) => {
     // 验证密码
     const isValidPassword = await bcrypt.compare(password, user.password);
     if (!isValidPassword) {
+      // 记录密码错误的登录尝试
+      logAuditEvent({
+        user_id: user.id,
+        username: user.username,
+        action: 'auth:login',
+        resource_type: 'session',
+        details: {
+          login_method: 'password',
+          failure_reason: 'invalid_password'
+        },
+        ip_address: req.ip,
+        user_agent: req.get('User-Agent'),
+        status: 'failed'
+      });
+      
       return res.status(401).json({
         success: false,
         message: '用户名或密码错误'
@@ -218,6 +251,21 @@ router.post('/login', async (req, res) => {
     
     // 检查用户状态
     if (!user.is_active) {
+      // 记录被禁用用户的登录尝试
+      logAuditEvent({
+        user_id: user.id,
+        username: user.username,
+        action: 'auth:login',
+        resource_type: 'session',
+        details: {
+          login_method: 'password',
+          failure_reason: 'account_disabled'
+        },
+        ip_address: req.ip,
+        user_agent: req.get('User-Agent'),
+        status: 'failed'
+      });
+      
       return res.status(403).json({
         success: false,
         message: '账户已被禁用'
@@ -229,6 +277,21 @@ router.post('/login', async (req, res) => {
     
     // 更新最后登录时间
     user.last_login = new Date().toISOString();
+    
+    // 记录成功登录
+    logAuditEvent({
+      user_id: user.id,
+      username: user.username,
+      action: 'auth:login',
+      resource_type: 'session',
+      details: {
+        login_method: 'password',
+        remember_me: remember || false
+      },
+      ip_address: req.ip,
+      user_agent: req.get('User-Agent'),
+      status: 'success'
+    });
     
     res.json({
       success: true,
@@ -323,9 +386,23 @@ router.post('/refresh', (req, res) => {
 });
 
 // 用户登出
-router.post('/logout', (req, res) => {
+router.post('/logout', authenticateToken, (req, res) => {
   try {
     const { token, all_devices } = req.body;
+    
+    // 记录登出事件
+    logAuditEvent({
+      user_id: req.user?.id,
+      username: req.user?.username || 'unknown',
+      action: 'auth:logout',
+      resource_type: 'session',
+      details: {
+        logout_method: 'manual'
+      },
+      ip_address: req.ip,
+      user_agent: req.get('User-Agent'),
+      status: 'success'
+    });
     
     res.json({
       success: true,

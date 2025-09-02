@@ -50,6 +50,10 @@
             <el-icon><Grid /></el-icon>
             <span>应用管理</span>
           </el-menu-item>
+          <el-menu-item index="/admin/third-party-apps">
+            <el-icon><Connection /></el-icon>
+            <span>第三方应用</span>
+          </el-menu-item>
           <el-menu-item index="/admin/permissions">
             <el-icon><Key /></el-icon>
             <span>权限管理</span>
@@ -75,7 +79,7 @@
 
 <script setup lang="ts">
 import {
-  Lock, User, ArrowDown, Setting, Odometer, Grid, Key, Document
+  Lock, User, ArrowDown, Setting, Odometer, Grid, Key, Document, Connection
 } from '@element-plus/icons-vue';
 import { useAuthStore } from '@/stores/auth';
 

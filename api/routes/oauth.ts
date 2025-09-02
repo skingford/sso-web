@@ -21,6 +21,22 @@ const mockClients = [
     redirect_uris: ['http://localhost:3002/callback', 'https://demo2.example.com/callback'],
     scopes: ['openid', 'profile'],
     grant_types: ['authorization_code']
+  },
+  {
+    client_id: 'api-client-1',
+    client_secret: 'api-secret-1',
+    name: 'API客户端1',
+    redirect_uris: [], // 客户端凭证模式不需要重定向URI
+    scopes: ['api:read', 'api:write', 'user:read'],
+    grant_types: ['client_credentials']
+  },
+  {
+    client_id: 'mobile-app-1',
+    client_secret: 'mobile-secret-1',
+    name: '移动应用1',
+    redirect_uris: ['myapp://callback'],
+    scopes: ['openid', 'profile', 'email', 'api:read'],
+    grant_types: ['authorization_code', 'refresh_token', 'client_credentials']
   }
 ];
 
@@ -237,6 +253,47 @@ router.post('/token', (req, res) => {
           error_description: '无效的刷新令牌'
         });
       }
+    } else if (grant_type === 'client_credentials') {
+      // 客户端凭证模式 - 用于第三方应用获取访问令牌
+      // 验证客户端是否支持此授权类型
+      if (!client.grant_types.includes('client_credentials')) {
+        return res.status(400).json({
+          error: 'unauthorized_client',
+          error_description: '客户端不支持客户端凭证授权类型'
+        });
+      }
+
+      // 获取请求的作用域，默认为客户端配置的作用域
+      const requestedScope = req.body.scope || client.scopes.join(' ');
+      const scopeArray = requestedScope.split(' ');
+      
+      // 验证请求的作用域是否在客户端允许的范围内
+      const invalidScopes = scopeArray.filter(scope => !client.scopes.includes(scope));
+      if (invalidScopes.length > 0) {
+        return res.status(400).json({
+          error: 'invalid_scope',
+          error_description: `无效的作用域: ${invalidScopes.join(', ')}`
+        });
+      }
+
+      // 生成客户端凭证访问令牌
+      const payload = {
+        sub: client_id, // 对于客户端凭证模式，subject就是客户端ID
+        aud: 'api', // 目标受众为API资源
+        iss: 'https://sso.example.com',
+        scope: requestedScope,
+        client_id: client_id,
+        token_type: 'client_credentials'
+      };
+
+      const accessToken = jwt.sign(payload, JWT_SECRET, { expiresIn: '2h' }); // 客户端凭证令牌通常有效期较长
+
+      res.json({
+        access_token: accessToken,
+        token_type: 'Bearer',
+        expires_in: 7200, // 2小时
+        scope: requestedScope
+      });
     } else {
       res.status(400).json({
         error: 'unsupported_grant_type',
@@ -284,6 +341,68 @@ router.get('/userinfo', (req, res) => {
   }
 });
 
+// 令牌内省端点
+router.post('/introspect', (req, res) => {
+  try {
+    const { token, token_type_hint } = req.body;
+    
+    if (!token) {
+      return res.status(400).json({
+        error: 'invalid_request',
+        error_description: '缺少token参数'
+      });
+    }
+
+    try {
+      const decoded = jwt.verify(token, JWT_SECRET) as any;
+      
+      // 检查令牌是否过期
+      const now = Math.floor(Date.now() / 1000);
+      if (decoded.exp && decoded.exp < now) {
+        return res.json({ active: false });
+      }
+
+      res.json({
+        active: true,
+        sub: decoded.sub,
+        aud: decoded.aud,
+        iss: decoded.iss,
+        scope: decoded.scope,
+        client_id: decoded.client_id,
+        token_type: decoded.token_type || 'Bearer',
+        exp: decoded.exp,
+        iat: decoded.iat
+      });
+    } catch (error) {
+      // 令牌无效
+      res.json({ active: false });
+    }
+  } catch (error) {
+    console.error('Token introspection error:', error);
+    res.status(500).json({
+      error: 'server_error',
+      error_description: '服务器内部错误'
+    });
+  }
+});
+
+// JWKS端点（JSON Web Key Set）
+router.get('/jwks', (req, res) => {
+  // 在生产环境中，这里应该返回实际的公钥
+  // 目前使用对称密钥（HS256），所以不暴露密钥
+  res.json({
+    keys: [
+      {
+        kty: 'oct', // 对称密钥类型
+        use: 'sig', // 用于签名
+        alg: 'HS256',
+        kid: 'default-key-id'
+        // 注意：对称密钥不应该在JWKS中暴露
+      }
+    ]
+  });
+});
+
 // OIDC发现端点
 router.get('/.well-known/openid_configuration', (req, res) => {
   const baseUrl = `${req.protocol}://${req.get('host')}`;
@@ -293,13 +412,16 @@ router.get('/.well-known/openid_configuration', (req, res) => {
     authorization_endpoint: `${baseUrl}/api/oauth/authorize`,
     token_endpoint: `${baseUrl}/api/oauth/token`,
     userinfo_endpoint: `${baseUrl}/api/oauth/userinfo`,
+    introspection_endpoint: `${baseUrl}/api/oauth/introspect`,
     jwks_uri: `${baseUrl}/api/oauth/jwks`,
     response_types_supported: ['code'],
+    grant_types_supported: ['authorization_code', 'refresh_token', 'client_credentials'],
     subject_types_supported: ['public'],
     id_token_signing_alg_values_supported: ['HS256'],
-    scopes_supported: ['openid', 'profile', 'email'],
+    scopes_supported: ['openid', 'profile', 'email', 'api:read', 'api:write', 'user:read'],
     token_endpoint_auth_methods_supported: ['client_secret_post'],
-    claims_supported: ['sub', 'name', 'email', 'picture', 'preferred_username']
+    claims_supported: ['sub', 'name', 'email', 'picture', 'preferred_username'],
+    code_challenge_methods_supported: ['S256', 'plain']
   });
 });
 

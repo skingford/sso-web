@@ -1,5 +1,10 @@
 import express from 'express';
 import jwt from 'jsonwebtoken';
+import { authenticateToken, requireAdmin } from '../middleware/auth.js';
+
+import { generateClientCredentials, validateCredentialsFormat, generateConfirmationCode } from '../utils/credentials.js';
+import { logAuditEvent } from './audit.js';
+import { sensitiveOperationRateLimit, apiRateLimit } from '../middleware/rateLimit.js';
 
 const router = express.Router();
 
@@ -66,49 +71,22 @@ let mockApplications = [
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
 
-// 认证中间件
-const authenticateToken = (req: any, res: any, next: any) => {
-  const token = req.headers.authorization?.replace('Bearer ', '');
+// 凭据验证中间件
+const validateClientCredentials = (req: any, res: any, next: any) => {
+  const { client_id, client_secret } = req.body;
   
-  if (!token) {
-    return res.status(401).json({
+  if (client_id && client_secret && !validateCredentialsFormat(client_id, client_secret)) {
+    return res.status(400).json({
       success: false,
-      message: '未提供认证令牌'
+      message: '客户端凭据格式无效'
     });
   }
   
-  try {
-    const decoded = jwt.verify(token, JWT_SECRET) as any;
-    req.user = decoded;
-    next();
-  } catch (error) {
-    return res.status(401).json({
-      success: false,
-      message: '令牌无效或已过期'
-    });
-  }
-};
-
-// 管理员权限中间件
-const requireAdmin = (req: any, res: any, next: any) => {
-  if (!req.user.roles.includes('admin')) {
-    return res.status(403).json({
-      success: false,
-      message: '需要管理员权限'
-    });
-  }
   next();
 };
 
-// 生成客户端ID和密钥
-const generateClientCredentials = () => {
-  const clientId = 'app_' + Math.random().toString(36).substr(2, 9);
-  const clientSecret = Math.random().toString(36).substr(2, 32);
-  return { clientId, clientSecret };
-};
-
 // 获取应用列表
-router.get('/', authenticateToken, requireAdmin, (req, res) => {
+router.get('/', authenticateToken, requireAdmin, apiRateLimit, (req, res) => {
   try {
     const { page = 1, limit = 20, search, is_active } = req.query;
     
@@ -165,7 +143,7 @@ router.get('/', authenticateToken, requireAdmin, (req, res) => {
 });
 
 // 获取单个应用
-router.get('/:id', authenticateToken, requireAdmin, (req, res) => {
+router.get('/:id', authenticateToken, requireAdmin, apiRateLimit, (req, res) => {
   try {
     const { id } = req.params;
     
@@ -196,7 +174,7 @@ router.get('/:id', authenticateToken, requireAdmin, (req, res) => {
 });
 
 // 创建应用
-router.post('/', authenticateToken, requireAdmin, (req, res) => {
+router.post('/', authenticateToken, requireAdmin, sensitiveOperationRateLimit, async (req, res) => {
   try {
     const {
       name,
@@ -254,6 +232,24 @@ router.post('/', authenticateToken, requireAdmin, (req, res) => {
     
     mockApplications.push(newApp);
     
+    // 记录应用创建事件
+    logAuditEvent({
+      user_id: req.user?.id,
+      username: req.user?.username || 'unknown',
+      action: 'app:create',
+      resource_type: 'application',
+      resource_id: newApp.id,
+      details: {
+        app_name: newApp.name,
+        client_id: newApp.client_id,
+        redirect_uris: newApp.redirect_uris,
+        scopes: newApp.scopes
+      },
+      ip_address: req.ip,
+      user_agent: req.get('User-Agent'),
+      status: 'success'
+    });
+    
     // 返回包含客户端密钥的完整信息（仅在创建时返回）
     res.status(201).json({
       success: true,
@@ -270,7 +266,7 @@ router.post('/', authenticateToken, requireAdmin, (req, res) => {
 });
 
 // 更新应用
-router.put('/:id', authenticateToken, requireAdmin, (req, res) => {
+router.put('/:id', authenticateToken, requireAdmin, sensitiveOperationRateLimit, async (req, res) => {
   try {
     const { id } = req.params;
     const {
@@ -308,6 +304,9 @@ router.put('/:id', authenticateToken, requireAdmin, (req, res) => {
       }
     }
     
+    // 记录变更前的状态
+    const beforeState = { ...app };
+    
     // 更新应用信息
     mockApplications[appIndex] = {
       ...app,
@@ -324,6 +323,25 @@ router.put('/:id', authenticateToken, requireAdmin, (req, res) => {
       terms_of_service_url: terms_of_service_url !== undefined ? terms_of_service_url : app.terms_of_service_url,
       updated_at: new Date().toISOString()
     };
+    
+    // 记录应用更新事件
+    logAuditEvent({
+      user_id: req.user?.id,
+      username: req.user?.username || 'unknown',
+      action: 'app:update',
+      resource_type: 'application',
+      resource_id: app.id,
+      details: {
+        app_name: app.name,
+        changes: {
+          before: beforeState,
+          after: mockApplications[appIndex]
+        }
+      },
+      ip_address: req.ip,
+      user_agent: req.get('User-Agent'),
+      status: 'success'
+    });
     
     const { client_secret, ...safeApp } = mockApplications[appIndex];
     res.json({
@@ -344,7 +362,7 @@ router.put('/:id', authenticateToken, requireAdmin, (req, res) => {
 });
 
 // 删除应用
-router.delete('/:id', authenticateToken, requireAdmin, (req, res) => {
+router.delete('/:id', authenticateToken, requireAdmin, sensitiveOperationRateLimit, async (req, res) => {
   try {
     const { id } = req.params;
     
@@ -356,7 +374,26 @@ router.delete('/:id', authenticateToken, requireAdmin, (req, res) => {
       });
     }
     
+    // 记录删除前的应用信息
+    const deletedApp = { ...mockApplications[appIndex] };
+    
     mockApplications.splice(appIndex, 1);
+    
+    // 记录应用删除事件
+    logAuditEvent({
+      user_id: req.user?.id,
+      username: req.user?.username || 'unknown',
+      action: 'app:delete',
+      resource_type: 'application',
+      resource_id: deletedApp.id,
+      details: {
+        app_name: deletedApp.name,
+        deleted_app: deletedApp
+      },
+      ip_address: req.ip,
+      user_agent: req.get('User-Agent'),
+      status: 'success'
+    });
     
     res.json({
       success: true,
@@ -371,10 +408,11 @@ router.delete('/:id', authenticateToken, requireAdmin, (req, res) => {
   }
 });
 
-// 重新生成客户端密钥
-router.post('/:id/regenerate-secret', authenticateToken, requireAdmin, (req, res) => {
+// 重新生成客户端密钥（带安全验证）
+router.post('/:id/regenerate-secret', authenticateToken, requireAdmin, sensitiveOperationRateLimit, async (req, res) => {
   try {
     const { id } = req.params;
+    const { confirmation_code, reason } = req.body;
     
     const appIndex = mockApplications.findIndex(a => a.id === id);
     if (appIndex === -1) {
@@ -384,22 +422,136 @@ router.post('/:id/regenerate-secret', authenticateToken, requireAdmin, (req, res
       });
     }
     
+    // 验证确认码（模拟2FA验证）
+    if (!confirmation_code) {
+      return res.status(400).json({
+        success: false,
+        message: '请提供确认码'
+      });
+    }
+    
+    // 简单的确认码验证（实际应用中应该从缓存或数据库验证）
+    const validCodes = ['123456', '000000', 'admin123'];
+    if (!validCodes.includes(confirmation_code)) {
+      return res.status(400).json({
+        success: false,
+        message: '确认码无效或已过期'
+      });
+    }
+    
+    const app = mockApplications[appIndex];
+    const oldSecret = app.client_secret;
+    
     // 生成新的客户端密钥
     const { clientSecret } = generateClientCredentials();
     
     mockApplications[appIndex].client_secret = clientSecret;
     mockApplications[appIndex].updated_at = new Date().toISOString();
     
+    // 记录密钥重置事件
+    logAuditEvent({
+      user_id: req.user?.id,
+      username: req.user?.username || 'unknown',
+      action: 'app:regenerate_secret',
+      resource_type: 'application',
+      resource_id: app.id,
+      details: {
+        app_name: app.name,
+        client_id: app.client_id,
+        old_secret_preview: oldSecret.substring(0, 8) + '***',
+        new_secret_preview: clientSecret.substring(0, 8) + '***',
+        reason: reason || 'Not specified'
+      },
+      ip_address: req.ip,
+      user_agent: req.get('User-Agent'),
+      status: 'success'
+    });
+    
+    // 记录安全日志
+    console.log(`[SECURITY] Client secret regenerated for app ${app.name} (${app.client_id}) by user ${req.user.id}. Reason: ${reason || 'Not specified'}`);
+    
     res.json({
       success: true,
       data: {
-        client_id: mockApplications[appIndex].client_id,
-        client_secret: clientSecret
+        client_id: app.client_id,
+        client_secret: clientSecret,
+        old_secret_preview: oldSecret.substring(0, 8) + '***',
+        regenerated_at: new Date().toISOString()
       },
-      message: '客户端密钥重新生成成功，请妥善保存'
+      message: '客户端密钥重新生成成功，旧密钥将在24小时后失效'
     });
   } catch (error) {
     console.error('Regenerate secret error:', error);
+    res.status(500).json({
+      success: false,
+      message: '服务器内部错误'
+    });
+  }
+});
+
+// 获取应用凭据（仅显示部分信息）
+router.get('/:id/credentials', authenticateToken, requireAdmin, (req, res) => {
+  try {
+    const { id } = req.params;
+    
+    const app = mockApplications.find(a => a.id === id);
+    if (!app) {
+      return res.status(404).json({
+        success: false,
+        message: '应用不存在'
+      });
+    }
+    
+    res.json({
+      success: true,
+      data: {
+        client_id: app.client_id,
+        client_secret_preview: app.client_secret.substring(0, 8) + '***',
+        created_at: app.created_at,
+        updated_at: app.updated_at
+      }
+    });
+  } catch (error) {
+    console.error('Get credentials error:', error);
+    res.status(500).json({
+      success: false,
+      message: '服务器内部错误'
+    });
+  }
+});
+
+// 验证重定向URI
+router.post('/validate-redirect-uri', (req, res) => {
+  try {
+    const { client_id, redirect_uri } = req.body;
+    
+    if (!client_id || !redirect_uri) {
+      return res.status(400).json({
+        success: false,
+        message: '客户端ID和重定向URI不能为空'
+      });
+    }
+    
+    const app = mockApplications.find(a => a.client_id === client_id && a.is_active);
+    if (!app) {
+      return res.status(404).json({
+        success: false,
+        message: '应用不存在或已禁用'
+      });
+    }
+    
+    const isValidUri = app.redirect_uris.includes(redirect_uri);
+    
+    res.json({
+      success: true,
+      data: {
+        is_valid: isValidUri,
+        app_name: app.name,
+        allowed_uris: app.redirect_uris
+      }
+    });
+  } catch (error) {
+    console.error('Validate redirect URI error:', error);
     res.status(500).json({
       success: false,
       message: '服务器内部错误'
@@ -439,6 +591,73 @@ router.get('/:id/stats', authenticateToken, requireAdmin, (req, res) => {
     });
   } catch (error) {
     console.error('Get application stats error:', error);
+    res.status(500).json({
+      success: false,
+      message: '服务器内部错误'
+    });
+  }
+});
+
+// 批量操作
+router.post('/batch', authenticateToken, requireAdmin, (req, res) => {
+  try {
+    const { action, app_ids } = req.body;
+    
+    if (!action || !app_ids || !Array.isArray(app_ids)) {
+      return res.status(400).json({
+        success: false,
+        message: '操作类型和应用ID列表不能为空'
+      });
+    }
+    
+    let successCount = 0;
+    let failedCount = 0;
+    const results = [];
+    
+    for (const appId of app_ids) {
+      const appIndex = mockApplications.findIndex(a => a.id === appId);
+      if (appIndex === -1) {
+        failedCount++;
+        results.push({ id: appId, success: false, message: '应用不存在' });
+        continue;
+      }
+      
+      try {
+        switch (action) {
+          case 'activate':
+            mockApplications[appIndex].is_active = true;
+            break;
+          case 'deactivate':
+            mockApplications[appIndex].is_active = false;
+            break;
+          case 'delete':
+            mockApplications.splice(appIndex, 1);
+            break;
+          default:
+            throw new Error('不支持的操作类型');
+        }
+        
+        mockApplications[appIndex] && (mockApplications[appIndex].updated_at = new Date().toISOString());
+        successCount++;
+        results.push({ id: appId, success: true, message: '操作成功' });
+      } catch (error) {
+        failedCount++;
+        results.push({ id: appId, success: false, message: error.message });
+      }
+    }
+    
+    res.json({
+      success: true,
+      data: {
+        total: app_ids.length,
+        success_count: successCount,
+        failed_count: failedCount,
+        results
+      },
+      message: `批量操作完成：成功 ${successCount} 个，失败 ${failedCount} 个`
+    });
+  } catch (error) {
+    console.error('Batch operation error:', error);
     res.status(500).json({
       success: false,
       message: '服务器内部错误'

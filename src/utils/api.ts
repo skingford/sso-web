@@ -397,6 +397,43 @@ export const permissionsAPI = {
   },
 };
 
+// 凭证管理API
+export const credentialsAPI = {
+  // 生成应用凭证
+  generateCredentials: (data: {
+    client_id: string;
+    scopes: string[];
+    expires_in?: number;
+  }): Promise<AxiosResponse> => {
+    return api.post('/credentials/generate', data);
+  },
+  
+  // 获取凭证列表
+  getCredentials: (params?: {
+    page?: number;
+    limit?: number;
+    client_id?: string;
+    status?: string;
+  }): Promise<AxiosResponse> => {
+    return api.get('/credentials', { params });
+  },
+  
+  // 撤销凭证
+  revokeCredentials: (credentialId: string): Promise<AxiosResponse> => {
+    return api.post(`/credentials/${credentialId}/revoke`);
+  },
+  
+  // 重新生成应用密钥
+  regenerateSecret: (clientId: string): Promise<AxiosResponse> => {
+    return api.post(`/credentials/${clientId}/regenerate-secret`);
+  },
+  
+  // 获取凭证详情
+  getCredential: (credentialId: string): Promise<AxiosResponse> => {
+    return api.get(`/credentials/${credentialId}`);
+  },
+};
+
 // 审计日志API
 export const auditAPI = {
   // 获取审计日志列表
