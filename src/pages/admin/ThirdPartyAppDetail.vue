@@ -19,6 +19,32 @@
         </div>
       </div>
       <div class="header-actions">
+        <el-dropdown @command="handleMoreActions">
+          <el-button>
+            更多操作
+            <el-icon class="el-icon--right"><ArrowDown /></el-icon>
+          </el-button>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item command="resetSecret">
+                <el-icon><Key /></el-icon>
+                重置密钥
+              </el-dropdown-item>
+              <el-dropdown-item command="manageCredentials">
+                <el-icon><Credential /></el-icon>
+                管理凭证
+              </el-dropdown-item>
+              <el-dropdown-item command="viewLogs">
+                <el-icon><Document /></el-icon>
+                查看日志
+              </el-dropdown-item>
+              <el-dropdown-item command="delete" divided>
+                <el-icon><Delete /></el-icon>
+                删除应用
+              </el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
         <el-button @click="editApplication">
           <el-icon><Edit /></el-icon>
           编辑应用
@@ -423,7 +449,7 @@ import { ref, computed, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import {
-  ArrowLeft, Grid, Edit, Plus, Search, View, Link, Delete, Key, Download, Document
+  ArrowLeft, Grid, Edit, Plus, Search, View, Link, Delete, Key, Download, Document, ArrowDown
 } from '@element-plus/icons-vue'
 
 // 路由
@@ -838,8 +864,44 @@ const removeUserFromApp = async (user: any) => {
   }
 }
 
+const handleMoreActions = async (command: string) => {
+  switch (command) {
+    case 'resetSecret':
+      await resetAppSecret()
+      break
+    case 'manageCredentials':
+      ElMessage.info('管理凭证功能开发中')
+      break
+    case 'viewLogs':
+      viewAuditLogs()
+      break
+    case 'delete':
+      await deleteApplication()
+      break
+  }
+}
+
 const editApplication = () => {
   ElMessage.info('编辑应用功能开发中')
+}
+
+const deleteApplication = async () => {
+  try {
+    await ElMessageBox.confirm(
+      `确定要删除应用 "${appDetail.value.name}" 吗？此操作不可恢复。`,
+      '确认删除',
+      {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }
+    )
+    
+    ElMessage.success('应用删除成功')
+    router.push('/admin/third-party-apps')
+  } catch {
+    // 用户取消删除
+  }
 }
 
 const resetAppSecret = async () => {
