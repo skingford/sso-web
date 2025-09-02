@@ -71,6 +71,87 @@ let mockApplications = [
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
 
+// Mock应用用户关联数据
+let mockAppUsers = [
+  {
+    id: '1',
+    app_id: '1',
+    user_id: '1',
+    username: 'zhang.wei',
+    email: 'zhang.wei@example.com',
+    display_name: '张伟',
+    role: 'admin',
+    status: 'active',
+    permissions: ['read', 'write', 'admin'],
+    avatar: '',
+    last_login: '2024-01-15T14:30:00Z',
+    joined_at: '2024-01-01T00:00:00Z',
+    third_party_accounts: [
+      { provider: 'dingtalk', account_name: '张伟-技术部', account_id: 'dt_001', bound_at: '2024-01-01T00:00:00Z' },
+      { provider: 'wechat', account_name: 'zhangwei_wx', account_id: 'wx_001', bound_at: '2024-01-02T00:00:00Z' }
+    ]
+  },
+  {
+    id: '2',
+    app_id: '1',
+    user_id: '2',
+    username: 'li.ming',
+    email: 'li.ming@example.com',
+    display_name: '李明',
+    role: 'user',
+    status: 'active',
+    permissions: ['read', 'write'],
+    avatar: '',
+    last_login: '2024-01-14T16:20:00Z',
+    joined_at: '2024-01-03T00:00:00Z',
+    third_party_accounts: [
+      { provider: 'dingtalk', account_name: '李明-销售部', account_id: 'dt_002', bound_at: '2024-01-03T00:00:00Z' }
+    ]
+  },
+  {
+    id: '3',
+    app_id: '1',
+    user_id: '3',
+    username: 'wang.fang',
+    email: 'wang.fang@example.com',
+    display_name: '王芳',
+    role: 'user',
+    status: 'pending',
+    permissions: ['read'],
+    avatar: '',
+    last_login: null,
+    joined_at: '2024-01-10T00:00:00Z',
+    third_party_accounts: []
+  },
+  {
+    id: '4',
+    app_id: '2',
+    user_id: '1',
+    username: 'zhang.wei',
+    email: 'zhang.wei@example.com',
+    display_name: '张伟',
+    role: 'admin',
+    status: 'active',
+    permissions: ['read', 'write', 'admin'],
+    avatar: '',
+    last_login: '2024-01-15T14:30:00Z',
+    joined_at: '2024-01-02T00:00:00Z',
+    third_party_accounts: [
+      { provider: 'wechat_work', account_name: '张伟-ERP管理', account_id: 'wxw_001', bound_at: '2024-01-02T00:00:00Z' }
+    ]
+  }
+];
+
+// Mock全部用户数据（用于搜索添加用户）
+let mockAllUsers = [
+  { id: '1', username: 'zhang.wei', email: 'zhang.wei@example.com', display_name: '张伟', status: 'active' },
+  { id: '2', username: 'li.ming', email: 'li.ming@example.com', display_name: '李明', status: 'active' },
+  { id: '3', username: 'wang.fang', email: 'wang.fang@example.com', display_name: '王芳', status: 'pending' },
+  { id: '4', username: 'chen.jun', email: 'chen.jun@example.com', display_name: '陈军', status: 'active' },
+  { id: '5', username: 'liu.yan', email: 'liu.yan@example.com', display_name: '刘燕', status: 'active' },
+  { id: '6', username: 'zhao.lei', email: 'zhao.lei@example.com', display_name: '赵雷', status: 'active' }
+];
+
 // 凭据验证中间件
 const validateClientCredentials = (req: any, res: any, next: any) => {
   const { client_id, client_secret } = req.body;
@@ -662,6 +743,343 @@ router.post('/batch', authenticateToken, requireAdmin, (req, res) => {
       success: false,
       message: '服务器内部错误'
     });
+  }
+});
+
+// 获取应用用户列表
+router.get('/:id/users', authenticateToken, requireAdmin, apiRateLimit, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { page = '1', limit = '10', search = '', role = '', status = '' } = req.query;
+    
+    // 检查应用是否存在
+    const app = mockApplications.find(app => app.id === id);
+    if (!app) {
+      return res.status(404).json({ error: '应用不存在' });
+    }
+    
+    // 过滤应用用户
+    let filteredUsers = mockAppUsers.filter(user => user.app_id === id);
+    
+    // 搜索过滤
+    if (search) {
+      filteredUsers = filteredUsers.filter(user => 
+        user.username.toLowerCase().includes((search as string).toLowerCase()) ||
+        user.email.toLowerCase().includes((search as string).toLowerCase()) ||
+        user.display_name.includes(search as string)
+      );
+    }
+    
+    // 角色过滤
+    if (role) {
+      filteredUsers = filteredUsers.filter(user => user.role === role);
+    }
+    
+    // 状态过滤
+    if (status) {
+      filteredUsers = filteredUsers.filter(user => user.status === status);
+    }
+    
+    // 分页
+    const startIndex = (parseInt(page as string) - 1) * parseInt(limit as string);
+    const endIndex = startIndex + parseInt(limit as string);
+    const paginatedUsers = filteredUsers.slice(startIndex, endIndex);
+    
+    // 统计信息
+    const stats = {
+      total: filteredUsers.length,
+      active: filteredUsers.filter(u => u.status === 'active').length,
+      pending: filteredUsers.filter(u => u.status === 'pending').length,
+      inactive: filteredUsers.filter(u => u.status === 'inactive').length,
+      admins: filteredUsers.filter(u => u.role === 'admin').length,
+      users: filteredUsers.filter(u => u.role === 'user').length
+    };
+    
+    res.json({
+      users: paginatedUsers,
+      pagination: {
+        current_page: parseInt(page as string),
+        per_page: parseInt(limit as string),
+        total: filteredUsers.length,
+        total_pages: Math.ceil(filteredUsers.length / parseInt(limit as string))
+      },
+      stats
+    });
+    
+  } catch (error) {
+    console.error('获取应用用户列表失败:', error);
+    res.status(500).json({ error: '服务器内部错误' });
+  }
+});
+
+// 添加用户到应用
+router.post('/:id/users', authenticateToken, requireAdmin, apiRateLimit, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { user_id, role = 'user', permissions = ['read'] } = req.body;
+    
+    // 检查应用是否存在
+    const app = mockApplications.find(app => app.id === id);
+    if (!app) {
+      return res.status(404).json({ error: '应用不存在' });
+    }
+    
+    // 检查用户是否存在
+    const user = mockAllUsers.find(u => u.id === user_id);
+    if (!user) {
+      return res.status(404).json({ error: '用户不存在' });
+    }
+    
+    // 检查用户是否已经在应用中
+    const existingAppUser = mockAppUsers.find(au => au.app_id === id && au.user_id === user_id);
+    if (existingAppUser) {
+      return res.status(400).json({ error: '用户已经在该应用中' });
+    }
+    
+    // 创建新的应用用户关联
+    const newAppUser = {
+      id: (mockAppUsers.length + 1).toString(),
+      app_id: id,
+      user_id: user_id,
+      username: user.username,
+      email: user.email,
+      display_name: user.display_name,
+      role,
+      status: 'active',
+      permissions,
+      avatar: '',
+      last_login: null,
+      joined_at: new Date().toISOString(),
+      third_party_accounts: []
+    };
+    
+    mockAppUsers.push(newAppUser);
+    
+    // 记录审计日志
+    console.log(`用户 ${req.user.username} 将用户 ${user.username} 添加到应用 ${app.name}`);
+    
+    res.status(201).json({
+      message: '用户添加成功',
+      user: newAppUser
+    });
+    
+  } catch (error) {
+    console.error('添加用户到应用失败:', error);
+    res.status(500).json({ error: '服务器内部错误' });
+  }
+});
+
+// 更新应用用户信息
+router.put('/:id/users/:userId', authenticateToken, requireAdmin, apiRateLimit, async (req, res) => {
+  try {
+    const { id, userId } = req.params;
+    const { role, permissions, status } = req.body;
+    
+    // 检查应用是否存在
+    const app = mockApplications.find(app => app.id === id);
+    if (!app) {
+      return res.status(404).json({ error: '应用不存在' });
+    }
+    
+    // 查找应用用户
+    const appUserIndex = mockAppUsers.findIndex(au => au.app_id === id && au.id === userId);
+    if (appUserIndex === -1) {
+      return res.status(404).json({ error: '用户不在该应用中' });
+    }
+    
+    const oldAppUser = { ...mockAppUsers[appUserIndex] };
+    
+    // 更新用户信息
+    if (role !== undefined) mockAppUsers[appUserIndex].role = role;
+    if (permissions !== undefined) mockAppUsers[appUserIndex].permissions = permissions;
+    if (status !== undefined) mockAppUsers[appUserIndex].status = status;
+    
+    // 记录审计日志
+    console.log(`用户 ${req.user.username} 更新了应用 ${app.name} 中用户 ${mockAppUsers[appUserIndex].username} 的信息`);
+    
+    res.json({
+      message: '用户信息更新成功',
+      user: mockAppUsers[appUserIndex]
+    });
+    
+  } catch (error) {
+    console.error('更新应用用户信息失败:', error);
+    res.status(500).json({ error: '服务器内部错误' });
+  }
+});
+
+// 从应用中移除用户
+router.delete('/:id/users/:userId', authenticateToken, requireAdmin, apiRateLimit, async (req, res) => {
+  try {
+    const { id, userId } = req.params;
+    
+    // 检查应用是否存在
+    const app = mockApplications.find(app => app.id === id);
+    if (!app) {
+      return res.status(404).json({ error: '应用不存在' });
+    }
+    
+    // 查找应用用户
+    const appUserIndex = mockAppUsers.findIndex(au => au.app_id === id && au.id === userId);
+    if (appUserIndex === -1) {
+      return res.status(404).json({ error: '用户不在该应用中' });
+    }
+    
+    const removedUser = mockAppUsers[appUserIndex];
+    mockAppUsers.splice(appUserIndex, 1);
+    
+    // 记录审计日志
+    console.log(`用户 ${req.user.username} 从应用 ${app.name} 中移除了用户 ${removedUser.username}`);
+    
+    res.json({
+      message: '用户移除成功'
+    });
+    
+  } catch (error) {
+    console.error('从应用中移除用户失败:', error);
+    res.status(500).json({ error: '服务器内部错误' });
+  }
+});
+
+// 搜索可添加的用户
+router.get('/:id/available-users', authenticateToken, requireAdmin, apiRateLimit, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { search = '', page = 1, limit = 10 } = req.query;
+    
+    // 检查应用是否存在
+    const app = mockApplications.find(app => app.id === id);
+    if (!app) {
+      return res.status(404).json({ error: '应用不存在' });
+    }
+    
+    // 获取已在应用中的用户ID
+    const existingUserIds = mockAppUsers
+      .filter(au => au.app_id === id)
+      .map(au => au.user_id);
+    
+    // 过滤出可添加的用户
+    let availableUsers = mockAllUsers.filter(user => 
+      !existingUserIds.includes(user.id) && user.status === 'active'
+    );
+    
+    // 搜索过滤
+    if (search) {
+      availableUsers = availableUsers.filter(user => 
+        user.username.toLowerCase().includes((search as string).toLowerCase()) ||
+        user.email.toLowerCase().includes((search as string).toLowerCase()) ||
+        user.display_name.includes(search as string)
+      );
+    }
+    
+    // 分页
+    const startIndex = (parseInt(page as string) - 1) * parseInt(limit as string);
+    const endIndex = startIndex + parseInt(limit as string);
+    const paginatedUsers = availableUsers.slice(startIndex, endIndex);
+    
+    res.json({
+      users: paginatedUsers,
+      pagination: {
+        current_page: parseInt(page as string),
+        per_page: parseInt(limit as string),
+        total: availableUsers.length,
+        total_pages: Math.ceil(availableUsers.length / parseInt(limit as string))
+      }
+    });
+    
+  } catch (error) {
+    console.error('搜索可添加用户失败:', error);
+    res.status(500).json({ error: '服务器内部错误' });
+  }
+});
+
+// 绑定第三方账号
+router.post('/:id/users/:userId/bind-account', authenticateToken, requireAdmin, apiRateLimit, async (req, res) => {
+  try {
+    const { id, userId } = req.params;
+    const { provider, account_name, account_id } = req.body;
+    
+    // 检查应用是否存在
+    const app = mockApplications.find(app => app.id === id);
+    if (!app) {
+      return res.status(404).json({ error: '应用不存在' });
+    }
+    
+    // 查找应用用户
+    const appUserIndex = mockAppUsers.findIndex(au => au.app_id === id && au.id === userId);
+    if (appUserIndex === -1) {
+      return res.status(404).json({ error: '用户不在该应用中' });
+    }
+    
+    // 检查是否已绑定该平台账号
+    const existingAccount = mockAppUsers[appUserIndex].third_party_accounts.find(
+      acc => acc.provider === provider
+    );
+    if (existingAccount) {
+      return res.status(400).json({ error: '该平台账号已绑定' });
+    }
+    
+    // 添加第三方账号绑定
+    const newAccount = {
+      provider,
+      account_name,
+      account_id,
+      bound_at: new Date().toISOString()
+    };
+    
+    mockAppUsers[appUserIndex].third_party_accounts.push(newAccount);
+    
+    // 记录审计日志
+    console.log(`用户 ${req.user.username} 为应用 ${app.name} 中的用户 ${mockAppUsers[appUserIndex].username} 绑定了 ${provider} 账号`);
+    
+    res.json({
+      message: '第三方账号绑定成功',
+      account: newAccount
+    });
+    
+  } catch (error) {
+    console.error('绑定第三方账号失败:', error);
+    res.status(500).json({ error: '服务器内部错误' });
+  }
+});
+
+// 解绑第三方账号
+router.delete('/:id/users/:userId/bind-account/:provider', authenticateToken, requireAdmin, apiRateLimit, async (req, res) => {
+  try {
+    const { id, userId, provider } = req.params;
+    
+    // 检查应用是否存在
+    const app = mockApplications.find(app => app.id === id);
+    if (!app) {
+      return res.status(404).json({ error: '应用不存在' });
+    }
+    
+    // 查找应用用户
+    const appUserIndex = mockAppUsers.findIndex(au => au.app_id === id && au.id === userId);
+    if (appUserIndex === -1) {
+      return res.status(404).json({ error: '用户不在该应用中' });
+    }
+    
+    // 查找并移除第三方账号绑定
+    const accountIndex = mockAppUsers[appUserIndex].third_party_accounts.findIndex(
+      acc => acc.provider === provider
+    );
+    if (accountIndex === -1) {
+      return res.status(404).json({ error: '未找到该平台的绑定账号' });
+    }
+    
+    mockAppUsers[appUserIndex].third_party_accounts.splice(accountIndex, 1);
+    
+    // 记录审计日志
+    console.log(`用户 ${req.user.username} 为应用 ${app.name} 中的用户 ${mockAppUsers[appUserIndex].username} 解绑了 ${provider} 账号`);
+    
+    res.json({
+      message: '第三方账号解绑成功'
+    });
+    
+  } catch (error) {
+    console.error('解绑第三方账号失败:', error);
+    res.status(500).json({ error: '服务器内部错误' });
   }
 });
 

@@ -36,6 +36,7 @@ const AdminOverview = () => import('@/pages/admin/AdminOverview.vue')
 const UserManagement = () => import('@/pages/admin/UserManagement.vue')
 const ApplicationManagement = () => import('@/pages/admin/ApplicationManagement.vue')
 const ThirdPartyApps = () => import('@/pages/admin/ThirdPartyApps.vue')
+const ThirdPartyAppDetail = () => import('@/pages/admin/ThirdPartyAppDetail.vue')
 const PermissionManagement = () => import('@/pages/admin/PermissionManagement.vue')
 const AuditLogs = () => import('@/pages/admin/AuditLogs.vue')
 const SystemSettings = () => import('@/pages/admin/SystemSettings.vue')
@@ -134,6 +135,12 @@ const routes: RouteRecordRaw[] = [
         path: 'third-party-apps',
         name: 'admin-third-party-apps',
         component: ThirdPartyApps
+      },
+      {
+        path: 'third-party-apps/:id',
+        name: 'admin-third-party-app-detail',
+        component: ThirdPartyAppDetail,
+        props: true
       },
       {
         path: 'permissions',

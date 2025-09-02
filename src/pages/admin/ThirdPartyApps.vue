@@ -163,7 +163,7 @@
           </template>
         </el-table-column>
         
-        <el-table-column label="操作" width="200" fixed="right">
+        <el-table-column label="操作" width="240" fixed="right">
           <template #default="{ row }">
             <el-button-group>
               <el-button size="small" @click="viewApplication(row)">
@@ -171,6 +171,9 @@
               </el-button>
               <el-button size="small" @click="editApplication(row)">
                 <el-icon><Edit /></el-icon>
+              </el-button>
+              <el-button size="small" @click="manageUsers(row)" type="primary">
+                <el-icon><User /></el-icon>
               </el-button>
               <el-button size="small" @click="manageCredentials(row)">
                 <el-icon><Key /></el-icon>
@@ -383,11 +386,15 @@
 
 <script setup lang="ts">
 import { ref, reactive, onMounted, computed } from 'vue'
+import { useRouter } from 'vue-router'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { Plus, Grid, Check, Close, Warning, Search, Refresh, View, Edit, Key, Delete } from '@element-plus/icons-vue'
+import { Plus, Grid, Check, Close, Warning, Search, Refresh, View, Edit, Key, Delete, User } from '@element-plus/icons-vue'
 import type { Application, ApplicationStats } from '@/types/application'
 import { applicationsAPI, credentialsAPI } from '@/utils/api'
 import { debounce } from 'lodash-es'
+
+// 路由
+const router = useRouter()
 
 // 响应式数据
 const loading = ref(false)
@@ -679,6 +686,14 @@ const manageCredentials = async (app: Application) => {
   selectedApp.value = app
   showCredentialsDialog.value = true
   await loadCredentials(app.client_id)
+}
+
+const manageUsers = (app: Application) => {
+  // 跳转到第三方应用详情页面的用户管理部分
+  router.push({
+    name: 'admin-third-party-app-detail',
+    params: { id: app.id }
+  })
 }
 
 const loadCredentials = async (clientId: string) => {
